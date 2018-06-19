@@ -4,6 +4,10 @@ import { omit } from 'lodash';
 import classNames from 'classnames';
 
 export default class HeaderCell extends PureComponent {
+  handleDragHandleRef = ref => {
+    this.dragHadle = ref;
+  };
+
   render() {
     const { title, style, isLastSticky, renderer, onDragEnd } = this.props;
     return (
@@ -18,6 +22,7 @@ export default class HeaderCell extends PureComponent {
           className="React-Sticky-Table-Resize-Handler"
           draggable={true}
           onDragEnd={onDragEnd}
+          ref={this.handleDragHandleRef}
         />
       </div>
     );
