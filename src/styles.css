@@ -95,7 +95,7 @@ body,
 }
 
 .React-Sticky-Table--is-Last-Sticky:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   right: -10px;
@@ -106,7 +106,7 @@ body,
 }
 
 .React-Sticky-Table--Header:before {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   right: 0;
@@ -122,12 +122,14 @@ body,
   right: 0;
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: 5px;
   background: transparent;
   cursor: col-resize;
   z-index: 11;
+  opacity: 1;
 }
 
-.React-Sticky-Table-Resize-Handler:hover {
+.React-Sticky-Table--Header-Cell:hover .React-Sticky-Table-Resize-Handler,
+.React-Sticky-Table--Row-Cell:hover .React-Sticky-Table-Resize-Handler {
   background: rgba(1, 1, 1, 0.5);
 }
