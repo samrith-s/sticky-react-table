@@ -1,0 +1,23 @@
+{
+  "name": "react-sticky-table",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "axios": "0.18.0",
+    "classnames": "2.2.6",
+    "lodash": "4.17.10",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "react-flip-move": "3.0.2",
+    "react-scripts": "1.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
