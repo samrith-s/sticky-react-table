@@ -1,23 +1,41 @@
 {
   "name": "react-sticky-table",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "main": "src/index.js",
-  "dependencies": {
-    "axios": "0.18.0",
-    "classnames": "2.2.6",
-    "lodash": "4.17.10",
-    "react": "16.3.2",
-    "react-dom": "16.3.2",
-    "react-flip-move": "3.0.2",
-    "react-scripts": "1.1.4"
-  },
-  "devDependencies": {},
+  "version": "0.0.0",
+  "description": "react-sticky-table React component",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "build": "nwb build-react-component",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "start": "nwb serve-react-demo",
+    "test": "nwb test-react",
+    "test:coverage": "nwb test-react --coverage",
+    "test:watch": "nwb test-react --server"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "lodash": "^4.17.10"
+  },
+  "peerDependencies": {
+    "react": "16.x"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "nwb": "0.21.x",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
+  "author": "Samrith Shankar",
+  "homepage": "",
+  "license": "MIT",
+  "repository": "https://github.com/samrith-s/react-sticky-table.git",
+  "keywords": [
+    "react-component"
+  ]
 }
