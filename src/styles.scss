@@ -29,6 +29,7 @@ body,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  position: relative;
 
   &--Header {
     position: sticky;
@@ -61,12 +62,12 @@ body,
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      position: sticky;
+      position: relative;
       word-wrap: break-word;
       background: inherit;
       font-weight: bold;
       padding: 10px;
-      z-index: 1;
+      z-index: 0;
     }
    
   }
@@ -96,10 +97,11 @@ body,
     &-Cell {
       display: flex;
       flex-shrink: 0;
-      position: sticky;
+      position: relative;
       padding: 10px;
       word-wrap: break-word;
       background: inherit;
+      z-index: 0;
     }
   }
 
@@ -112,18 +114,23 @@ body,
     }
   }
 
-  &--is-Last-Sticky {
-    border-right: 0;
+  &--is-Sticky {
+    position: sticky;
+    z-index: 1;
 
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      right: -10px;
-      top: 0;
-      bottom: 0;
-      width: 10px;
-      background: linear-gradient(to right, rgba(1, 1, 1, 0.25), transparent);
+    &--is-Last {
+      border-right: 0;
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: -10px;
+        top: 0;
+        bottom: 0;
+        width: 10px;
+        background: linear-gradient(to right, rgba(1, 1, 1, 0.25), transparent);
+      }
     }
   }
 
@@ -137,5 +144,15 @@ body,
     cursor: col-resize;
     z-index: 11;
     opacity: 1;
+  }
+
+  &-Global-Resize-Handler {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 13;
+    width: 5px;
+    left: 200px;
+    background: rgba(1, 1, 1, 0.15);
   }
 }

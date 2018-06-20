@@ -3,20 +3,26 @@ import React, { PureComponent } from 'react';
 import { omit } from 'lodash';
 import classNames from 'classnames';
 
-import { dragHandlerSizing } from '../../../Utils';
-
 export default class Cell extends PureComponent {
   handleDragHandleRef = ref => {
     this.dragHandle = ref;
   };
 
   render() {
-    const { cellData, style, isLastSticky, renderer, onDragEnd } = this.props;
+    const {
+      cellData,
+      style,
+      isSticky,
+      isLastSticky,
+      renderer,
+      onDragEnd
+    } = this.props;
 
     return (
       <div
         className={classNames('React-Sticky-Table--Row-Cell', {
-          'React-Sticky-Table--is-Last-Sticky': isLastSticky
+          'React-Sticky-Table--is-Sticky': isSticky,
+          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky
         })}
         style={style}
       >
@@ -31,3 +37,12 @@ export default class Cell extends PureComponent {
     );
   }
 }
+
+Cell.propTypes = {
+  cellData: PropTypes.string,
+  style: PropTypes.object.isRequired,
+  isSticky: PropTypes.bool.isRequired,
+  isLastSticky: PropTypes.bool.isRequired,
+  renderer: PropTypes.func,
+  onDragEnd: PropTypes.func.isRequired
+};

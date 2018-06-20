@@ -10,18 +10,28 @@ export default class HeaderCell extends PureComponent {
 
   handleSort = () => {
     this.props.onSort(omit(this.props, 'onSort'));
-  }
-
+  };
 
   render() {
-    const { title, style, isLastSticky, renderer, onDragEnd, onSort, isSortable, sortedColumn, dataKey } = this.props;
+    const {
+      title,
+      style,
+      isLastSticky,
+      renderer,
+      onDragEnd,
+      isSortable,
+      sortedColumn,
+      dataKey,
+      isSticky
+    } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
 
     return (
       <div
         className={classNames('React-Sticky-Table--Header-Cell', {
-          'React-Sticky-Table--is-Last-Sticky': isLastSticky
+          'React-Sticky-Table--is-Sticky': isSticky,
+          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky
         })}
         style={style}
         onClick={this.handleSort}
@@ -33,13 +43,35 @@ export default class HeaderCell extends PureComponent {
           onDragEnd={onDragEnd}
           ref={this.handleDragHandleRef}
         />
-        {(isSortable && isSorted) && <div className={"React-Sticky-Table-Sort-Icon"} >
-          <i className={classNames('fas', {
-            'fa-arrow-up': sortDir === 'ASC',
-            'fa-arrow-down': sortDir === 'DESC'
-          })} />
-        </div>}
+        {isSortable &&
+          isSorted && (
+            <div className="React-Sticky-Table-Sort-Icon">
+              <i
+                className={classNames('fas', {
+                  'fa-arrow-up': sortDir === 'ASC',
+                  'fa-arrow-down': sortDir === 'DESC'
+                })}
+              />
+            </div>
+          )}
       </div>
     );
   }
 }
+
+HeaderCell.defaultProps = {
+  isSortable: true
+};
+
+HeaderCell.propTypes = {
+  title: PropTypes.string,
+  style: PropTypes.object.isRequired,
+  isSticky: PropTypes.bool.isRequired,
+  isLastSticky: PropTypes.bool.isRequired,
+  renderer: PropTypes.func,
+  onDragEnd: PropTypes.func.isRequired,
+  onSort: PropTypes.func,
+  isSortable: PropTypes.bool,
+  sortedColumn: PropTypes.object,
+  dataKey: PropTypes.string.isRequired
+};

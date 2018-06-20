@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { debounce, orderBy } from 'lodash';
 
 import Row, { HeaderRow } from './Rows';
 
@@ -16,6 +15,20 @@ export default class Table extends PureComponent {
     data: []
   };
 
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    if (nextProps.onSort || prevState.sortedColumn === null) {
+      return { data: nextProps.data };
+    } else {
+      return {
+        data: sort(
+          nextProps.data,
+          prevState.sortedColumn.dataKey,
+          prevState.sortedColumn.dir.toLowerCase()
+        )
+      };
+    }
+  };
+
   componentDidMount() {
     const columns = [];
     React.Children.forEach(this.props.children, (child, index) => {
@@ -26,24 +39,15 @@ export default class Table extends PureComponent {
     this.setState({ columns });
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => {
-    if (nextProps.onSort || prevState.sortedColumn === null) {
-      return { data: nextProps.data }
-    } else {
-      return { data: sort(nextProps.data, prevState.sortedColumn.dataKey, prevState.sortedColumn.dir.toLowerCase()) }
-    }
-  }
-
   getLeftStyle = cellIndex => {
-    const { children, fixed } = this.props;
+    const { fixed } = this.props;
     const { columns } = this.state;
 
     let left = 0;
-    let zIndex = 1;
 
     if (fixed) {
       if (cellIndex === 0) {
-        return { left, zIndex };
+        return { left };
       } else if (cellIndex <= fixed - 1) {
         columns.forEach(({ width }, index) => {
           if (index < cellIndex) {
@@ -53,20 +57,21 @@ export default class Table extends PureComponent {
           }
         });
       } else {
-        zIndex = 0;
         left = 'auto';
       }
     }
 
-    return { left, zIndex };
+    return { left };
   };
 
   isLastSticky = cellIndex => {
     const { fixed } = this.props;
-    return fixed && cellIndex === fixed - 1;
+    const isSticky = fixed && cellIndex <= fixed - 1;
+    const isLastSticky = isSticky && cellIndex === fixed - 1;
+    return { isSticky, isLastSticky };
   };
 
-  handleSort = (column) => {
+  handleSort = column => {
     const { onSort } = this.props;
 
     if (typeof onSort === 'function') {
@@ -74,12 +79,10 @@ export default class Table extends PureComponent {
     } else {
       this.defaultSort(column);
     }
+  };
 
-  }
-
-  headerRenderer = child => {
+  headerRenderer = () => {
     const { columns, sortedColumn } = this.state;
-
     return (
       <HeaderRow
         columns={columns}
@@ -87,13 +90,13 @@ export default class Table extends PureComponent {
         styleCalculator={this.getLeftStyle}
         stickyFunction={this.isLastSticky}
         onDragEnd={this.handleDragEnd}
-        onSort={this.props.onSort || this.defaultSort}
+        onSort={this.handleSort}
         sortedColumn={sortedColumn}
       />
     );
   };
 
-  defaultSort = (column) => {
+  defaultSort = column => {
     const { sortedColumn } = this.state;
 
     if (!sortedColumn || sortedColumn.dataKey !== column.dataKey) {
@@ -102,7 +105,7 @@ export default class Table extends PureComponent {
           ...column,
           dir: 'ASC'
         }
-      })
+      });
     } else {
       let newSortDir = 'DESC';
       if (!sortedColumn.dir || sortedColumn.dir === 'DESC') {
@@ -111,15 +114,14 @@ export default class Table extends PureComponent {
       const newSortedColumn = {
         ...sortedColumn,
         dir: newSortDir
-      }
+      };
       this.setState({
         sortedColumn: newSortedColumn
-      })
+      });
     }
-  }
+  };
 
   bodyRenderer = () => {
-
     const { columns, data } = this.state;
 
     return data.map((rowData, index) => (
@@ -155,11 +157,19 @@ export default class Table extends PureComponent {
     });
   };
 
+  handleDragHandlerRef = ref => {
+    this.dragHandle = ref;
+  };
+
   render() {
     return (
       <div className="React-Sticky-Table">
         {this.headerRenderer()}
         {this.bodyRenderer()}
+        <div
+          className="React-Sticky-Table-Global-Resize-Handler"
+          ref={this.handleDragHandlerRef}
+        />
       </div>
     );
   }
@@ -169,5 +179,7 @@ Table.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)
-  ]).isRequired
+  ]).isRequired,
+  fixed: PropTypes.number,
+  data: PropTypes.array.isRequired
 };

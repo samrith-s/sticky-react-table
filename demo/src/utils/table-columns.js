@@ -1,72 +1,72 @@
 export const tableColumns = [
   {
-    title: "Name",
+    title: 'Name',
     width: 200,
-    dataKey: "name"
+    dataKey: 'name'
   },
   {
-    title: "Age",
+    title: 'Age',
     width: 50,
-    dataKey: "age"
+    dataKey: 'age'
   },
   {
-    title: "Gender",
+    title: 'Gender',
     width: 75,
-    dataKey: "gender"
+    dataKey: 'gender'
   },
   {
-    title: "Designation",
+    title: 'Designation',
     width: 200,
-    dataKey: "designation"
+    dataKey: 'designation'
   },
   {
-    title: "Location",
+    title: 'Location',
     width: 150,
-    dataKey: "location"
+    dataKey: 'location'
   },
   {
-    title: "Top Skill",
+    title: 'Top Skill',
     width: 150,
-    dataKey: "topSkill"
+    dataKey: 'topSkill'
   },
   {
-    title: "Email",
+    title: 'Email',
     width: 300,
-    dataKey: "email"
+    dataKey: 'email'
   },
   {
-    title: "Phone",
+    title: 'Phone',
     width: 200,
-    dataKey: "phone"
+    dataKey: 'phone'
   },
   {
-    title: "Experience",
+    title: 'Experience',
     width: 100,
-    dataKey: "experience"
+    dataKey: 'experience'
   },
   {
-    title: "Language",
+    title: 'Language',
     width: 100,
-    dataKey: "language"
+    dataKey: 'language'
   },
   {
-    title: "Marital Status",
+    title: 'Marital Status',
     width: 150,
-    dataKey: "maritalStatus"
+    dataKey: 'maritalStatus'
   },
   {
-    title: "Orientation",
+    title: 'Orientation',
     width: 200,
-    dataKey: "orientation"
+    dataKey: 'orientation'
   },
   {
-    title: "Theism",
+    title: 'Theism',
     width: 200,
-    dataKey: "theism"
+    dataKey: 'theism'
   },
   {
-    title: "Religion",
+    title: 'Religion',
     width: 200,
-    dataKey: "religion"
+    dataKey: 'religion'
   }
 ];

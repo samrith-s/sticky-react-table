@@ -1,1 +1,1 @@
-export const ColumnDisplayName = "Column";
+export const ColumnDisplayName = 'Column';

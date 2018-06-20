@@ -19,6 +19,7 @@ export default class Row extends PureComponent {
       const { width, dataKey, cellRenderer } = column;
       const cellData = get(rowData, dataKey);
       const style = { width, ...styleCalculator(index) };
+      const { isSticky, isLastSticky } = stickyFunction(index);
 
       return (
         <Cell
@@ -29,7 +30,8 @@ export default class Row extends PureComponent {
           renderer={cellRenderer}
           cellIndex={index}
           rowIndex={rowIndex}
-          isLastSticky={stickyFunction(index)}
+          isSticky={isSticky}
+          isLastSticky={isLastSticky}
           onDragEnd={onDragEnd(index)}
           key={`sitcky-table-row-${rowIndex}-${index}`}
         />
@@ -43,3 +45,12 @@ export default class Row extends PureComponent {
     );
   }
 }
+
+Row.propTypes = {
+  columns: PropTypes.array.isRequired,
+  rowData: PropTypes.object.isRequired,
+  rowIndex: PropTypes.number.isRequired,
+  styleCalculator: PropTypes.func.isRequired,
+  stickyFunction: PropTypes.func.isRequired,
+  onDragEnd: PropTypes.func.isRequired
+};
