@@ -31,6 +31,11 @@ class App extends Component {
     );
   };
 
+  //eslint-disable-next-line
+  handleSort = (column) => {
+
+  }
+
   render() {
     const { rows } = this.state;
     return (

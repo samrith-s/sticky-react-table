@@ -6,9 +6,27 @@ import Row, { HeaderRow } from './Rows';
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
 
+import { sort } from '../Utils';
+
 export default class Table extends PureComponent {
   state = {
-    columns: []
+    columns: [],
+    sortedColumn: null,
+    data: []
+  };
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    if (nextProps.onSort || prevState.sortedColumn === null) {
+      return { data: nextProps.data };
+    } else {
+      return {
+        data: sort(
+          nextProps.data,
+          prevState.sortedColumn.dataKey,
+          prevState.sortedColumn.dir.toLowerCase()
+        )
+      };
+    }
   };
 
   componentDidMount() {
@@ -53,9 +71,18 @@ export default class Table extends PureComponent {
     return { isSticky, isLastSticky };
   };
 
-  headerRenderer = () => {
-    const { columns } = this.state;
+  handleSort = column => {
+    const { onSort } = this.props;
 
+    if (typeof onSort === 'function') {
+      onSort(column);
+    } else {
+      this.defaultSort(column);
+    }
+  };
+
+  headerRenderer = () => {
+    const { columns, sortedColumn } = this.state;
     return (
       <HeaderRow
         columns={columns}
@@ -63,13 +90,39 @@ export default class Table extends PureComponent {
         styleCalculator={this.getLeftStyle}
         stickyFunction={this.isLastSticky}
         onDragEnd={this.handleDragEnd}
+        onSort={this.handleSort}
+        sortedColumn={sortedColumn}
       />
     );
   };
 
+  defaultSort = column => {
+    const { sortedColumn } = this.state;
+
+    if (!sortedColumn || sortedColumn.dataKey !== column.dataKey) {
+      this.setState({
+        sortedColumn: {
+          ...column,
+          dir: 'ASC'
+        }
+      });
+    } else {
+      let newSortDir = 'DESC';
+      if (!sortedColumn.dir || sortedColumn.dir === 'DESC') {
+        newSortDir = 'ASC';
+      }
+      const newSortedColumn = {
+        ...sortedColumn,
+        dir: newSortDir
+      };
+      this.setState({
+        sortedColumn: newSortedColumn
+      });
+    }
+  };
+
   bodyRenderer = () => {
-    const { data } = this.props;
-    const { columns } = this.state;
+    const { columns, data } = this.state;
 
     return data.map((rowData, index) => (
       <Row

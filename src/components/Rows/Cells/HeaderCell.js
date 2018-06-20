@@ -8,15 +8,24 @@ export default class HeaderCell extends PureComponent {
     this.dragHadle = ref;
   };
 
+  handleSort = () => {
+    this.props.onSort(omit(this.props, 'onSort'));
+  };
+
   render() {
     const {
       title,
       style,
-      isSticky,
       isLastSticky,
       renderer,
-      onDragEnd
+      onDragEnd,
+      isSortable,
+      sortedColumn,
+      dataKey,
+      isSticky
     } = this.props;
+    const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
+    const sortDir = sortedColumn ? sortedColumn.dir : '';
 
     return (
       <div
@@ -25,6 +34,7 @@ export default class HeaderCell extends PureComponent {
           'React-Sticky-Table--is-Sticky--is-Last': isLastSticky
         })}
         style={style}
+        onClick={this.handleSort}
       >
         {renderer ? renderer(omit(this.props, 'renderer')) : title}
         <div
@@ -33,10 +43,25 @@ export default class HeaderCell extends PureComponent {
           onDragEnd={onDragEnd}
           ref={this.handleDragHandleRef}
         />
+        {isSortable &&
+          isSorted && (
+            <div className="React-Sticky-Table-Sort-Icon">
+              <i
+                className={classNames('fas', {
+                  'fa-arrow-up': sortDir === 'ASC',
+                  'fa-arrow-down': sortDir === 'DESC'
+                })}
+              />
+            </div>
+          )}
       </div>
     );
   }
 }
+
+HeaderCell.defaultProps = {
+  isSortable: true
+};
 
 HeaderCell.propTypes = {
   title: PropTypes.string,
@@ -44,5 +69,9 @@ HeaderCell.propTypes = {
   isSticky: PropTypes.bool.isRequired,
   isLastSticky: PropTypes.bool.isRequired,
   renderer: PropTypes.func,
-  onDragEnd: PropTypes.func.isRequired
+  onDragEnd: PropTypes.func.isRequired,
+  onSort: PropTypes.func,
+  isSortable: PropTypes.bool,
+  sortedColumn: PropTypes.object,
+  dataKey: PropTypes.string.isRequired
 };
