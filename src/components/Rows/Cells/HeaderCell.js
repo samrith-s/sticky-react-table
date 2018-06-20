@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { omit } from 'lodash';
 import classNames from 'classnames';
 
@@ -46,12 +46,11 @@ export default class HeaderCell extends PureComponent {
         {isSortable &&
           isSorted && (
             <div className="React-Sticky-Table-Sort-Icon">
-              <i
-                className={classNames('fas', {
-                  'fa-arrow-up': sortDir === 'ASC',
-                  'fa-arrow-down': sortDir === 'DESC'
-                })}
-              />
+              {sortDir === 'ASC' ? (
+                <Fragment>&uarr;</Fragment>
+              ) : (
+                <Fragment>&darr;</Fragment>
+              )}
             </div>
           )}
       </div>
