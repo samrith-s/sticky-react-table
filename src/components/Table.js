@@ -166,10 +166,6 @@ export default class Table extends PureComponent {
       <div className="React-Sticky-Table">
         {this.headerRenderer()}
         {this.bodyRenderer()}
-        <div
-          className="React-Sticky-Table-Global-Resize-Handler"
-          ref={this.handleDragHandlerRef}
-        />
       </div>
     );
   }
