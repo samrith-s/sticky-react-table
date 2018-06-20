@@ -41,7 +41,6 @@
     "react-dom": "^16.4.1"
   },
   "author": "Samrith Shankar",
-  "homepage": "",
   "license": "MIT",
   "repository": "https://github.com/samrith-s/react-sticky-table.git",
   "keywords": [
