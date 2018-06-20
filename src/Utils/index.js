@@ -10,7 +10,6 @@ export function dragHandlerSizing(ref) {
   return ref;
 }
 
-
 export function sort(data, key, direction = 'asc') {
-  return orderBy(data, key, direction)
+  return orderBy(data, key, direction);
 }
