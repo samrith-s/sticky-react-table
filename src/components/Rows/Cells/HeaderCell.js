@@ -9,11 +9,20 @@ export default class HeaderCell extends PureComponent {
   };
 
   render() {
-    const { title, style, isLastSticky, renderer, onDragEnd } = this.props;
+    const {
+      title,
+      style,
+      isSticky,
+      isLastSticky,
+      renderer,
+      onDragEnd
+    } = this.props;
+
     return (
       <div
         className={classNames('React-Sticky-Table--Header-Cell', {
-          'React-Sticky-Table--is-Last-Sticky': isLastSticky
+          'React-Sticky-Table--is-Sticky': isSticky,
+          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky
         })}
         style={style}
       >
@@ -28,3 +37,12 @@ export default class HeaderCell extends PureComponent {
     );
   }
 }
+
+HeaderCell.propTypes = {
+  title: PropTypes.string,
+  style: PropTypes.object.isRequired,
+  isSticky: PropTypes.bool.isRequired,
+  isLastSticky: PropTypes.bool.isRequired,
+  renderer: PropTypes.func,
+  onDragEnd: PropTypes.func.isRequired
+};

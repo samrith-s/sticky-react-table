@@ -1,4 +1,4 @@
-import { ColumnDisplayName } from "./Constants";
+import { ColumnDisplayName } from './Constants';
 
 export default function Column() {
   return null;

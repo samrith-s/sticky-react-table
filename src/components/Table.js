@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { debounce } from 'lodash';
 
 import Row, { HeaderRow } from './Rows';
 
@@ -23,15 +22,14 @@ export default class Table extends PureComponent {
   }
 
   getLeftStyle = cellIndex => {
-    const { children, fixed } = this.props;
+    const { fixed } = this.props;
     const { columns } = this.state;
 
     let left = 0;
-    let zIndex = 1;
 
     if (fixed) {
       if (cellIndex === 0) {
-        return { left, zIndex };
+        return { left };
       } else if (cellIndex <= fixed - 1) {
         columns.forEach(({ width }, index) => {
           if (index < cellIndex) {
@@ -41,20 +39,21 @@ export default class Table extends PureComponent {
           }
         });
       } else {
-        zIndex = 0;
         left = 'auto';
       }
     }
 
-    return { left, zIndex };
+    return { left };
   };
 
   isLastSticky = cellIndex => {
     const { fixed } = this.props;
-    return fixed && cellIndex === fixed - 1;
+    const isSticky = fixed && cellIndex <= fixed - 1;
+    const isLastSticky = isSticky && cellIndex === fixed - 1;
+    return { isSticky, isLastSticky };
   };
 
-  headerRenderer = child => {
+  headerRenderer = () => {
     const { columns } = this.state;
 
     return (
@@ -105,11 +104,19 @@ export default class Table extends PureComponent {
     });
   };
 
+  handleDragHandlerRef = ref => {
+    this.dragHandle = ref;
+  };
+
   render() {
     return (
       <div className="React-Sticky-Table">
         {this.headerRenderer()}
         {this.bodyRenderer()}
+        <div
+          className="React-Sticky-Table-Global-Resize-Handler"
+          ref={this.handleDragHandlerRef}
+        />
       </div>
     );
   }
@@ -119,5 +126,7 @@ Table.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)
-  ]).isRequired
+  ]).isRequired,
+  fixed: PropTypes.number,
+  data: PropTypes.array.isRequired
 };

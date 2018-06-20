@@ -4,41 +4,50 @@ import React, { PureComponent } from 'react';
 import { HeaderCell } from './Cells';
 
 export default class HeaderRow extends PureComponent {
-    renderColumns = () => {
-        const {
-            columns,
-            rowIndex,
-            styleCalculator,
-            stickyFunction,
-            onDragEnd
-        } = this.props;
+  renderColumns = () => {
+    const {
+      columns,
+      rowIndex,
+      styleCalculator,
+      stickyFunction,
+      onDragEnd
+    } = this.props;
 
-        return columns.map((column, index) => {
-            const { title, width, dataKey, headerRenderer } = column;
-            const style = { width, ...styleCalculator(index) };
-            return (
-                <HeaderCell
-                    title={title}
-                    width={width}
-                    dataKey={dataKey}
-                    index={index}
-                    style={style}
-                    isLastSticky={stickyFunction(index)}
-                    renderer={headerRenderer}
-                    cellIndex={index}
-                    rowIndex={rowIndex}
-                    onDragEnd={onDragEnd(index)}
-                    key={`sitcky-table-header-${index}`}
-                />
-            );
-        });
-    };
+    return columns.map((column, index) => {
+      const { title, width, dataKey, headerRenderer } = column;
+      const style = { width, ...styleCalculator(index) };
+      const { isSticky, isLastSticky } = stickyFunction(index);
 
-    render() {
-        return (
-            <div className="React-Sticky-Table--Header">
-                {this.renderColumns()}
-            </div>
-        );
-    }
+      return (
+        <HeaderCell
+          title={title}
+          width={width}
+          dataKey={dataKey}
+          index={index}
+          style={style}
+          isSticky={isSticky}
+          isLastSticky={isLastSticky}
+          renderer={headerRenderer}
+          cellIndex={index}
+          rowIndex={rowIndex}
+          onDragEnd={onDragEnd(index)}
+          key={`sitcky-table-header-${index}`}
+        />
+      );
+    });
+  };
+
+  render() {
+    return (
+      <div className="React-Sticky-Table--Header">{this.renderColumns()}</div>
+    );
+  }
 }
+
+HeaderRow.propTypes = {
+  columns: PropTypes.array.isRequired,
+  rowIndex: PropTypes.number.isRequired,
+  styleCalculator: PropTypes.func.isRequired,
+  stickyFunction: PropTypes.func.isRequired,
+  onDragEnd: PropTypes.func.isRequired
+};
