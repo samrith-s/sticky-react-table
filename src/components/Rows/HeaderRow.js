@@ -10,11 +10,13 @@ export default class HeaderRow extends PureComponent {
             rowIndex,
             styleCalculator,
             stickyFunction,
-            onDragEnd
+            onDragEnd,
+            onSort,
+            sortedColumn
         } = this.props;
 
         return columns.map((column, index) => {
-            const { title, width, dataKey, headerRenderer } = column;
+            const { title, width, dataKey, headerRenderer, isSortable = true } = column;
             const style = { width, ...styleCalculator(index) };
             return (
                 <HeaderCell
@@ -29,6 +31,9 @@ export default class HeaderRow extends PureComponent {
                     rowIndex={rowIndex}
                     onDragEnd={onDragEnd(index)}
                     key={`sitcky-table-header-${index}`}
+                    onSort={onSort}
+                    isSortable={isSortable}
+                    sortedColumn={sortedColumn}
                 />
             );
         });

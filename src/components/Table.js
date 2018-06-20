@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { debounce } from 'lodash';
+import { debounce, orderBy } from 'lodash';
 
 import Row, { HeaderRow } from './Rows';
 
@@ -9,7 +9,9 @@ import Errors from './Errors';
 
 export default class Table extends PureComponent {
   state = {
-    columns: []
+    columns: [],
+    sortedColumn: null,
+    data: []
   };
 
   componentDidMount() {
@@ -20,6 +22,14 @@ export default class Table extends PureComponent {
     });
 
     this.setState({ columns });
+  }
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    if (nextProps.onSort || prevState.sortedColumn === null) {
+      return { data: nextProps.data }
+    } else {
+      return { data: orderBy(nextProps.data, prevState.sortedColumn.dataKey, prevState.sortedColumn.dir.toLowerCase()) }
+    }
   }
 
   getLeftStyle = cellIndex => {
@@ -54,8 +64,19 @@ export default class Table extends PureComponent {
     return fixed && cellIndex === fixed - 1;
   };
 
+  handleSort = (column) => {
+    const { onSort } = this.props;
+
+    if (typeof onSort === 'function') {
+      onSort(column);
+    } else {
+      this.defaultSort(column);
+    }
+
+  }
+
   headerRenderer = child => {
-    const { columns } = this.state;
+    const { columns, sortedColumn } = this.state;
 
     return (
       <HeaderRow
@@ -64,13 +85,40 @@ export default class Table extends PureComponent {
         styleCalculator={this.getLeftStyle}
         stickyFunction={this.isLastSticky}
         onDragEnd={this.handleDragEnd}
+        onSort={this.props.onSort || this.defaultSort}
+        sortedColumn={sortedColumn}
       />
     );
   };
 
+  defaultSort = (column) => {
+    const { sortedColumn } = this.state;
+
+    if (!sortedColumn || sortedColumn.dataKey !== column.dataKey) {
+      this.setState({
+        sortedColumn: {
+          ...column,
+          dir: 'ASC'
+        }
+      })
+    } else {
+      let newSortDir = 'DESC';
+      if (!sortedColumn.dir || sortedColumn.dir === 'DESC') {
+        newSortDir = 'ASC';
+      }
+      const newSortedColumn = {
+        ...sortedColumn,
+        dir: newSortDir
+      }
+      this.setState({
+        sortedColumn: newSortedColumn
+      })
+    }
+  }
+
   bodyRenderer = () => {
-    const { data } = this.props;
-    const { columns } = this.state;
+
+    const { columns, data } = this.state;
 
     return data.map((rowData, index) => (
       <Row

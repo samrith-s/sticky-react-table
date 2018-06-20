@@ -31,6 +31,10 @@ class App extends Component {
     );
   };
 
+  handleSort = (column) => {
+    console.log(column);
+  }
+
   render() {
     const { rows } = this.state;
     return (

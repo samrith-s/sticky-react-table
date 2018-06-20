@@ -133,3 +133,7 @@ body,
 .React-Sticky-Table--Row-Cell:hover .React-Sticky-Table-Resize-Handler {
   background: rgba(1, 1, 1, 0.5);
 }
+
+.React-Sticky-Table-Sort-Icon {
+  margin-left: 5px;
+}
