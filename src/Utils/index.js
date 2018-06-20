@@ -1,3 +1,5 @@
+import { orderBy } from 'lodash';
+
 export function dragHandlerSizing(ref) {
   const { left } = ref.getBoundingClientRect();
   ref.style.left = left;
@@ -6,4 +8,9 @@ export function dragHandlerSizing(ref) {
   ref.style.position = 'fixed';
 
   return ref;
+}
+
+
+export function sort(data, key, direction = 'asc') {
+  return orderBy(data, key, direction)
 }

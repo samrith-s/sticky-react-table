@@ -7,6 +7,8 @@ import Row, { HeaderRow } from './Rows';
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
 
+import { sort } from '../Utils';
+
 export default class Table extends PureComponent {
   state = {
     columns: [],
@@ -28,7 +30,7 @@ export default class Table extends PureComponent {
     if (nextProps.onSort || prevState.sortedColumn === null) {
       return { data: nextProps.data }
     } else {
-      return { data: orderBy(nextProps.data, prevState.sortedColumn.dataKey, prevState.sortedColumn.dir.toLowerCase()) }
+      return { data: sort(nextProps.data, prevState.sortedColumn.dataKey, prevState.sortedColumn.dir.toLowerCase()) }
     }
   }
 

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { omit } from 'lodash';
 import classNames from 'classnames';
 
-import { dragHandlerSizing } from '../../Utils';
+import { dragHandlerSizing } from '../../../Utils';
 
 export default class Cell extends PureComponent {
   handleDragHandleRef = ref => {
