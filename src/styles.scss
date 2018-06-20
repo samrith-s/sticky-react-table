@@ -40,6 +40,8 @@ body,
     background: tomato;
     color: white;
     flex-shrink: 0;
+    user-select: none;
+    cursor: pointer;
 
     &:before {
       content: '';
