@@ -24,12 +24,18 @@ body,
 .React-Sticky-Table {
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   flex-shrink: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: relative;
+
+  &-inner {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+  }
 
   &--Hide {
     display: none;
@@ -74,30 +80,37 @@ body,
       z-index: 0;
     }
 
-    &-Column-Switcher-Container {
-      position: sticky;
-      left: 0;
+    &-Column-Switcher {
+      position: absolute;
+      right: 0;
       top: 0;
       z-index: 15;
 
       &-Icon {
-        position: absolute;
-        left: 0;
-        top: 0;
-        padding: 11px;
-        z-index: 100;
-        background: #c3baba;
+        position: relative;
+        padding: 10px;
+        font-weight: bold;
+        background: tomato;
+        color: white;
+        cursor: pointer;
       }
 
       &-Dropdown {
         position: absolute;
-        top: 40px;
-        color: black;
+        bottom: 0;
+        right: 6px;
         padding: 10px;
         max-height: 300px;
         min-width: 200px;
         background: white;
         overflow: auto;
+        transform: translate(0, 100%);
+        box-shadow: 0 2px 5px 1px rgba(1, 1, 1, 0.15);
+        border: 1px solid rgba(1, 1, 1, 0.15);
+      }
+
+      &-Item label {
+        cursor: pointer;
       }
     }
   }
