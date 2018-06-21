@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent, Fragment } from 'react';
 
-import ColumnSwitcher from './ColumnSwitcher';
 import { Row, HeaderRow } from './Rows';
+import ColumnSwitcher from './ColumnSwitcher';
 
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
@@ -34,7 +34,7 @@ export default class Table extends PureComponent {
     const columns = [];
     React.Children.forEach(this.props.children, (child, index) => {
       const { props } = this.validateChild(child);
-      columns.push({ ...props, index });
+      columns.push({ ...props, index, visible: true });
     });
 
     this.setState({ columns });
@@ -50,7 +50,7 @@ export default class Table extends PureComponent {
       if (cellIndex === 0) {
         return { left };
       } else if (cellIndex <= fixed - 1) {
-        columns.forEach(({ width }, index) => {
+        columns.filter(col => col.visible).forEach(({ width }, index) => {
           if (index < cellIndex) {
             left += width;
           } else {
@@ -85,9 +85,7 @@ export default class Table extends PureComponent {
   handleColumnVisibilityChange = ({ target: { id } }) => {
     const ind = this.state.columns.findIndex(col => col.dataKey === id);
     if (ind !== -1) {
-      const oldVisibility =
-        !('visible' in this.state.columns[ind]) ||
-        this.state.columns[ind].visible === true;
+      const oldVisibility = this.state.columns[ind].visible;
       const newColumns = [
         ...this.state.columns.slice(0, ind),
         {
@@ -118,7 +116,7 @@ export default class Table extends PureComponent {
           onDragEnd={this.handleDragEnd}
           onSort={this.handleSort}
           sortedColumn={sortedColumn}
-          columns={columns}
+          columns={columns.filter(col => col.visible)}
         />
       </Fragment>
     );
@@ -155,7 +153,7 @@ export default class Table extends PureComponent {
 
     return data.map((rowData, index) => (
       <Row
-        columns={columns}
+        columns={columns.filter(col => col.visible)}
         rowData={rowData}
         rowIndex={index + 1}
         styleCalculator={this.getLeftStyle}

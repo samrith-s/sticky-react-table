@@ -32,8 +32,7 @@ class ColumnSwitcher extends Component {
             }
           )}
         >
-          {columns.map(({ title, dataKey, visible = true }) => {
-            const isChecked = visible === true;
+          {columns.map(({ title, dataKey, visible }) => {
             return (
               <div className="dropdown-menu-item" key={title}>
                 <input
@@ -41,7 +40,7 @@ class ColumnSwitcher extends Component {
                   id={dataKey}
                   name="column"
                   onChange={onChange}
-                  checked={isChecked}
+                  checked={visible}
                 />
                 <label htmlFor={dataKey}>{title}</label>
               </div>
