@@ -4,10 +4,14 @@ language: node_js
 node_js:
   - 9.10
 
-before_install:
+# before_install:
   # - npm install codecov.io coveralls
 
-after_success:
+# after_success:
   # - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
   # - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  # - yarn build
+
+script:
   - yarn build
+
