@@ -14,7 +14,7 @@ export default class Table extends PureComponent {
     columns: [],
     sortedColumn: null,
     data: [],
-    checkedRow: []
+    checkedRows: []
   };
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
@@ -33,6 +33,16 @@ export default class Table extends PureComponent {
 
   componentDidMount() {
     const columns = [];
+    if (this.props.rowSelection) {
+      columns.push({
+        dataKey: 'checkbox',
+        width: 50,
+        title: '',
+        index: 0,
+        visible: true,
+        renderer: this.props.checkboxRenderer
+      });
+    }
 
     React.Children.forEach(this.props.children, (child, index) => {
       const { props } = this.validateChild(child);
@@ -82,6 +92,24 @@ export default class Table extends PureComponent {
     } else {
       this.defaultSort(column);
     }
+  };
+
+  handleRowCheck = id => {
+    const { checkedRows } = this.state;
+    const { onRowCheck } = this.props;
+    const newCheckedRows = [...checkedRows];
+    const ind = checkedRows.findIndex(rowId => rowId === id);
+    if (ind !== -1) {
+      newCheckedRows.splice(ind, 1);
+    } else {
+      newCheckedRows.push(id);
+    }
+    this.setState(
+      {
+        checkedRows: newCheckedRows
+      },
+      () => onRowCheck && onRowCheck(newCheckedRows)
+    );
   };
 
   handleColumnVisibilityChange = ({ target: { id } }) => {
@@ -150,8 +178,8 @@ export default class Table extends PureComponent {
   };
 
   bodyRenderer = () => {
-    const { columns, data } = this.state;
-    const { rowSelection, checkboxRenderer } = this.props;
+    const { columns, data, checkedRows } = this.state;
+    const { rowSelection, checkboxRenderer, idKey } = this.props;
 
     return data.map((rowData, index) => (
       <Row
@@ -164,6 +192,9 @@ export default class Table extends PureComponent {
         key={`sticky-table-row-${index + 1}`}
         rowSelection={rowSelection}
         checkboxRenderer={checkboxRenderer}
+        checkedRows={checkedRows}
+        onCheck={this.handleRowCheck}
+        idKey={idKey}
       />
     ));
   };
@@ -214,6 +245,7 @@ Table.propTypes = {
   checkboxRenderer: PropTypes.node
 };
 
-Table.defaulProps = {
-  rowSelection: true
+Table.defaultProps = {
+  rowSelection: true,
+  idKey: 'id'
 };

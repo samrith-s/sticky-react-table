@@ -12,7 +12,10 @@ export default class Row extends PureComponent {
       rowIndex,
       styleCalculator,
       stickyFunction,
-      onDragEnd
+      onDragEnd,
+      checkedRows,
+      onCheck,
+      idKey
     } = this.props;
 
     return columns.map((column, index) => {
@@ -34,15 +37,16 @@ export default class Row extends PureComponent {
           isLastSticky={isLastSticky}
           onDragEnd={onDragEnd(index)}
           key={`sitcky-table-row-${rowIndex}-${index}`}
+          id={rowData[idKey]}
+          checkedRows={checkedRows}
+          onCheck={onCheck}
         />
       );
     });
   };
 
   render() {
-    const { rowSelection, checkboxRenderer } = this.props;
     return (
-      {rowSelection && <CheckboxColumn={}}
       <div className="React-Sticky-Table--Row">{this.renderColumns()}</div>
     );
   }
