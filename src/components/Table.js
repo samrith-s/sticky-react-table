@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent, Fragment } from 'react';
 
-import Row, { HeaderRow } from './Rows';
+import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
 
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
 
-import { sort } from '../Utils';
+import { sort } from '../utils';
 
 export default class Table extends PureComponent {
   state = {
