@@ -32,6 +32,7 @@ export default class Cell extends PureComponent {
           'React-Sticky-Table--Row-Cell-Checkbox': isCheckbox
         })}
         style={style}
+        tabIndex={0}
       >
         {isCheckbox ? (
           <CheckboxCell
