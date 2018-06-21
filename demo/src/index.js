@@ -32,9 +32,7 @@ class App extends Component {
   };
 
   //eslint-disable-next-line
-  handleSort = (column) => {
-
-  }
+  handleSort = column => {};
 
   render() {
     const { rows } = this.state;

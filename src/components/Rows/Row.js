@@ -40,6 +40,7 @@ export default class Row extends PureComponent {
   };
 
   render() {
+    const { rowSelection = true } = this.props;
     return (
       <div className="React-Sticky-Table--Row">{this.renderColumns()}</div>
     );
