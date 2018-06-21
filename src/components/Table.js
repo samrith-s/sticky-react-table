@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent, Fragment } from 'react';
 
 import Row, { HeaderRow } from './Rows';
+import ColumnSwitcher from './ColumnSwitcher';
 
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
@@ -81,19 +82,43 @@ export default class Table extends PureComponent {
     }
   };
 
+  handleColumnVisibilityChange = ({ target: { id } }) => {
+    const ind = this.state.columns.findIndex(col => col.dataKey === id);
+    if (ind !== -1) {
+      const oldVisibility =
+        !('visible' in this.state.columns[ind]) ||
+        this.state.columns[ind].visible === true;
+      const newColumns = [
+        ...this.state.columns.slice(0, ind),
+        {
+          ...this.state.columns[ind],
+          visible: !oldVisibility
+        },
+        ...this.state.columns.slice(ind + 1)
+      ];
+
+      this.setState({
+        columns: newColumns
+      });
+    }
+  };
+
   headerRenderer = () => {
     const { columns, sortedColumn } = this.state;
     return (
       <Fragment>
-        <div className="React-Sticky-Table--Header-Column-Switcher"> :</div>
-        <HeaderRow
+        <ColumnSwitcher
           columns={columns}
+          onChange={this.handleColumnVisibilityChange}
+        />
+        <HeaderRow
           rowIndex={0}
           styleCalculator={this.getLeftStyle}
           stickyFunction={this.isLastSticky}
           onDragEnd={this.handleDragEnd}
           onSort={this.handleSort}
           sortedColumn={sortedColumn}
+          columns={columns}
         />
       </Fragment>
     );
@@ -180,5 +205,6 @@ Table.propTypes = {
     PropTypes.arrayOf(PropTypes.node)
   ]).isRequired,
   fixed: PropTypes.number,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  onSort: PropTypes.func
 };

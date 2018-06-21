@@ -16,12 +16,12 @@ export default class Row extends PureComponent {
     } = this.props;
 
     return columns.map((column, index) => {
-      const { width, dataKey, cellRenderer } = column;
+      const { width, dataKey, cellRenderer, visible = true } = column;
       const cellData = get(rowData, dataKey);
       const style = { width, ...styleCalculator(index) };
       const { isSticky, isLastSticky } = stickyFunction(index);
 
-      return (
+      return visible ? (
         <Cell
           dataKey={dataKey}
           cellData={cellData}
@@ -35,7 +35,7 @@ export default class Row extends PureComponent {
           onDragEnd={onDragEnd(index)}
           key={`sitcky-table-row-${rowIndex}-${index}`}
         />
-      );
+      ) : null;
     });
   };
 

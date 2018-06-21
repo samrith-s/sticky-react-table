@@ -31,6 +31,10 @@ body,
   align-items: flex-start;
   position: relative;
 
+  &--Hide {
+    display: none;
+  }
+
   &--Header {
     position: sticky;
     display: flex;
@@ -69,7 +73,33 @@ body,
       padding: 10px;
       z-index: 0;
     }
-   
+
+    &-Column-Switcher-Container {
+      position: sticky;
+      left: 0;
+      top: 0;
+      z-index: 15;
+
+      &-Icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 11px;
+        z-index: 100;
+        background: #c3baba;
+      }
+
+      &-Dropdown {
+        position: absolute;
+        top: 40px;
+        color: black;
+        padding: 10px;
+        max-height: 300px;
+        min-width: 200px;
+        background: white;
+        overflow: auto;
+      }
+    }
   }
 
   &-Sort-Icon {
