@@ -16,7 +16,6 @@ class ColumnSwitcher extends Component {
   }
 
   toggleDropdownVisibility = visible => {
-    console.log('visible', visible);
     this.setState(() => ({
       visible
     }));
