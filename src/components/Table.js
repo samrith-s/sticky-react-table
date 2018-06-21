@@ -6,7 +6,7 @@ import Row, { HeaderRow } from './Rows';
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
 
-import { sort } from '../utils';
+import { sort } from '../Utils';
 
 export default class Table extends PureComponent {
   state = {
