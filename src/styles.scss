@@ -145,6 +145,12 @@ body,
       word-wrap: break-word;
       background: inherit;
       z-index: 0;
+      border: 2px solid transparent;
+
+      &:focus {
+        border: 2px solid darken(lightblue, 10%);
+        outline: 0;
+      }
     }
   }
 
@@ -169,8 +175,8 @@ body,
         display: block;
         position: absolute;
         right: -10px;
-        top: 0;
-        bottom: 0;
+        top: -2px;
+        bottom: -2px;
         width: 10px;
         background: linear-gradient(to right, rgba(1, 1, 1, 0.25), transparent);
       }

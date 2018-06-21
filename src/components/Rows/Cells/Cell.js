@@ -25,6 +25,7 @@ export default class Cell extends PureComponent {
           'React-Sticky-Table--is-Sticky--is-Last': isLastSticky
         })}
         style={style}
+        tabIndex={0}
       >
         {renderer ? renderer(omit(this.props, 'renderer')) : cellData}
         <div
