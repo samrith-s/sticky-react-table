@@ -12,7 +12,8 @@ export default class Row extends PureComponent {
       rowIndex,
       styleCalculator,
       stickyFunction,
-      onDragEnd
+      onDragEnd,
+      checkboxRenderer
     } = this.props;
 
     return columns.map((column, index) => {

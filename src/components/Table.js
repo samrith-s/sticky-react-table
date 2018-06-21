@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent, Fragment } from 'react';
 
-import Row, { HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
+import { Row, HeaderRow } from './Rows';
 
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
 
-import { sort } from '../Utils';
+import { sort } from '../utils';
 
 export default class Table extends PureComponent {
   state = {
@@ -151,6 +151,7 @@ export default class Table extends PureComponent {
 
   bodyRenderer = () => {
     const { columns, data } = this.state;
+    const { rowSelection, checkboxRenderer } = this.props;
 
     return data.map((rowData, index) => (
       <Row
@@ -160,7 +161,9 @@ export default class Table extends PureComponent {
         styleCalculator={this.getLeftStyle}
         stickyFunction={this.isLastSticky}
         onDragEnd={this.handleDragEnd}
-        key={`sitcky-table-row-${index + 1}`}
+        key={`sticky-table-row-${index + 1}`}
+        rowSelection={rowSelection}
+        checkboxRenderer={checkboxRenderer}
       />
     ));
   };
@@ -206,5 +209,11 @@ Table.propTypes = {
   ]).isRequired,
   fixed: PropTypes.number,
   data: PropTypes.array.isRequired,
-  onSort: PropTypes.func
+  onSort: PropTypes.func,
+  rowSelection: PropTypes.bool,
+  checkboxRenderer: PropTypes.node
+};
+
+Table.defaulProps = {
+  rowSelection: true
 };
