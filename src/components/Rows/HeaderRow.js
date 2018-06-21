@@ -12,11 +12,21 @@ export default class HeaderRow extends PureComponent {
       stickyFunction,
       onDragEnd,
       onSort,
-      sortedColumn
+      sortedColumn,
+      checkedRows,
+      onCheck,
+      isAllSelected
     } = this.props;
 
     return columns.map((column, index) => {
-      const { title, width, dataKey, headerRenderer, isSortable } = column;
+      const {
+        title,
+        width,
+        dataKey,
+        headerRenderer,
+        isSortable,
+        isCheckbox
+      } = column;
       const style = { width, ...styleCalculator(index) };
       const { isSticky, isLastSticky } = stickyFunction(index);
 
@@ -37,6 +47,11 @@ export default class HeaderRow extends PureComponent {
           isSortable={isSortable}
           onSort={onSort}
           sortedColumn={sortedColumn}
+          id="all"
+          checkedRows={checkedRows}
+          onCheck={onCheck}
+          isCheckbox={isCheckbox}
+          isAllSelected={isAllSelected}
         />
       );
     });
@@ -57,5 +72,8 @@ HeaderRow.propTypes = {
   onDragEnd: PropTypes.func.isRequired,
   sortedColumn: PropTypes.object,
   onSort: PropTypes.func,
-  isSortable: PropTypes.bool
+  isSortable: PropTypes.bool,
+  checkedRows: PropTypes.array.isRequired,
+  onCheck: PropTypes.func.isRequired,
+  isAllSelected: PropTypes.bool.isRequired
 };

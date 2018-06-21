@@ -19,7 +19,7 @@ export default class Row extends PureComponent {
     } = this.props;
 
     return columns.map((column, index) => {
-      const { width, dataKey, cellRenderer } = column;
+      const { width, dataKey, cellRenderer, isCheckbox } = column;
       const cellData = get(rowData, dataKey);
       const style = { width, ...styleCalculator(index) };
       const { isSticky, isLastSticky } = stickyFunction(index);
@@ -40,6 +40,7 @@ export default class Row extends PureComponent {
           id={rowData[idKey]}
           checkedRows={checkedRows}
           onCheck={onCheck}
+          isCheckbox={isCheckbox}
         />
       );
     });
@@ -58,5 +59,8 @@ Row.propTypes = {
   rowIndex: PropTypes.number.isRequired,
   styleCalculator: PropTypes.func.isRequired,
   stickyFunction: PropTypes.func.isRequired,
-  onDragEnd: PropTypes.func.isRequired
+  onDragEnd: PropTypes.func.isRequired,
+  checkedRows: PropTypes.array.isRequired,
+  onCheck: PropTypes.func.isRequired,
+  idKey: PropTypes.string.isRequired
 };

@@ -34,9 +34,8 @@ export default class App extends Component {
   //eslint-disable-next-line
   handleSort = column => {};
 
-  handleRowCheck = e => {
-    console.log(e);
-  };
+  //eslint-disable-next-line
+  handleRowCheck = e => {};
 
   render() {
     const { rows } = this.state;

@@ -36,10 +36,11 @@ export default class Table extends PureComponent {
     if (this.props.rowSelection) {
       columns.push({
         dataKey: 'checkbox',
-        width: 50,
+        width: 30,
         title: '',
         index: 0,
         visible: true,
+        isCheckbox: true,
         renderer: this.props.checkboxRenderer
       });
     }
@@ -52,8 +53,15 @@ export default class Table extends PureComponent {
     this.setState({ columns });
   }
 
+  getFixedCount = () => {
+    const { fixed, rowSelection } = this.props;
+    if (rowSelection) {
+      return fixed + 1;
+    }
+    return fixed;
+  };
   getLeftStyle = cellIndex => {
-    const { fixed } = this.props;
+    const fixed = this.getFixedCount();
     const { columns } = this.state;
 
     let left = 0;
@@ -78,7 +86,7 @@ export default class Table extends PureComponent {
   };
 
   isLastSticky = cellIndex => {
-    const { fixed } = this.props;
+    const fixed = this.getFixedCount();
     const isSticky = fixed && cellIndex <= fixed - 1;
     const isLastSticky = isSticky && cellIndex === fixed - 1;
     return { isSticky, isLastSticky };
@@ -95,14 +103,22 @@ export default class Table extends PureComponent {
   };
 
   handleRowCheck = id => {
-    const { checkedRows } = this.state;
-    const { onRowCheck } = this.props;
-    const newCheckedRows = [...checkedRows];
-    const ind = checkedRows.findIndex(rowId => rowId === id);
-    if (ind !== -1) {
-      newCheckedRows.splice(ind, 1);
+    const { checkedRows, data } = this.state;
+    const { onRowCheck, idKey } = this.props;
+    let newCheckedRows = [...checkedRows];
+    if (id === 'all') {
+      if (newCheckedRows.length === data.length) {
+        newCheckedRows = [];
+      } else {
+        newCheckedRows = data.map(row => row[idKey]);
+      }
     } else {
-      newCheckedRows.push(id);
+      const ind = checkedRows.findIndex(rowId => rowId === id);
+      if (ind !== -1) {
+        newCheckedRows.splice(ind, 1);
+      } else {
+        newCheckedRows.push(id);
+      }
     }
     this.setState(
       {
@@ -132,7 +148,9 @@ export default class Table extends PureComponent {
   };
 
   headerRenderer = () => {
-    const { columns, sortedColumn } = this.state;
+    const { columns, sortedColumn, checkedRows, data } = this.state;
+    const isAllSelected = data.length === checkedRows.length;
+    const { checkboxRenderer, idKey } = this.props;
     return (
       <HeaderRow
         rowIndex={0}
@@ -142,6 +160,11 @@ export default class Table extends PureComponent {
         onSort={this.handleSort}
         sortedColumn={sortedColumn}
         columns={columns.filter(col => col.visible)}
+        checkboxRenderer={checkboxRenderer}
+        checkedRows={checkedRows}
+        onCheck={this.handleRowCheck}
+        idKey={idKey}
+        isAllSelected={isAllSelected}
       />
     );
   };
@@ -244,7 +267,9 @@ Table.propTypes = {
   data: PropTypes.array.isRequired,
   onSort: PropTypes.func,
   rowSelection: PropTypes.bool,
-  checkboxRenderer: PropTypes.node
+  checkboxRenderer: PropTypes.node,
+  onRowCheck: PropTypes.func,
+  idKey: PropTypes.string
 };
 
 Table.defaultProps = {

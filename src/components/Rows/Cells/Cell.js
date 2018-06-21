@@ -18,26 +18,28 @@ export default class Cell extends PureComponent {
       isLastSticky,
       renderer,
       onDragEnd,
-      dataKey,
       id,
       checkedRows,
-      onCheck
+      onCheck,
+      isCheckbox
     } = this.props;
 
     return (
       <div
         className={classNames('React-Sticky-Table--Row-Cell', {
           'React-Sticky-Table--is-Sticky': isSticky,
-          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky
+          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky,
+          'React-Sticky-Table--Row-Cell-Checkbox': isCheckbox
         })}
         style={style}
       >
-        {dataKey === 'checkbox' ? (
+        {isCheckbox ? (
           <CheckboxCell
             id={id}
             renderer={renderer}
             checkedRows={checkedRows}
             onCheck={onCheck}
+            isChecked={checkedRows.find(rowId => rowId === id) !== undefined}
           />
         ) : (
           <Fragment>
@@ -61,5 +63,13 @@ Cell.propTypes = {
   isSticky: PropTypes.bool.isRequired,
   isLastSticky: PropTypes.bool.isRequired,
   renderer: PropTypes.func,
-  onDragEnd: PropTypes.func.isRequired
+  onDragEnd: PropTypes.func.isRequired,
+  id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
+  checkedRows: PropTypes.array.isRequired,
+  isCheckbox: PropTypes.bool.isRequired,
+  onCheck: PropTypes.func.isRequired
+};
+
+Cell.defaultProps = {
+  isCheckbox: false
 };

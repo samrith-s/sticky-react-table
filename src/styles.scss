@@ -155,6 +155,15 @@ body,
     &:hover .React-Sticky-Table-Resize-Handler {
       background: rgba(1, 1, 1, 0.5);
     }
+
+    &-Checkbox {
+      border: none;
+      text-align: center;
+    }
+  }
+
+  &--Header-Cell-Checkbox {
+    display: block;
   }
 
   &--is-Sticky {

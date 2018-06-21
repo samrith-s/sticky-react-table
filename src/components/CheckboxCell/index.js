@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class CheckboxCell extends Component {
   handleCellCheck = () => {
@@ -6,13 +7,12 @@ class CheckboxCell extends Component {
   };
 
   render() {
-    const { id, renderer, checkedRows } = this.props;
-    const isChecked = checkedRows.find(rowId => rowId === id);
+    const { id, renderer, isChecked } = this.props;
 
     return renderer ? (
       renderer(this.props)
     ) : (
-      <div className="React-Sticky-Table--Row-Cell-Checkbox">
+      <div className="">
         <input
           type="checkbox"
           id={id}
@@ -23,5 +23,11 @@ class CheckboxCell extends Component {
     );
   }
 }
+CheckboxCell.propTypes = {
+  onCheck: PropTypes.func.isRequired,
+  id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  renderer: PropTypes.func
+};
 
 export default CheckboxCell;
