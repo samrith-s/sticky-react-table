@@ -5,7 +5,7 @@ import { generateData } from './utils/data-generator';
 
 import { Table, Column } from '../../src';
 
-class App extends Component {
+export default class App extends Component {
   state = {
     rowCount: 100,
     rows: []
@@ -32,9 +32,7 @@ class App extends Component {
   };
 
   //eslint-disable-next-line
-  handleSort = (column) => {
-
-  }
+  handleSort = column => {};
 
   render() {
     const { rows } = this.state;

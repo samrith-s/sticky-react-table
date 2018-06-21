@@ -7,7 +7,7 @@ import ColumnSwitcher from './ColumnSwitcher';
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
 
-import { sort } from '../utils';
+import { sort } from '../util';
 
 export default class Table extends PureComponent {
   state = {
