@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
+import classNames from 'classnames';
 
 import { Cell } from './Cells';
 
@@ -12,11 +13,14 @@ export default class Row extends PureComponent {
       rowIndex,
       styleCalculator,
       stickyFunction,
-      onDragEnd
+      onDragEnd,
+      onCheck,
+      id,
+      isChecked
     } = this.props;
 
     return columns.map((column, index) => {
-      const { width, dataKey, cellRenderer } = column;
+      const { width, dataKey, cellRenderer, isCheckbox } = column;
       const cellData = get(rowData, dataKey);
       const style = { width, ...styleCalculator(index) };
       const { isSticky, isLastSticky } = stickyFunction(index);
@@ -34,14 +38,26 @@ export default class Row extends PureComponent {
           isLastSticky={isLastSticky}
           onDragEnd={onDragEnd(index)}
           key={`sitcky-table-row-${rowIndex}-${index}`}
+          id={id}
+          onCheck={onCheck}
+          isCheckbox={isCheckbox}
+          isChecked={isChecked}
         />
       );
     });
   };
 
   render() {
+    const { isChecked } = this.props;
+
     return (
-      <div className="React-Sticky-Table--Row">{this.renderColumns()}</div>
+      <div
+        className={classNames('React-Sticky-Table--Row', {
+          'React-Sticky-Table--Row--is-Checked': isChecked
+        })}
+      >
+        {this.renderColumns()}
+      </div>
     );
   }
 }
@@ -52,5 +68,8 @@ Row.propTypes = {
   rowIndex: PropTypes.number.isRequired,
   styleCalculator: PropTypes.func.isRequired,
   stickyFunction: PropTypes.func.isRequired,
-  onDragEnd: PropTypes.func.isRequired
+  onDragEnd: PropTypes.func.isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  onCheck: PropTypes.func.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
 };

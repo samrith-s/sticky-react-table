@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { omit } from 'lodash';
 import classNames from 'classnames';
+
+import CheckboxCell from '../../CheckboxCell';
 
 export default class Cell extends PureComponent {
   handleDragHandleRef = ref => {
@@ -15,35 +17,59 @@ export default class Cell extends PureComponent {
       isSticky,
       isLastSticky,
       renderer,
-      onDragEnd
+      onDragEnd,
+      id,
+      isChecked,
+      onCheck,
+      isCheckbox
     } = this.props;
 
     return (
       <div
         className={classNames('React-Sticky-Table--Row-Cell', {
           'React-Sticky-Table--is-Sticky': isSticky,
-          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky
+          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky,
+          'React-Sticky-Table--Row-Cell-Checkbox': isCheckbox
         })}
         style={style}
         tabIndex={0}
       >
-        {renderer ? renderer(omit(this.props, 'renderer')) : cellData}
-        <div
-          className="React-Sticky-Table-Resize-Handler"
-          draggable={true}
-          onDragEnd={onDragEnd}
-          ref={this.handleDragHandleRef}
-        />
+        {isCheckbox ? (
+          <CheckboxCell
+            id={id}
+            renderer={renderer}
+            onCheck={onCheck}
+            isChecked={isChecked}
+          />
+        ) : (
+          <Fragment>
+            {renderer ? renderer(omit(this.props, 'renderer')) : cellData}
+            <div
+              className="React-Sticky-Table-Resize-Handler"
+              draggable={true}
+              onDragEnd={onDragEnd}
+              ref={this.handleDragHandleRef}
+            />
+          </Fragment>
+        )}
       </div>
     );
   }
 }
 
 Cell.propTypes = {
-  cellData: PropTypes.string,
+  cellData: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   style: PropTypes.object.isRequired,
   isSticky: PropTypes.bool.isRequired,
   isLastSticky: PropTypes.bool.isRequired,
   renderer: PropTypes.func,
-  onDragEnd: PropTypes.func.isRequired
+  onDragEnd: PropTypes.func.isRequired,
+  id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  isCheckbox: PropTypes.bool.isRequired,
+  onCheck: PropTypes.func.isRequired
+};
+
+Cell.defaultProps = {
+  isCheckbox: false
 };

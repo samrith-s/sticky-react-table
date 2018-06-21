@@ -34,11 +34,14 @@ export default class App extends Component {
   //eslint-disable-next-line
   handleSort = column => {};
 
+  //eslint-disable-next-line
+  handleRowCheck = e => {};
+
   render() {
     const { rows } = this.state;
     return (
       <div className="App">
-        <Table data={rows} fixed={4}>
+        <Table data={rows} fixed={4} onRowCheck={this.handleRowCheck}>
           <Column title="Name" width={200} dataKey="name" />
           <Column title="Age" width={50} dataKey="age" />
           <Column title="Gender" width={75} dataKey="gender" />

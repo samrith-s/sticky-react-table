@@ -69,25 +69,27 @@ class ColumnSwitcher extends Component {
             className="React-Sticky-Table--Header-Column-Switcher-Dropdown"
             ref={this.handleMenuRef}
           >
-            {columns.map(({ title, dataKey, visible }) => {
-              return (
-                <div
-                  className="React-Sticky-Table--Header-Column-Switcher-Item"
-                  key={title}
-                >
-                  <label htmlFor={dataKey}>
-                    <input
-                      type="checkbox"
-                      id={dataKey}
-                      name="column"
-                      onChange={onChange}
-                      checked={visible}
-                    />
-                    {title}
-                  </label>
-                </div>
-              );
-            })}
+            {columns
+              .filter(({ isCheckbox }) => !isCheckbox)
+              .map(({ title, dataKey, visible }) => {
+                return (
+                  <div
+                    className="React-Sticky-Table--Header-Column-Switcher-Item"
+                    key={title}
+                  >
+                    <label htmlFor={dataKey}>
+                      <input
+                        type="checkbox"
+                        id={dataKey}
+                        name="column"
+                        onChange={onChange}
+                        checked={visible}
+                      />
+                      {title}
+                    </label>
+                  </div>
+                );
+              })}
           </div>
         )}
       </div>

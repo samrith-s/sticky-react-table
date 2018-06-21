@@ -1,4 +1,4 @@
-import { sample, range } from 'lodash';
+import { sample, range, uniqueId } from 'lodash';
 
 export function generateData(rows) {
   rows = parseInt(rows, 10);
@@ -13,6 +13,7 @@ export function generateData(rows) {
       'Tywell Snow',
       'Salty Illaria'
     ]);
+
     const age = sample(range(21, 40));
     const gender = sample(['Male', 'Female', 'Other']);
     const designation = sample([
@@ -81,8 +82,10 @@ export function generateData(rows) {
         : theism === 'Monotheist'
           ? sample(['Jainism', 'Jewism', 'Islam', 'Christianity', 'Buddhism'])
           : 'Hinduism';
+    const id = uniqueId();
 
     data.push({
+      id,
       name,
       age,
       gender,
