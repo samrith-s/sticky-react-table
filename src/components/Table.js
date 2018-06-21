@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
-import Row, { HeaderRow } from './Rows';
+import { Row, HeaderRow } from './Rows';
 
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
