@@ -198,22 +198,27 @@ export default class Table extends PureComponent {
     const { columns, data, checkedRows } = this.state;
     const { rowSelection, checkboxRenderer, idKey } = this.props;
 
-    return data.map((rowData, index) => (
-      <Row
-        columns={columns.filter(col => col.visible)}
-        rowData={rowData}
-        rowIndex={index + 1}
-        styleCalculator={this.getLeftStyle}
-        stickyFunction={this.isLastSticky}
-        onDragEnd={this.handleDragEnd}
-        key={`sticky-table-row-${index + 1}`}
-        rowSelection={rowSelection}
-        checkboxRenderer={checkboxRenderer}
-        checkedRows={checkedRows}
-        onCheck={this.handleRowCheck}
-        idKey={idKey}
-      />
-    ));
+    return data.map((rowData, index) => {
+      const id = rowData[idKey];
+      const isChecked = checkedRows.includes(id);
+
+      return (
+        <Row
+          id={id}
+          columns={columns.filter(col => col.visible)}
+          rowData={rowData}
+          rowIndex={index + 1}
+          styleCalculator={this.getLeftStyle}
+          stickyFunction={this.isLastSticky}
+          onDragEnd={this.handleDragEnd}
+          key={`sticky-table-row-${index + 1}`}
+          rowSelection={rowSelection}
+          checkboxRenderer={checkboxRenderer}
+          isChecked={isChecked || false}
+          onCheck={this.handleRowCheck}
+        />
+      );
+    });
   };
 
   validateChild = child => {

@@ -152,6 +152,10 @@ body,
         outline: 0;
       }
     }
+
+    &.React-Sticky-Table--Row--is-Checked {
+      background: lighten(lightblue, 5%);
+    }
   }
 
   &--Row-Cell,

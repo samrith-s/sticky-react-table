@@ -19,7 +19,7 @@ export default class Cell extends PureComponent {
       renderer,
       onDragEnd,
       id,
-      checkedRows,
+      isChecked,
       onCheck,
       isCheckbox
     } = this.props;
@@ -38,9 +38,8 @@ export default class Cell extends PureComponent {
           <CheckboxCell
             id={id}
             renderer={renderer}
-            checkedRows={checkedRows}
             onCheck={onCheck}
-            isChecked={checkedRows.find(rowId => rowId === id) !== undefined}
+            isChecked={isChecked}
           />
         ) : (
           <Fragment>
@@ -59,14 +58,14 @@ export default class Cell extends PureComponent {
 }
 
 Cell.propTypes = {
-  cellData: PropTypes.string,
+  cellData: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   style: PropTypes.object.isRequired,
   isSticky: PropTypes.bool.isRequired,
   isLastSticky: PropTypes.bool.isRequired,
   renderer: PropTypes.func,
   onDragEnd: PropTypes.func.isRequired,
   id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
-  checkedRows: PropTypes.array.isRequired,
+  isChecked: PropTypes.bool.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
   onCheck: PropTypes.func.isRequired
 };
