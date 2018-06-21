@@ -1,52 +1,95 @@
-import React, { Component } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class ColumnSwitcher extends Component {
   state = {
     visible: false
   };
 
-  toggleDropdownVisibility = () => {
-    this.setState(prevState => ({
-      visible: !prevState.visible
+  componentDidMount() {
+    document.addEventListener('click', this.handleClose, true);
+    document.addEventListener('keyup', this.handleClose, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClose, true);
+    document.removeEventListener('keyup', this.handleClose, true);
+  }
+
+  toggleDropdownVisibility = visible => {
+    this.setState(() => ({
+      visible
     }));
+  };
+
+  handleMenuRef = ref => {
+    this.menu = ref;
+  };
+
+  handleIconRef = ref => {
+    this.icon = ref;
+  };
+
+  handleIconClick = () => {
+    if (this.state.visible) {
+      this.toggleDropdownVisibility(false);
+    } else {
+      this.toggleDropdownVisibility(true);
+    }
+  };
+
+  handleClose = e => {
+    if (this.state.visible) {
+      if (
+        e.key === 'Escape' ||
+        (this.icon &&
+          this.menu &&
+          e.target !== this.icon &&
+          !this.menu.contains(e.target))
+      ) {
+        this.toggleDropdownVisibility(false);
+      }
+    }
   };
 
   render() {
     const { columns, onChange } = this.props;
 
     return (
-      <div className="React-Sticky-Table--Header-Column-Switcher-Container">
+      <div className="React-Sticky-Table--Header-Column-Switcher">
         <div
-          className="React-Sticky-Table--Header-Column-Switcher-Container-Icon"
-          onClick={this.toggleDropdownVisibility}
+          className="React-Sticky-Table--Header-Column-Switcher-Icon"
+          onClick={this.handleIconClick}
+          ref={this.handleIconRef}
         >
           :
         </div>
-        <div
-          className={classNames(
-            'React-Sticky-Table--Header-Column-Switcher-Container-Dropdown',
-            {
-              'React-Sticky-Table--Hide': !this.state.visible
-            }
-          )}
-        >
-          {columns.map(({ title, dataKey, visible }) => {
-            return (
-              <div className="dropdown-menu-item" key={title}>
-                <input
-                  type="checkbox"
-                  id={dataKey}
-                  name="column"
-                  onChange={onChange}
-                  checked={visible}
-                />
-                <label htmlFor={dataKey}>{title}</label>
-              </div>
-            );
-          })}
-        </div>
+        {this.state.visible && (
+          <div
+            className="React-Sticky-Table--Header-Column-Switcher-Dropdown"
+            ref={this.handleMenuRef}
+          >
+            {columns.map(({ title, dataKey, visible }) => {
+              return (
+                <div
+                  className="React-Sticky-Table--Header-Column-Switcher-Item"
+                  key={title}
+                >
+                  <label htmlFor={dataKey}>
+                    <input
+                      type="checkbox"
+                      id={dataKey}
+                      name="column"
+                      onChange={onChange}
+                      checked={visible}
+                    />
+                    {title}
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }
