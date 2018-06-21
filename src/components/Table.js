@@ -50,8 +50,8 @@ export default class Table extends PureComponent {
       if (cellIndex === 0) {
         return { left };
       } else if (cellIndex <= fixed - 1) {
-        columns.forEach(({ width }, index) => {
-          if (index < cellIndex) {
+        columns.forEach(({ width, visible = true }, index) => {
+          if (index < cellIndex && visible) {
             left += width;
           } else {
             return;
