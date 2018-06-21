@@ -16,18 +16,11 @@ export default class HeaderRow extends PureComponent {
     } = this.props;
 
     return columns.map((column, index) => {
-      const {
-        title,
-        width,
-        dataKey,
-        headerRenderer,
-        isSortable,
-        visible = true
-      } = column;
+      const { title, width, dataKey, headerRenderer, isSortable } = column;
       const style = { width, ...styleCalculator(index) };
       const { isSticky, isLastSticky } = stickyFunction(index);
 
-      return visible ? (
+      return (
         <HeaderCell
           title={title}
           width={width}
@@ -45,7 +38,7 @@ export default class HeaderRow extends PureComponent {
           onSort={onSort}
           sortedColumn={sortedColumn}
         />
-      ) : null;
+      );
     });
   };
 
