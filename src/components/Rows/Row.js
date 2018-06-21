@@ -12,8 +12,7 @@ export default class Row extends PureComponent {
       rowIndex,
       styleCalculator,
       stickyFunction,
-      onDragEnd,
-      checkboxRenderer
+      onDragEnd
     } = this.props;
 
     return columns.map((column, index) => {
@@ -41,8 +40,9 @@ export default class Row extends PureComponent {
   };
 
   render() {
-    const { rowSelection = true } = this.props;
+    const { rowSelection, checkboxRenderer } = this.props;
     return (
+      {rowSelection && <CheckboxColumn={}}
       <div className="React-Sticky-Table--Row">{this.renderColumns()}</div>
     );
   }

@@ -13,7 +13,8 @@ export default class Table extends PureComponent {
   state = {
     columns: [],
     sortedColumn: null,
-    data: []
+    data: [],
+    checkedRow: []
   };
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
@@ -32,9 +33,10 @@ export default class Table extends PureComponent {
 
   componentDidMount() {
     const columns = [];
+
     React.Children.forEach(this.props.children, (child, index) => {
       const { props } = this.validateChild(child);
-      columns.push({ ...props, index, visible: true });
+      columns.push({ ...props, index: index + 1, visible: true });
     });
 
     this.setState({ columns });
