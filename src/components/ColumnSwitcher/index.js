@@ -7,10 +7,46 @@ class ColumnSwitcher extends Component {
     visible: false
   };
 
-  toggleDropdownVisibility = () => {
-    this.setState(prevState => ({
-      visible: !prevState.visible
+  componentDidMount() {
+    document.addEventListener('click', this.handleOutsideClick, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick, true);
+  }
+
+  toggleDropdownVisibility = visible => {
+    console.log('visible', visible);
+    this.setState(() => ({
+      visible
     }));
+  };
+
+  handleMenuRef = ref => {
+    this.menu = ref;
+  };
+
+  handleIconRef = ref => {
+    this.icon = ref;
+  };
+
+  handleIconClick = () => {
+    if (this.state.visible) {
+      this.toggleDropdownVisibility(false);
+    } else {
+      this.toggleDropdownVisibility(true);
+    }
+  };
+
+  handleOutsideClick = e => {
+    if (
+      this.icon &&
+      this.menu &&
+      e.target !== this.icon &&
+      !this.menu.contains(e.target)
+    ) {
+      this.toggleDropdownVisibility(false);
+    }
   };
 
   render() {
@@ -20,7 +56,8 @@ class ColumnSwitcher extends Component {
       <div className="React-Sticky-Table--Header-Column-Switcher-Container">
         <div
           className="React-Sticky-Table--Header-Column-Switcher-Container-Icon"
-          onClick={this.toggleDropdownVisibility}
+          onClick={this.handleIconClick}
+          ref={this.handleIconRef}
         >
           :
         </div>
@@ -31,6 +68,7 @@ class ColumnSwitcher extends Component {
               'React-Sticky-Table--Hide': !this.state.visible
             }
           )}
+          ref={this.handleMenuRef}
         >
           {columns.map(({ title, dataKey, visible }) => {
             return (
