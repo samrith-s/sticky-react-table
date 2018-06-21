@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 
 import { Row, HeaderRow } from './Rows';
 
 import { ColumnDisplayName } from './Constants';
 import Errors from './Errors';
 
-import { sort } from '../utils';
+import { sort } from '../Utils';
 
 export default class Table extends PureComponent {
   state = {
@@ -84,15 +84,18 @@ export default class Table extends PureComponent {
   headerRenderer = () => {
     const { columns, sortedColumn } = this.state;
     return (
-      <HeaderRow
-        columns={columns}
-        rowIndex={0}
-        styleCalculator={this.getLeftStyle}
-        stickyFunction={this.isLastSticky}
-        onDragEnd={this.handleDragEnd}
-        onSort={this.handleSort}
-        sortedColumn={sortedColumn}
-      />
+      <Fragment>
+        <div className="React-Sticky-Table--Header-Column-Switcher"> :</div>
+        <HeaderRow
+          columns={columns}
+          rowIndex={0}
+          styleCalculator={this.getLeftStyle}
+          stickyFunction={this.isLastSticky}
+          onDragEnd={this.handleDragEnd}
+          onSort={this.handleSort}
+          sortedColumn={sortedColumn}
+        />
+      </Fragment>
     );
   };
 
