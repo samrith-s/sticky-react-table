@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
@@ -104,21 +104,15 @@ export default class Table extends PureComponent {
   headerRenderer = () => {
     const { columns, sortedColumn } = this.state;
     return (
-      <Fragment>
-        <ColumnSwitcher
-          columns={columns}
-          onChange={this.handleColumnVisibilityChange}
-        />
-        <HeaderRow
-          rowIndex={0}
-          styleCalculator={this.getLeftStyle}
-          stickyFunction={this.isLastSticky}
-          onDragEnd={this.handleDragEnd}
-          onSort={this.handleSort}
-          sortedColumn={sortedColumn}
-          columns={columns.filter(col => col.visible)}
-        />
-      </Fragment>
+      <HeaderRow
+        rowIndex={0}
+        styleCalculator={this.getLeftStyle}
+        stickyFunction={this.isLastSticky}
+        onDragEnd={this.handleDragEnd}
+        onSort={this.handleSort}
+        sortedColumn={sortedColumn}
+        columns={columns.filter(col => col.visible)}
+      />
     );
   };
 
@@ -188,10 +182,18 @@ export default class Table extends PureComponent {
   };
 
   render() {
+    const { columns } = this.state;
+
     return (
       <div className="React-Sticky-Table">
-        {this.headerRenderer()}
-        {this.bodyRenderer()}
+        <div className="React-Sticky-Table-inner">
+          {this.headerRenderer()}
+          {this.bodyRenderer()}
+        </div>
+        <ColumnSwitcher
+          columns={columns}
+          onChange={this.handleColumnVisibilityChange}
+        />
       </div>
     );
   }
