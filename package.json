@@ -1,7 +1,7 @@
 {
-  "name": "react-sticky-table",
+  "name": "sticky-react-table",
   "version": "0.0.1",
-  "description": "react-sticky-table React component",
+  "description": "A super flexible, scalable and robust table with sticky headerand columns for all your tabular needs.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
