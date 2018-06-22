@@ -42,7 +42,7 @@
   },
   "author": "Samrith Shankar",
   "license": "MIT",
-  "repository": "https://github.com/samrith-s/react-sticky-table.git",
+  "repository": "https://github.com/samrith-s/sticky-react-table.git",
   "keywords": [
     "react-component"
   ]
