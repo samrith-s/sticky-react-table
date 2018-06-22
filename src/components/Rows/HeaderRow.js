@@ -59,7 +59,7 @@ export default class HeaderRow extends PureComponent {
 
   render() {
     return (
-      <div className="React-Sticky-Table--Header">{this.renderColumns()}</div>
+      <div className="Sticky-React-Table--Header">{this.renderColumns()}</div>
     );
   }
 }

@@ -52,8 +52,8 @@ export default class Row extends PureComponent {
 
     return (
       <div
-        className={classNames('React-Sticky-Table--Row', {
-          'React-Sticky-Table--Row--is-Checked': isChecked
+        className={classNames('Sticky-React-Table--Row', {
+          'Sticky-React-Table--Row--is-Checked': isChecked
         })}
       >
         {this.renderColumns()}

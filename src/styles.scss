@@ -21,7 +21,7 @@ body,
   flex-direction: column;
 }
 
-.React-Sticky-Table {
+.Sticky-React-Table {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -153,7 +153,7 @@ body,
       }
     }
 
-    &.React-Sticky-Table--Row--is-Checked {
+    &.Sticky-React-Table--Row--is-Checked {
       background: lighten(lightblue, 5%);
     }
   }
@@ -162,7 +162,7 @@ body,
   &--Header-Cell {
     border-right: 1px solid rgba(1, 1, 1, 0.15);
 
-    &:hover .React-Sticky-Table-Resize-Handler {
+    &:hover .Sticky-React-Table-Resize-Handler {
       background: rgba(1, 1, 1, 0.5);
     }
 

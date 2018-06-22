@@ -249,8 +249,8 @@ export default class Table extends PureComponent {
     const { columns } = this.state;
 
     return (
-      <div className="React-Sticky-Table">
-        <div className="React-Sticky-Table-inner">
+      <div className="Sticky-React-Table">
+        <div className="Sticky-React-Table-inner">
           {this.headerRenderer()}
           {this.bodyRenderer()}
         </div>

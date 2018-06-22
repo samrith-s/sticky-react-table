@@ -56,9 +56,9 @@ class ColumnSwitcher extends Component {
     const { columns, onChange } = this.props;
 
     return (
-      <div className="React-Sticky-Table--Header-Column-Switcher">
+      <div className="Sticky-React-Table--Header-Column-Switcher">
         <div
-          className="React-Sticky-Table--Header-Column-Switcher-Icon"
+          className="Sticky-React-Table--Header-Column-Switcher-Icon"
           onClick={this.handleIconClick}
           ref={this.handleIconRef}
         >
@@ -66,7 +66,7 @@ class ColumnSwitcher extends Component {
         </div>
         {this.state.visible && (
           <div
-            className="React-Sticky-Table--Header-Column-Switcher-Dropdown"
+            className="Sticky-React-Table--Header-Column-Switcher-Dropdown"
             ref={this.handleMenuRef}
           >
             {columns
@@ -74,7 +74,7 @@ class ColumnSwitcher extends Component {
               .map(({ title, dataKey, visible }) => {
                 return (
                   <div
-                    className="React-Sticky-Table--Header-Column-Switcher-Item"
+                    className="Sticky-React-Table--Header-Column-Switcher-Item"
                     key={title}
                   >
                     <label htmlFor={dataKey}>

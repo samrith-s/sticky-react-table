@@ -26,10 +26,10 @@ export default class Cell extends PureComponent {
 
     return (
       <div
-        className={classNames('React-Sticky-Table--Row-Cell', {
-          'React-Sticky-Table--is-Sticky': isSticky,
-          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky,
-          'React-Sticky-Table--Row-Cell-Checkbox': isCheckbox
+        className={classNames('Sticky-React-Table--Row-Cell', {
+          'Sticky-React-Table--is-Sticky': isSticky,
+          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
+          'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
         })}
         style={style}
         tabIndex={0}
@@ -45,7 +45,7 @@ export default class Cell extends PureComponent {
           <Fragment>
             {renderer ? renderer(omit(this.props, 'renderer')) : cellData}
             <div
-              className="React-Sticky-Table-Resize-Handler"
+              className="Sticky-React-Table-Resize-Handler"
               draggable={true}
               onDragEnd={onDragEnd}
               ref={this.handleDragHandleRef}

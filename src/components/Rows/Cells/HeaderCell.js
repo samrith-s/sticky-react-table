@@ -35,10 +35,10 @@ export default class HeaderCell extends PureComponent {
 
     return (
       <div
-        className={classNames('React-Sticky-Table--Header-Cell', {
-          'React-Sticky-Table--is-Sticky': isSticky,
-          'React-Sticky-Table--is-Sticky--is-Last': isLastSticky,
-          'React-Sticky-Table--Header-Cell-Checkbox': isCheckbox
+        className={classNames('Sticky-React-Table--Header-Cell', {
+          'Sticky-React-Table--is-Sticky': isSticky,
+          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
+          'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
         style={style}
         onClick={this.handleSort}
@@ -55,14 +55,14 @@ export default class HeaderCell extends PureComponent {
           <Fragment>
             {renderer ? renderer(omit(this.props, 'renderer')) : title}
             <div
-              className="React-Sticky-Table-Resize-Handler"
+              className="Sticky-React-Table-Resize-Handler"
               draggable={true}
               onDragEnd={onDragEnd}
               ref={this.handleDragHandleRef}
             />
             {isSortable &&
               isSorted && (
-                <div className="React-Sticky-Table-Sort-Icon">
+                <div className="Sticky-React-Table-Sort-Icon">
                   {sortDir === 'ASC' ? (
                     <Fragment>&uarr;</Fragment>
                   ) : (
