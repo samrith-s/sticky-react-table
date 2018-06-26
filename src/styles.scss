@@ -167,8 +167,12 @@ body,
     }
 
     &-Checkbox {
-      border: none;
+      border: 2px solid transparent;
       text-align: center;
+
+      &:focus {
+        border: 2px solid transparent;
+      }
     }
   }
 
