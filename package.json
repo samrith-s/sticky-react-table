@@ -44,6 +44,14 @@
   "license": "MIT",
   "repository": "https://github.com/samrith-s/sticky-react-table.git",
   "keywords": [
-    "react-component"
+    "react",
+    "table",
+    "sticky",
+    "fixed",
+    "header",
+    "custom",
+    "custom-table",
+    "declarative-table",
+    "react-table"
   ]
 }
