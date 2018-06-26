@@ -1,7 +1,10 @@
 # Sticky React Table
 
-[![Travis][build-badge]][build]
-[![npm package][npm-badge]][npm]
+[![Travis](https://img.shields.io/travis/samrith-s/sticky-react-table/master.svg)][build]
+[![npm package](https://img.shields.io/npm/v/sticky-react-table.svg)][npm]
+[![GitHub issues](https://img.shields.io/github/issues/samrith-s/sticky-react-table.svg)][issues]
+[![GitHub stars](https://img.shields.io/github/stars/samrith-s/sticky-react-table.svg)][stars]
+[![GitHub license](https://img.shields.io/github/license/samrith-s/sticky-react-table.svg)][license]
 
 The package is still in alpha. Unless it is upgraded to a beta status, please don't use it in your cosumer applications. We are working actively to get this package to a stable release as soon as possible.
 
@@ -25,9 +28,8 @@ If you are a generious soul who likes what we are doing with this project, do no
 - Columns
 - Props
 
-[build-badge]: https://img.shields.io/travis/samrith-s/sticky-react-table/master.svg
 [build]: https://travis-ci.org/samrith-s/sticky-react-table
-[npm-badge]: https://img.shields.io/npm/v/sticky-react-table.svg
 [npm]: https://www.npmjs.org/package/sticky-react-table
-[coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
-[coveralls]: https://coveralls.io/github/user/repo
+[issues]: https://github.com/samrith-s/sticky-react-table/issues
+[stars]: https://github.com/samrith-s/sticky-react-table/stargazers
+[license]: https://github.com/samrith-s/sticky-react-table/blob/master/LICENSE
