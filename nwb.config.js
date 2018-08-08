@@ -12,22 +12,7 @@ module.exports = {
     rules: {
       postcss: {
         plugins: [require('precss')(), require('autoprefixer')()]
-      },
-      sass: {
-        modules: true,
-        localIdentName: '[hash:base64:5]'
       }
-    },
-    styles: {
-      sass: [
-        {
-          sass: {
-            modules: true,
-            localIdentName: '[hash:base64:5]',
-            sourceMap: true
-          }
-        }
-      ]
     }
   }
 };
