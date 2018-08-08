@@ -5,6 +5,8 @@ import { generateData } from './utils/data-generator';
 
 import { Table, Column } from '../../src';
 
+import '../../src/styles.scss';
+
 export default class App extends Component {
   state = {
     rowCount: 100,
