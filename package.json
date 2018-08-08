@@ -11,7 +11,7 @@
     "umd"
   ],
   "scripts": {
-    "build": "nwb build",
+    "build": "nwb build && cp ./demo/dist/*.css ./lib/sticky-react-table.css",
     "clean": "nwb clean-module && nwb clean-demo",
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
@@ -34,9 +34,11 @@
     "react": "16.x"
   },
   "devDependencies": {
+    "autoprefixer": "^9.1.0",
     "eslint": "^4.19.1",
     "nwb": "0.21.x",
     "nwb-sass": "^0.8.4",
+    "precss": "^3.1.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
