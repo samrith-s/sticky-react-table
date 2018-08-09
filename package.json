@@ -1,6 +1,6 @@
 {
   "name": "sticky-react-table",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A super flexible, scalable and robust table with sticky headerand columns for all your tabular needs.",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,21 +19,21 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "babel-eslint": "^8.2.3",
     "classnames": "^2.2.6",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-prettier": "^2.6.0",
-    "eslint-plugin-react": "^7.9.1",
-    "lodash": "^4.17.10",
-    "prettier": "^1.13.5",
-    "prop-types": "^15.6.2"
+    "lodash": "^4.17.10"
   },
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.9.1",
+    "prop-types": "^15.6.2",
+    "prettier": "^1.13.5",
     "autoprefixer": "^9.1.0",
     "eslint": "^4.19.1",
     "nwb": "0.21.x",
