@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import classNames from 'classnames';
 
 import { HeaderCell } from './Cells';
 
@@ -58,8 +59,12 @@ export default class HeaderRow extends PureComponent {
   };
 
   render() {
+    const { className } = this.props;
+
     return (
-      <div className="Sticky-React-Table--Header">{this.renderColumns()}</div>
+      <div className={classNames(className, 'Sticky-React-Table--Header')}>
+        {this.renderColumns()}
+      </div>
     );
   }
 }
@@ -75,5 +80,6 @@ HeaderRow.propTypes = {
   isSortable: PropTypes.bool,
   checkedRows: PropTypes.array.isRequired,
   onCheck: PropTypes.func.isRequired,
-  isAllSelected: PropTypes.bool.isRequired
+  isAllSelected: PropTypes.bool.isRequired,
+  className: PropTypes.string
 };

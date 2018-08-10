@@ -21,12 +21,13 @@ export default class Cell extends PureComponent {
       id,
       isChecked,
       onCheck,
-      isCheckbox
+      isCheckbox,
+      className
     } = this.props;
 
     return (
       <div
-        className={classNames('Sticky-React-Table--Row-Cell', {
+        className={classNames(className, 'Sticky-React-Table--Row-Cell', {
           'Sticky-React-Table--is-Sticky': isSticky,
           'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
           'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
@@ -58,16 +59,26 @@ export default class Cell extends PureComponent {
 }
 
 Cell.propTypes = {
-  cellData: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  cellData: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+    PropTypes.object,
+    PropTypes.array
+  ]),
   style: PropTypes.object.isRequired,
-  isSticky: PropTypes.bool.isRequired,
-  isLastSticky: PropTypes.bool.isRequired,
+  isSticky: PropTypes.bool,
+  isLastSticky: PropTypes.bool,
   renderer: PropTypes.func,
   onDragEnd: PropTypes.func.isRequired,
   id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
   isChecked: PropTypes.bool.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
-  onCheck: PropTypes.func.isRequired
+  onCheck: PropTypes.func.isRequired,
+  className: PropTypes.string
 };
 
 Cell.defaultProps = {

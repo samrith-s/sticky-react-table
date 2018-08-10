@@ -60,6 +60,7 @@ export default class Table extends PureComponent {
     }
     return fixed;
   };
+
   getLeftStyle = cellIndex => {
     const fixed = this.getFixedCount();
     const { columns } = this.state;
@@ -150,7 +151,7 @@ export default class Table extends PureComponent {
   headerRenderer = () => {
     const { columns, sortedColumn, checkedRows, data } = this.state;
     const isAllSelected = data.length === checkedRows.length;
-    const { checkboxRenderer, idKey } = this.props;
+    const { checkboxRenderer, idKey, headerClassName } = this.props;
     return (
       <HeaderRow
         rowIndex={0}
@@ -165,6 +166,7 @@ export default class Table extends PureComponent {
         onCheck={this.handleRowCheck}
         idKey={idKey}
         isAllSelected={isAllSelected}
+        className={headerClassName}
       />
     );
   };
@@ -196,7 +198,7 @@ export default class Table extends PureComponent {
 
   bodyRenderer = () => {
     const { columns, data, checkedRows } = this.state;
-    const { rowSelection, checkboxRenderer, idKey } = this.props;
+    const { rowSelection, checkboxRenderer, idKey, rowClassName } = this.props;
 
     return data.map((rowData, index) => {
       const id = rowData[idKey];
@@ -216,6 +218,7 @@ export default class Table extends PureComponent {
           checkboxRenderer={checkboxRenderer}
           isChecked={isChecked || false}
           onCheck={this.handleRowCheck}
+          className={rowClassName}
         />
       );
     });
@@ -274,7 +277,9 @@ Table.propTypes = {
   rowSelection: PropTypes.bool,
   checkboxRenderer: PropTypes.node,
   onRowCheck: PropTypes.func,
-  idKey: PropTypes.string
+  idKey: PropTypes.string,
+  rowClassName: PropTypes.string,
+  headerClassName: PropTypes.string
 };
 
 Table.defaultProps = {

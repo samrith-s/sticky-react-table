@@ -20,7 +20,7 @@ export default class Row extends PureComponent {
     } = this.props;
 
     return columns.map((column, index) => {
-      const { width, dataKey, cellRenderer, isCheckbox } = column;
+      const { width, dataKey, cellRenderer, isCheckbox, className } = column;
       const cellData = get(rowData, dataKey);
       const style = { width, ...styleCalculator(index) };
       const { isSticky, isLastSticky } = stickyFunction(index);
@@ -42,6 +42,7 @@ export default class Row extends PureComponent {
           onCheck={onCheck}
           isCheckbox={isCheckbox}
           isChecked={isChecked}
+          className={className}
         />
       );
     });
