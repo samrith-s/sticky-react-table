@@ -218,7 +218,7 @@ export default class Table extends PureComponent {
           checkboxRenderer={checkboxRenderer}
           isChecked={isChecked || false}
           onCheck={this.handleRowCheck}
-          className={rowClassName}
+          rowClassName={rowClassName}
         />
       );
     });

@@ -48,14 +48,26 @@ export default class Row extends PureComponent {
     });
   };
 
+  getRowClassNames = () => {
+    const { rowClassName, rowData, rowIndex } = this.props;
+    if (typeof rowClassName === 'function') {
+      return rowClassName(rowData, rowIndex);
+    }
+    return '';
+  };
+
   render() {
     const { isChecked } = this.props;
 
     return (
       <div
-        className={classNames('Sticky-React-Table--Row', {
-          'Sticky-React-Table--Row--is-Checked': isChecked
-        })}
+        className={classNames(
+          'Sticky-React-Table--Row',
+          this.getRowClassNames(),
+          {
+            'Sticky-React-Table--Row--is-Checked': isChecked
+          }
+        )}
       >
         {this.renderColumns()}
       </div>
@@ -72,5 +84,6 @@ Row.propTypes = {
   onDragEnd: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
   onCheck: PropTypes.func.isRequired,
+  rowClassName: PropTypes.func,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
 };
