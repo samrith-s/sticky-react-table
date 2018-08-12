@@ -278,7 +278,7 @@ Table.propTypes = {
   checkboxRenderer: PropTypes.node,
   onRowCheck: PropTypes.func,
   idKey: PropTypes.string,
-  rowClassName: PropTypes.string,
+  rowClassName: PropTypes.func,
   headerClassName: PropTypes.string
 };
 
