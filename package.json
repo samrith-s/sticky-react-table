@@ -1,14 +1,16 @@
 {
   "name": "sticky-react-table",
   "version": "0.0.14",
-  "description": "A super flexible, scalable and robust table with sticky headerand columns for all your tabular needs.",
+  "description": "A super flexible, scalable and robust table with sticky header and columns for all your tabular needs.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
     "css",
     "es",
     "lib",
-    "umd"
+    "umd",
+    ".npmignore",
+    ".gitignore"
   ],
   "scripts": {
     "build": "nwb build && cp ./demo/dist/*.css ./lib/sticky-react-table.css",
