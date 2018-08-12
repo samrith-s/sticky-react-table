@@ -13,7 +13,7 @@
     ".gitignore"
   ],
   "scripts": {
-    "build": "NODE_ENV=production nwb build && cp ./demo/dist/*.css ./lib/sticky-react-table.css",
+    "build": "NODE_ENV=production nwb build-react-component && cp ./demo/dist/*.css ./lib/sticky-react-table.css",
     "clean": "nwb clean-module && nwb clean-demo",
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
