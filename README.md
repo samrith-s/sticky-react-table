@@ -117,9 +117,29 @@ SRT supports a host of properties which allow you to completely customize the lo
 
 #### Functions
 
-| Property |             Description              | Parameters           |
-| -------- | :----------------------------------: | -------------------- |
-| onSort   | Pass a custom sorting functionality. | Array of column data |
+| Property         | Description                          | Parameters                                              |
+| ---------------- | ------------------------------------ | ------------------------------------------------------- |
+| onSort           | Pass a custom sorting functionality. | Array of column data                                    |
+| onRowCheck       | Handle checking of a row.            | Id of the checked row or `all` if all rows are checked. |
+| checkboxRenderer | Custom renderer for checkbox column. | `cellProps`                                             |
+
+### Column
+
+#### Properties
+
+| Property  | Type                | Default     | Description                                                          | Required |
+| --------- | ------------------- | ----------- | -------------------------------------------------------------------- | -------- |
+| dataKey   | `String`            | `undefined` | The data key for the value to be rendered into the cell              | No       |
+| title     | `String`            | `undefined` | The title to be displayed in the header if no renderer is specified. | No       |
+| width     | `Number`            | `0`         | The absolute width of the column.                                    | No       |
+| className | `Array` or `String` | `undefined` | A custom class for the cell.                                         | No       |
+
+#### Functions
+
+| Property       | Description                                                     | Parameters  |
+| -------------- | --------------------------------------------------------------- | ----------- |
+| cellRenderer   | A custom cell renderer to modify the default rendering.         | `cellProps` |
+| headerRenderer | A custom header cell renderer to modify the defaultt rendering. | `cellProps` |
 
 [build]: https://travis-ci.org/samrith-s/sticky-react-table
 [npm]: https://www.npmjs.org/package/sticky-react-table
