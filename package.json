@@ -20,7 +20,8 @@
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
     "test:watch": "nwb test-react --server",
-    "deploy": "yarn build && gh-pages -d demo/dist"
+    "deploy": "gh-pages -d demo/dist",
+    "deploy:new": "yarn build && yarn deploy"
   },
   "dependencies": {
     "classnames": "^2.2.6",
