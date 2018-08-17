@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { generateData } from './utils/data-generator';
 
 import { Table, Column } from '../../src';
+import HeaderCell from './HeaderCell';
 
 import '../../src/styles.scss';
 
@@ -20,7 +21,7 @@ export default class App extends Component {
   }
 
   headerRenderer = props => {
-    return <h1>{props.title}</h1>;
+    return <HeaderCell {...props} />;
   };
 
   rowRenderer = props => {
@@ -44,7 +45,12 @@ export default class App extends Component {
     return (
       <div className="App">
         <Table data={rows} fixed={4} onRowCheck={this.handleRowCheck}>
-          <Column title="Name" width={200} dataKey="name" />
+          <Column
+            title="Name"
+            width={200}
+            dataKey="name"
+            headerRenderer={this.headerRenderer}
+          />
           <Column title="Age" width={50} dataKey="age" />
           <Column title="Gender" width={75} dataKey="gender" />
           <Column title="Designation" width={200} dataKey="designation" />
