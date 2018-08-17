@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent, Fragment } from 'react';
-import { omit } from 'lodash';
+import { pick } from 'lodash';
 import classNames from 'classnames';
 
 import CheckboxCell from '../../CheckboxCell';
@@ -44,7 +44,18 @@ export default class Cell extends PureComponent {
           />
         ) : (
           <Fragment>
-            {renderer ? renderer(omit(this.props, 'renderer')) : cellData}
+            {renderer
+              ? renderer(
+                  pick(
+                    this.props,
+                    'id',
+                    'rowData',
+                    'cellData',
+                    'isChecked',
+                    'isCheckbox'
+                  )
+                )
+              : cellData}
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}
