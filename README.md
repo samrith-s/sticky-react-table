@@ -10,6 +10,8 @@ Many large-scale applications require the use of tables somewhere, if not everyw
 
 The package is still under development. We are working actively to get this package to a stable release as soon as possible. Please do not use this package in any production application.
 
+### Todo: Complete README by 19/08/2018
+
 ## Table of Contents
 
 - Getting Started
