@@ -17,6 +17,7 @@ The package is still under development. We are working actively to get this pack
 - [Important Properties](#important-properties)
   - [Table](#table)
   - [Column](#column)
+  - [Cell Props][cell-props]
 - [Contributing](#contributing)
 - [Issues](#issues)
 - [Roadmap](#roadmap)
@@ -26,7 +27,7 @@ The package is still under development. We are working actively to get this pack
 
 ## Getting Started
 
-Installing SRT is as simple as using your favourite package manager (ex. `yarn` or `npm`).
+Installing Sticky React Table is as simple as using your favourite package manager (ex. `yarn` or `npm`).
 
 For NPM:
 
@@ -71,7 +72,7 @@ Consider a sample data set:
 ]
 ```
 
-The simplest implementation of the above data as an SRT would be like so:
+The simplest implementation of the above data as an Sticky React Table would be like so:
 
 ```js
 import React, { Component } from 'react';
@@ -109,7 +110,7 @@ From here on, you can customize the cell, row or header renderers, add custom cl
 
 ## Important Properties
 
-SRT supports a host of properties which allow you to completely customize the look and feel of the table. You can find the properties supported by the two primary components exposed by the package.
+Sticky React Table supports a host of properties which allow you to completely customize the look and feel of the table. You can find the properties supported by the two primary components exposed by the package.
 
 <a name="table"></a>
 
@@ -133,7 +134,7 @@ SRT supports a host of properties which allow you to completely customize the lo
 | ---------------- | ------------------------------------ | ------------------------------------------------------- |
 | onSort           | Pass a custom sorting functionality. | Array of column data                                    |
 | onRowCheck       | Handle checking of a row.            | Id of the checked row or `all` if all rows are checked. |
-| checkboxRenderer | Custom renderer for checkbox column. | `cellProps`                                             |
+| checkboxRenderer | Custom renderer for checkbox column. | [Cell Props][cell-props]                                |
 
 # <a name="null"></a>
 
@@ -152,10 +153,30 @@ SRT supports a host of properties which allow you to completely customize the lo
 
 #### Functions
 
-| Property       | Description                                                     | Parameters  |
-| -------------- | --------------------------------------------------------------- | ----------- |
-| cellRenderer   | A custom cell renderer to modify the default rendering.         | `cellProps` |
-| headerRenderer | A custom header cell renderer to modify the defaultt rendering. | `cellProps` |
+| Property       | Description                                                     | Parameters               |
+| -------------- | --------------------------------------------------------------- | ------------------------ |
+| cellRenderer   | A custom cell renderer to modify the default rendering.         | [Cell Props][cell-props] |
+| headerRenderer | A custom header cell renderer to modify the defaultt rendering. | [Cell Props][cell-props] |
+
+# <a name="null"></a>
+
+<a name="cell-props"></a>
+
+### Cell Props
+
+The cell props allow you to access the data for the entire row, and some additional information about the cell. This particularly helps in customizing the cell, based on the information or the data for that row.
+
+Every custom render function you use across the table, ex. `headerRenderer` and `cellRenderer`, get these props as t
+
+```js
+propTypes = {
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  rowData: PropTypes.object,
+  cellData: PropTypes.any,
+  isChecked: PropTypes.bool
+  isCheckbox: PropTypes.bool
+}
+```
 
 ---
 
@@ -163,7 +184,7 @@ SRT supports a host of properties which allow you to completely customize the lo
 
 ## Contributing
 
-Since we are still developing and this is a fairly large project, we would ❤️ contributions! We are looking for people who echo our sentiments and share the same idea about SRT.
+Since we are still developing and this is a fairly large project, we would ❤️ contributions! We are looking for people who echo our sentiments and share the same idea about Sticky React Table.
 
 Check out the [CONTRIBUTING.md][contributing] file for details.
 
@@ -177,7 +198,7 @@ For any issues or queries you might have about the table, please feel free to cr
 
 ## Roadmap
 
-We started developing SRT due to a lot of issues we faced while implementing tables in our application, with React. Leading up to `1.0.0`, we plan on supporting the following features:
+We started developing Sticky React Table due to a lot of issues we faced while implementing tables in our application, with React. Leading up to `1.0.0`, we plan on supporting the following features:
 
 - Fixed Columns
 - Fixed Header
@@ -219,3 +240,4 @@ Copyright &copy; 2018.
 [issues]: https://github.com/samrith-s/sticky-react-table/issues
 [license]: https://github.com/samrith-s/sticky-react-table/blob/master/LICENSE
 [license-link]: https://opensource.org/licenses/MIT
+[cell-props]: #cell-props
