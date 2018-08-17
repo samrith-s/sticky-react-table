@@ -6,15 +6,12 @@
 [![GitHub stars](https://img.shields.io/github/stars/samrith-s/sticky-react-table.svg)][stars]
 [![GitHub license](https://img.shields.io/github/license/samrith-s/sticky-react-table.svg)][license]
 
-The package is still in alpha. Unless it is upgraded to a beta status, please don't use it in your cosumer applications. We are working actively to get this package to a stable release as soon as possible.
+Many large-scale applications require the use of tables somewhere, if not everywhere. Many a times the requirements for these tables are quite complex and difficult to manage. **Sticky React Table** aims to solve all of these problems for React developers, with a host of features including customizable cells, rows, and headers, column switching, column filtering, sorting, virtualization, column resizing, etc. All of that, provided in a declarative manner, and built ground-up, especially for React!
 
-## HELP WANTED
-
-If you are a generious soul who likes what we are doing with this project, do not hesitate to go to the issues section and pick up stuff you think you could help us with!
+The package is still under development. We are working actively to get this package to a stable release as soon as possible. Please do not use this package in any production application.
 
 ## Table of Contents
 
-- Installation
 - Getting Started
 - Basic Usage
 - Data
@@ -27,6 +24,8 @@ If you are a generious soul who likes what we are doing with this project, do no
   - Header Renderer
 - Columns
 - Props
+
+## Introduction
 
 [build]: https://travis-ci.org/samrith-s/sticky-react-table
 [npm]: https://www.npmjs.org/package/sticky-react-table
