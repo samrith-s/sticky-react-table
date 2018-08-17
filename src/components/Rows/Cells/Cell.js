@@ -85,7 +85,7 @@ Cell.propTypes = {
   isLastSticky: PropTypes.bool,
   renderer: PropTypes.func,
   onDragEnd: PropTypes.func.isRequired,
-  id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   isChecked: PropTypes.bool.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
   onCheck: PropTypes.func.isRequired,
