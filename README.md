@@ -16,9 +16,16 @@ The package is still under development. We are working actively to get this pack
 
 - [Getting Started](#getting-started)
 - [Basic Usage](#basic-usage)
-- [Properties](#properties)
+- [Important Properties](#important-properties)
   - [Table](#table)
   - [Column](#column)
+- [Contributing](#contributing)
+- [Issues](#issues)
+- [Roadmap](#roadmap)
+
+---
+
+<a name="getting-started"></a>
 
 ## Getting Started
 
@@ -35,6 +42,10 @@ For Yarn:
 ```
 yarn add sticky-react-table
 ```
+
+---
+
+<a name="basic-usage"></a>
 
 ## Basic Usage
 
@@ -97,13 +108,19 @@ From here on, you can customize the cell, row or header renderers, add custom cl
 
 **Note: You need to import the default stylesheet provided for the stickiness to work as expected. Going forward, the component will be updated such that requiring the stylesheet won't be mandatory.**
 
-## Properties
+---
+
+<a name="important-properties"></a>
+
+## Important Properties
 
 SRT supports a host of properties which allow you to completely customize the look and feel of the table. You can find the properties supported by the two primary components exposed by the package.
 
+<a name="table"></a>
+
 ### Table
 
-#### Properties
+**Properties:**
 
 | Property        | Type     | Default     | Description                                                         | Required |
 | --------------- | -------- | ----------- | ------------------------------------------------------------------- | -------- |
@@ -115,13 +132,17 @@ SRT supports a host of properties which allow you to completely customize the lo
 | rowClassName    | `String` | `undefined` | Custom classes for a row.                                           | No       |
 | headerClassName | `String` | `undefined` | Custom classes for the header row.                                  | No       |
 
-#### Functions
+**Functions:**
 
 | Property         | Description                          | Parameters                                              |
 | ---------------- | ------------------------------------ | ------------------------------------------------------- |
 | onSort           | Pass a custom sorting functionality. | Array of column data                                    |
 | onRowCheck       | Handle checking of a row.            | Id of the checked row or `all` if all rows are checked. |
 | checkboxRenderer | Custom renderer for checkbox column. | `cellProps`                                             |
+
+# <a name="null"></a>
+
+<a name="column"></a>
 
 ### Column
 
@@ -141,8 +162,61 @@ SRT supports a host of properties which allow you to completely customize the lo
 | cellRenderer   | A custom cell renderer to modify the default rendering.         | `cellProps` |
 | headerRenderer | A custom header cell renderer to modify the defaultt rendering. | `cellProps` |
 
+---
+
+## Contributing
+
+Since we are still developing and this is a fairly large project, we would ❤️ contributions! We are looking for people who echo our sentiments and share the same idea about SRT.
+
+Check out the [CONTRIBUTING.md][contributing] file for details.
+
+---
+
+## Issues
+
+For any issues or queries you might have about the table, please feel free to create one in the [issues section][issues].
+
+---
+
+## Roadmap
+
+We started developing SRT due to a lot of issues we faced while implementing tables in our application, with React. Leading up to `1.0.0`, we plan on supporting the following features:
+
+- Fixed Columns
+- Fixed Header
+- Column Resizing
+- Column Switching
+- Column Reordering
+- Column Sorting
+- Column Filtering
+- Cell Renderer
+- Row Renderer
+- Header Renderer
+- Row Selection
+- Keyboard Navifation (as per Gmail's keyboard navigations)
+
+In the future, we plan on supporting the following:
+
+- Virtualization
+- Better support for custom classes
+- Column resizing based on length of value (a la Excel)
+
+Features we will at no point encourage or support:
+
+- Row resizing
+- Native subrow rendering (this can be achieved using a custom row renderer)
+
+---
+
+## License
+
+This project is under the [MIT License][license-link]. You can checkout the [LICENSE][license] file for info.
+
 [build]: https://travis-ci.org/samrith-s/sticky-react-table
 [npm]: https://www.npmjs.org/package/sticky-react-table
 [issues]: https://github.com/samrith-s/sticky-react-table/issues
 [stars]: https://github.com/samrith-s/sticky-react-table/stargazers
+[contributing]: https://github.com/samrith-s/sticky-react-table/blob/master/CONTRIBUTING.md
+[issues]: https://github.com/samrith-s/sticky-react-table/issues
 [license]: https://github.com/samrith-s/sticky-react-table/blob/master/LICENSE
+[license-link]: https://opensource.org/licenses/MIT
