@@ -7,6 +7,7 @@ import { Table, Column } from '../../src';
 import HeaderCell from './HeaderCell';
 
 import '../../src/styles.scss';
+import './style.css';
 
 export default class App extends Component {
   state = {
