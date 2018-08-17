@@ -167,6 +167,7 @@ export default class Table extends PureComponent {
         idKey={idKey}
         isAllSelected={isAllSelected}
         className={headerClassName}
+        data={data}
       />
     );
   };

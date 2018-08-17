@@ -3,6 +3,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { omit } from 'lodash';
 import classNames from 'classnames';
 import CheckboxCell from '../../CheckboxCell';
+import Filter from './../../Filters';
 
 export default class HeaderCell extends PureComponent {
   handleDragHandleRef = ref => {
@@ -28,7 +29,8 @@ export default class HeaderCell extends PureComponent {
       checkedRows,
       onCheck,
       isCheckbox,
-      isAllSelected
+      isAllSelected,
+      columnData
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
@@ -70,6 +72,7 @@ export default class HeaderCell extends PureComponent {
                   )}
                 </div>
               )}
+            <Filter columnData={columnData} />
           </Fragment>
         )}
       </div>

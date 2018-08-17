@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
+import { map } from 'lodash';
 
 import { HeaderCell } from './Cells';
 
@@ -16,7 +17,8 @@ export default class HeaderRow extends PureComponent {
       sortedColumn,
       checkedRows,
       onCheck,
-      isAllSelected
+      isAllSelected,
+      data
     } = this.props;
 
     return columns.map((column, index) => {
@@ -30,6 +32,21 @@ export default class HeaderRow extends PureComponent {
       } = column;
       const style = { width, ...styleCalculator(index) };
       const { isSticky, isLastSticky } = stickyFunction(index);
+
+      const columnData = data.reduce((values, row) => {
+        if (values[row[dataKey]]) {
+          values[row[dataKey]].count++;
+        } else {
+          values[row[dataKey]] = {
+            id: row.id,
+            value: row[dataKey],
+            count: 1
+          };
+        }
+        return values;
+      }, {});
+
+      console.log(columnData);
 
       return (
         <HeaderCell
@@ -53,6 +70,7 @@ export default class HeaderRow extends PureComponent {
           onCheck={onCheck}
           isCheckbox={isCheckbox}
           isAllSelected={isAllSelected}
+          columnData={columnData}
         />
       );
     });
