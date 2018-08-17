@@ -10,8 +10,6 @@ Many large-scale applications require the use of tables somewhere, if not everyw
 
 The package is still under development. We are working actively to get this package to a stable release as soon as possible. Please do not use this package in any production application.
 
-### Todo: Complete README by 19/08/2018
-
 ## Table of Contents
 
 - [Getting Started](#getting-started)
@@ -22,8 +20,7 @@ The package is still under development. We are working actively to get this pack
 - [Contributing](#contributing)
 - [Issues](#issues)
 - [Roadmap](#roadmap)
-
----
+- [License](#license)
 
 <a name="getting-started"></a>
 
@@ -42,8 +39,6 @@ For Yarn:
 ```
 yarn add sticky-react-table
 ```
-
----
 
 <a name="basic-usage"></a>
 
@@ -164,19 +159,21 @@ SRT supports a host of properties which allow you to completely customize the lo
 
 ---
 
+<a name="contributing"></a>
+
 ## Contributing
 
 Since we are still developing and this is a fairly large project, we would ❤️ contributions! We are looking for people who echo our sentiments and share the same idea about SRT.
 
 Check out the [CONTRIBUTING.md][contributing] file for details.
 
----
+<a name="issues"></a>
 
 ## Issues
 
 For any issues or queries you might have about the table, please feel free to create one in the [issues section][issues].
 
----
+<a name="roadmap"></a>
 
 ## Roadmap
 
@@ -206,11 +203,13 @@ Features we will at no point encourage or support:
 - Row resizing
 - Native subrow rendering (this can be achieved using a custom row renderer)
 
----
+<a name="license"></a>
 
 ## License
 
 This project is under the [MIT License][license-link]. You can checkout the [LICENSE][license] file for info.
+
+Copyright &copy; 2018.
 
 [build]: https://travis-ci.org/samrith-s/sticky-react-table
 [npm]: https://www.npmjs.org/package/sticky-react-table
