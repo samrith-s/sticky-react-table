@@ -1,25 +1,66 @@
-## Prerequisites
+# Contributing to Sticky React Table
 
-[Node.js](http://nodejs.org/) >= v4 must be installed.
+We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
 
-## Installation
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
 
-- Running `yarn install` in the component's root directory will install everything you need for development.
+## We develop with Github
 
-## Demo Development Server
+We use GitHub to host code, to track issues and feature requests, as well as accept pull requests.
 
-- `yarn start` will run a development server with the component's demo app at [http://localhost:3000](http://localhost:3000) with hot module reloading.
+## All code changes happen through pull requests
 
-## Running Tests
+Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
 
-- `yarn test` will run the tests once.
+- Fork the repo and create your branch from `master`.
+- If you've added code that should be tested, add tests.
+- If you've changed APIs, update the documentation.
+- Ensure the test suite passes.
+- Make sure your code lints.
+- Issue that pull request!
 
-- `yarn test:coverage` will run the tests and produce a coverage report in `coverage/`.
+## Any contributions you make will be under the MIT Software License
 
-- `yarn test:watch` will run the tests on every change.
+In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
-## Building
+## Report bugs using Github's [issues](https://github.com/samrith-s/sticky-react-table/issues)
 
-- `yarn build` will build the component for publishing to npm and also bundle the demo app.
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/samrith-s/sticky-react-table/issues/new/choose); it's that easy!
 
-- `yarn clean` will delete built resources.
+## Issue creation
+
+We have templates setup for all kinds of issues. If your issue does not fall under any of the templates, you can create an issue from scratch. Do try to include as much info and explanation as possible as it will help us a lot in understanding and resolving it.
+
+**Great Bug Reports** tend to have:
+
+- A quick summary and/or background
+- Steps to reproduce
+  - Be specific!
+  - Give sample code if you can.
+- What you expected would happen
+- What actually happens
+- Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
+
+People _love_ thorough bug reports. We're not even kidding.
+
+## Feature requests
+
+We absolutely welcome whatever feature requests, ideas you guys might have. Please create a [Feature Request](https://github.com/samrith-s/sticky-react-table/issues/new?template=feature_request.md) and we will collaborate with you on it. We love it when people create PRs for new features. Please feel free to do the same!
+
+Before requesting for a feature, though, please go through our [Roadmap](https://github.com/samrith-s/sticky-react-table#roadmap) and see if it's already in the pipeline or something we do not intend to do.
+
+## Use a consistent coding style
+
+Our linters will majorly take care of everything. All you need to remember is to write "attractive" code.
+
+## License
+
+By contributing, you agree that your contributions will be licensed under its MIT License.
+
+## References
+
+This document was adapted from the open-source contribution guidelines for [Facebook's Draft](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md)
