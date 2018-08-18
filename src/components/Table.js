@@ -4,10 +4,15 @@ import React, { PureComponent } from 'react';
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
 
-import { ColumnDisplayName } from './Constants';
+import { ColumnDisplayName } from '../constants';
 import Errors from './Errors';
 
 import { sort } from '../util';
+
+import {
+  mainContainerStyle,
+  innerContainerStyle
+} from '../styles/container.styles';
 
 export default class Table extends PureComponent {
   state = {
@@ -252,8 +257,8 @@ export default class Table extends PureComponent {
     const { columns } = this.state;
 
     return (
-      <div className="Sticky-React-Table">
-        <div className="Sticky-React-Table-inner">
+      <div className="Sticky-React-Table" style={mainContainerStyle}>
+        <div className="Sticky-React-Table-inner" style={innerContainerStyle}>
           {this.headerRenderer()}
           {this.bodyRenderer()}
         </div>
