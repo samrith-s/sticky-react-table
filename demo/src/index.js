@@ -27,7 +27,7 @@ export default class App extends Component {
 
   rowRenderer = props => {
     if (props.isChecked) {
-      return <div className="my-row">{props.renderColumns()}</div>;
+      return <div>This is my custom row!</div>;
     }
 
     return null;
