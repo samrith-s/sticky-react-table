@@ -102,7 +102,7 @@ ReactDOM.render(<MyTable />, rootElement);
 
 From here on, you can customize the cell, row or header renderers, add custom classes, style it however you need.
 
-If you use a SASS as a pre-processor, two default themes are provided: light and dark. To use the themes, simply import the relevant theme.
+If you use SASS as a pre-processor, two default themes are provided: light and dark. To use the themes, simply import the relevant theme.
 
 - Light Theme: `sticky-react-table/lib/themes/light.scss`
 - Dark Theme: `sticky-react-table/lib/themes/dark.scss`
@@ -119,7 +119,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 ### Table
 
-**Properties:**
+#### Properties:
 
 | Property        | Type     | Default     | Description                                                         | Required |
 | --------------- | -------- | ----------- | ------------------------------------------------------------------- | -------- |
@@ -131,7 +131,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 | rowClassName    | `String` | `undefined` | Custom classes for a row.                                           | No       |
 | headerClassName | `String` | `undefined` | Custom classes for the header row.                                  | No       |
 
-**Callbacks:**
+#### Callbacks:
 
 | Name             | Description                          | Parameters                                              |
 | ---------------- | ------------------------------------ | ------------------------------------------------------- |
@@ -146,7 +146,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 ### Column
 
-**Properties:**
+#### Properties:
 
 | Property  | Type                | Default     | Description                                                          | Required |
 | --------- | ------------------- | ----------- | -------------------------------------------------------------------- | -------- |
@@ -155,7 +155,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 | width     | `Number`            | `0`         | The absolute width of the column.                                    | No       |
 | className | `Array` or `String` | `undefined` | A custom class for the cell.                                         | No       |
 
-**Callbacks:**
+#### Callbacks:
 
 | Name           | Description                                                     | Parameters               |
 | -------------- | --------------------------------------------------------------- | ------------------------ |
@@ -184,6 +184,8 @@ propTypes = {
   isAllSelected: PropTypes.bool // Only available in headerRenderer
 }
 ```
+
+# <a name="null"></a>
 
 <a name="row-props"></a>
 
