@@ -14,7 +14,7 @@
     ".gitignore"
   ],
   "scripts": {
-    "build": "nwb build-react-component && cp ./demo/dist/*.css ./lib/sticky-react-table.css",
+    "build": "nwb build-react-component --copy-files",
     "clean": "nwb clean-module && nwb clean-demo",
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "gh-pages": "^1.2.0",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.2"
   },
@@ -41,7 +40,8 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.9.1",
-    "nwb": "0.18.x",
+    "gh-pages": "^1.2.0",
+    "nwb": "^0.23.0",
     "nwb-sass": "^0.8.4",
     "precss": "^3.1.2",
     "prettier": "^1.13.5",
