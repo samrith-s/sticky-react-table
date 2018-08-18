@@ -5,6 +5,10 @@ import classNames from 'classnames';
 
 import CheckboxCell from '../../CheckboxCell';
 
+import { cellPropKeys } from '../../../constants';
+
+import { getCellStyle } from '../../../util';
+
 export default class Cell extends PureComponent {
   handleDragHandleRef = ref => {
     this.dragHandle = ref;
@@ -28,11 +32,9 @@ export default class Cell extends PureComponent {
     return (
       <div
         className={classNames(className, 'Sticky-React-Table--Row-Cell', {
-          'Sticky-React-Table--is-Sticky': isSticky,
-          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
-          'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
+          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky
         })}
-        style={style}
+        style={getCellStyle(style, isSticky)}
         tabIndex={0}
       >
         {isCheckbox ? (
@@ -44,18 +46,7 @@ export default class Cell extends PureComponent {
           />
         ) : (
           <Fragment>
-            {renderer
-              ? renderer(
-                  pick(
-                    this.props,
-                    'id',
-                    'rowData',
-                    'cellData',
-                    'isChecked',
-                    'isCheckbox'
-                  )
-                )
-              : cellData}
+            {renderer ? renderer(pick(this.props, cellPropKeys)) : cellData}
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}
