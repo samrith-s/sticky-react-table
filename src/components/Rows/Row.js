@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
+import { get, pick } from 'lodash';
 import classNames from 'classnames';
 
 import { Cell } from './Cells';
+
+import { rowPropKeys } from '../../constants';
 
 import { rowStyles } from '../../styles/row.styles';
 
@@ -58,7 +60,7 @@ export default class Row extends PureComponent {
     return '';
   };
 
-  render() {
+  defaultRowRenderer = () => {
     const { isChecked } = this.props;
 
     return (
@@ -75,6 +77,24 @@ export default class Row extends PureComponent {
         {this.renderColumns()}
       </div>
     );
+  };
+
+  render() {
+    const { renderer } = this.props;
+
+    if (typeof renderer === 'function') {
+      const row = renderer({
+        ...pick(this.props, rowPropKeys),
+        renderColumns: this.renderColumns,
+        defaultRowRender: this.defaultRowRenderer
+      });
+
+      if (row) {
+        return row;
+      }
+    }
+
+    return this.defaultRowRenderer();
   }
 }
 
@@ -88,5 +108,6 @@ Row.propTypes = {
   isChecked: PropTypes.bool.isRequired,
   onCheck: PropTypes.func.isRequired,
   rowClassName: PropTypes.func,
+  renderer: PropTypes.func,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
 };
