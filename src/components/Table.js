@@ -203,7 +203,13 @@ export default class Table extends PureComponent {
 
   bodyRenderer = () => {
     const { columns, data, checkedRows } = this.state;
-    const { rowSelection, checkboxRenderer, idKey, rowClassName } = this.props;
+    const {
+      rowSelection,
+      checkboxRenderer,
+      idKey,
+      rowClassName,
+      rowRenderer
+    } = this.props;
 
     return data.map((rowData, index) => {
       const id = rowData[idKey];
@@ -224,6 +230,7 @@ export default class Table extends PureComponent {
           isChecked={isChecked || false}
           onCheck={this.handleRowCheck}
           rowClassName={rowClassName}
+          renderer={rowRenderer}
         />
       );
     });
@@ -284,7 +291,8 @@ Table.propTypes = {
   onRowCheck: PropTypes.func,
   idKey: PropTypes.string,
   rowClassName: PropTypes.func,
-  headerClassName: PropTypes.string
+  headerClassName: PropTypes.string,
+  rowRenderer: PropTypes.func
 };
 
 Table.defaultProps = {
