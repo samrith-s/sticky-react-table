@@ -6,7 +6,7 @@ import { generateData } from './utils/data-generator';
 import { Table, Column } from '../../src';
 import HeaderCell from './HeaderCell';
 
-import '../../src/styles.scss';
+import '../../src/themes/light.scss';
 import './style.css';
 
 export default class App extends Component {
@@ -56,7 +56,7 @@ export default class App extends Component {
           <Column title="Gender" width={75} dataKey="gender" />
           <Column title="Designation" width={200} dataKey="designation" />
           <Column title="Location" width={150} dataKey="location" />
-          <Column title="Top Skill" width={150} dataKey="topSkill" />
+          <Column title="Top Skill" width={250} dataKey="topSkill" />
           <Column
             title="Email"
             width={300}
