@@ -10,3 +10,11 @@ export const cellPropKeys = [
   'title',
   'isAllSelected'
 ];
+
+export const rowPropKeys = [
+  'id',
+  'rowData',
+  'rowIndex',
+  'columns',
+  'isChecked'
+];
