@@ -138,6 +138,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 | onSort           | Pass a custom sorting functionality. | Array of column data                                    |
 | onRowCheck       | Handle checking of a row.            | Id of the checked row or `all` if all rows are checked. |
 | checkboxRenderer | Custom renderer for checkbox column. | [Cell Props][cell-props]                                |
+| rowRenderer      | Custom row renderer                  | [Row Props][row-props]                                  |
 
 # <a name="null"></a>
 
