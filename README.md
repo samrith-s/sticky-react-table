@@ -18,6 +18,7 @@ The package is still under development. We are working actively to get this pack
   - [Table](#table)
   - [Column](#column)
   - [Cell Props][cell-props]
+  - [Row Props][row-props]
 - [Contributing](#contributing)
 - [Issues](#issues)
 - [Roadmap](#roadmap)
@@ -183,6 +184,24 @@ propTypes = {
 }
 ```
 
+<a name="row-props"></a>
+
+### Row Props
+
+The row props allow you to access the data for the row, and some additional methods to help you render the defaults. Only the `rowRenderer` function gets access to row props.
+
+```js
+propTypes = {
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  rowIndex: PropTypes.number,
+  rowData: PropTypes.object,
+  columns: PropTypes.array,
+  isChecked: PropTypes.bool,
+  renderColumns: PropTypes.func,
+  defaultRowRenderer: PropTypes.func
+}
+```
+
 ---
 
 <a name="contributing"></a>
@@ -247,3 +266,4 @@ Copyright &copy; 2018.
 [license]: https://github.com/samrith-s/sticky-react-table/blob/master/LICENSE
 [license-link]: https://opensource.org/licenses/MIT
 [cell-props]: #cell-props
+[row-props]: #row-props
