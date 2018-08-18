@@ -130,9 +130,9 @@ Sticky React Table supports a host of properties which allow you to completely c
 | rowClassName    | `String` | `undefined` | Custom classes for a row.                                           | No       |
 | headerClassName | `String` | `undefined` | Custom classes for the header row.                                  | No       |
 
-**Functions:**
+**Callbacks:**
 
-| Property         | Description                          | Parameters                                              |
+| Name             | Description                          | Parameters                                              |
 | ---------------- | ------------------------------------ | ------------------------------------------------------- |
 | onSort           | Pass a custom sorting functionality. | Array of column data                                    |
 | onRowCheck       | Handle checking of a row.            | Id of the checked row or `all` if all rows are checked. |
@@ -144,7 +144,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 ### Column
 
-#### Properties
+**Properties:**
 
 | Property  | Type                | Default     | Description                                                          | Required |
 | --------- | ------------------- | ----------- | -------------------------------------------------------------------- | -------- |
@@ -153,9 +153,9 @@ Sticky React Table supports a host of properties which allow you to completely c
 | width     | `Number`            | `0`         | The absolute width of the column.                                    | No       |
 | className | `Array` or `String` | `undefined` | A custom class for the cell.                                         | No       |
 
-#### Functions
+**Callbacks:**
 
-| Property       | Description                                                     | Parameters               |
+| Name           | Description                                                     | Parameters               |
 | -------------- | --------------------------------------------------------------- | ------------------------ |
 | cellRenderer   | A custom cell renderer to modify the default rendering.         | [Cell Props][cell-props] |
 | headerRenderer | A custom header cell renderer to modify the defaultt rendering. | [Cell Props][cell-props] |
@@ -216,9 +216,9 @@ We started developing Sticky React Table due to a lot of issues we faced while i
 - Row Renderer
 - Header Renderer
 - Row Selection
+- Infinite Scrolling
+- Keyboard Navigation (as per Gmail)
 - More events (scroll, keyup, keydown, keypress, etc.)
-- Infinite scrolling
-- Keyboard Navifation (as per Gmail's keyboard navigations)
 
 In the future, we plan on implementing the following:
 
