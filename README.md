@@ -166,7 +166,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 The cell props allow you to access the data for the entire row, and some additional information about the cell. This particularly helps in customizing the cell, based on the information or the data for that row.
 
-Every custom render function you use across the table, ex. `headerRenderer` and `cellRenderer`, get these props as t
+Every custom render function you use across the table, ex. `headerRenderer` and `cellRenderer`, get these props as the paramters of the renderer.
 
 ```js
 propTypes = {
@@ -174,7 +174,10 @@ propTypes = {
   rowData: PropTypes.object,
   cellData: PropTypes.any,
   isChecked: PropTypes.bool
-  isCheckbox: PropTypes.bool
+  isCheckbox: PropTypes.bool,
+  style: PropTypes.object,
+  title: PropTypes.string, // Only available in headerRenderer
+  isAllSelected: PropTypes.bool // Only available in headerRenderer
 }
 ```
 
@@ -211,18 +214,19 @@ We started developing Sticky React Table due to a lot of issues we faced while i
 - Row Renderer
 - Header Renderer
 - Row Selection
+- More events (scroll, keyup, keydown, keypress, etc.)
+- Infinite scrolling
 - Keyboard Navifation (as per Gmail's keyboard navigations)
 
-In the future, we plan on supporting the following:
+In the future, we plan on implementing the following:
 
 - Virtualization
 - Better support for custom classes
 - Column resizing based on length of value (a la Excel)
 
-Features we will at no point encourage or support:
+Features at no point will we build:
 
-- Row resizing
-- Native subrow rendering (this can be achieved using a custom row renderer)
+- Row resizing or native subrow rendering (both of these can be achieved using a custom row renderer)
 
 <a name="license"></a>
 
