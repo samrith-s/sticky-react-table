@@ -5,6 +5,8 @@ import classNames from 'classnames';
 
 import { Cell } from './Cells';
 
+import { rowStyles } from '../../styles/row.styles';
+
 export default class Row extends PureComponent {
   renderColumns = () => {
     const {
@@ -68,6 +70,7 @@ export default class Row extends PureComponent {
             'Sticky-React-Table--Row--is-Checked': isChecked
           }
         )}
+        style={rowStyles}
       >
         {this.renderColumns()}
       </div>
