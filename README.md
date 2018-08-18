@@ -78,7 +78,6 @@ The simplest implementation of the above data as an Sticky React Table would be 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Table, Column } from 'sticky-react-table';
-import 'sticky-react-table/lib/sticky-react-table.css'; // Important!
 
 import data from './data.json';
 
@@ -102,7 +101,10 @@ ReactDOM.render(<MyTable />, rootElement);
 
 From here on, you can customize the cell, row or header renderers, add custom classes, style it however you need.
 
-**Note: You need to import the default stylesheet provided for the stickiness to work as expected. Going forward, the component will be updated such that requiring the stylesheet won't be mandatory.**
+If you use a SASS as a pre-processor, two default themes are provided: light and dark. To use the themes, simply import the relevant theme.
+
+- Light Theme: `sticky-react-table/lib/themes/light.scss`
+- Dark Theme: `sticky-react-table/lib/themes/dark.scss`
 
 ---
 
