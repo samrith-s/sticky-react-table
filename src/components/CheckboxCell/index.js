@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { pick } from 'lodash';
+
+import { cellPropKeys } from '../../constants';
 
 class CheckboxCell extends Component {
   handleCellCheck = () => {
@@ -10,7 +13,7 @@ class CheckboxCell extends Component {
     const { id, renderer, isChecked } = this.props;
 
     return renderer ? (
-      renderer(this.props)
+      renderer(pick(this.props, cellPropKeys))
     ) : (
       <div className="">
         <input
