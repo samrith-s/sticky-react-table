@@ -6,7 +6,7 @@ import { generateData } from './utils/data-generator';
 import { Table, Column } from '../../src';
 import HeaderCell from './HeaderCell';
 
-import '../../src/themes/light.scss';
+import '../../src/themes/dark.scss';
 import './style.css';
 
 export default class App extends Component {
