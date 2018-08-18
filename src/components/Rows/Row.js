@@ -86,7 +86,7 @@ export default class Row extends PureComponent {
       const row = renderer({
         ...pick(this.props, rowPropKeys),
         renderColumns: this.renderColumns,
-        defaultRowRender: this.defaultRowRenderer
+        defaultRowRenderer: this.defaultRowRenderer
       });
 
       if (row) {
