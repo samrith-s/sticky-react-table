@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Filter extends Component {
+  static propTypes = {
+    columnData: PropTypes.object.isRequired
+  };
+
   state = {
     visibility: false
   };
@@ -35,7 +40,6 @@ class Filter extends Component {
   };
 
   handleClose = e => {
-    debugger;
     if (this.state.visibility) {
       if (
         e.key === 'Escape' ||
