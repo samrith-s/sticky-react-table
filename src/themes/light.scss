@@ -63,6 +63,32 @@
         cursor: pointer;
       }
     }
+
+    &-Filter {
+      position: relative;
+
+      &-Icon {
+        padding: 0 5px;
+      }
+
+      &-Dropdown {
+        position: absolute;
+        top: 20px;
+        right: 0;
+        max-height: 300px;
+        min-width: 200px;
+        overflow: auto;
+        background: white;
+        box-shadow: 0 2px 5px 1px rgba(1, 1, 1, 0.15);
+        border: 1px solid rgba(1, 1, 1, 0.15);
+        color: black;
+
+        &-Row {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+    }
   }
 
   &-Sort-Icon {
