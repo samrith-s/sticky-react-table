@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import { columnSwitcherStyle } from '../../styles/column.styles';
+
 class ColumnSwitcher extends Component {
   state = {
     visible: false
@@ -56,7 +58,10 @@ class ColumnSwitcher extends Component {
     const { columns, onChange } = this.props;
 
     return (
-      <div className="Sticky-React-Table--Header-Column-Switcher">
+      <div
+        className="Sticky-React-Table--Header-Column-Switcher"
+        style={columnSwitcherStyle}
+      >
         <div
           className="Sticky-React-Table--Header-Column-Switcher-Icon"
           onClick={this.handleIconClick}

@@ -17,27 +17,29 @@ export function generateData(rows) {
     const age = sample(range(21, 40));
     const gender = sample(['Male', 'Female', 'Other']);
     const designation = sample([
-      'In-house Shitposter',
-      'Fool',
-      'The Awkward Yeti',
-      'Big Cuddly Panda',
-      'Idk',
-      "Who's that?"
+      'Business Developer',
+      'Research Analyst',
+      'Software Engineer',
+      'UI Designer',
+      'Marketing Associate',
+      'Talent Aquisition'
     ]);
     const location = sample([
-      "'Murica",
-      'Prison Cell',
-      "Spouse's Pocket",
-      "Schitt's Creek",
-      'Closet'
+      'Mumbai',
+      'London',
+      'New York',
+      'Chicago',
+      'San Francisco',
+      'Paris',
+      'Berlin',
+      'Barcelona'
     ]);
     const topSkill = sample([
-      'Yodelling',
-      'Jaywalking',
-      'Trash-talking',
-      'Bickering',
-      'Bitching',
-      'Snitching'
+      'Time Management',
+      'Resource Management',
+      'Brainstorming',
+      'Analytical Thinking',
+      'Perfectionist'
     ]);
     const email =
       name.toLowerCase().replace(/\s/, sample(['.', '_'])) +
@@ -52,7 +54,7 @@ export function generateData(rows) {
       ]);
     const phone =
       '+1 ' + sample([98765, 99101, 98914]) + ' ' + sample(range(10000, 98765));
-    const experience = age - 21 + 'yrs';
+    const experience = age - 21 + ' yrs';
     const language = sample([
       'English',
       'German',

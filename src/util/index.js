@@ -1,5 +1,7 @@
 import { orderBy } from 'lodash';
 
+import { defaultCellStyle, stickyCellStyle } from '../styles/cell.styles';
+
 export function dragHandlerSizing(ref) {
   const { left } = ref.getBoundingClientRect();
   ref.style.left = left;
@@ -12,4 +14,20 @@ export function dragHandlerSizing(ref) {
 
 export function sort(data, key, direction = 'asc') {
   return orderBy(data, key, direction);
+}
+
+export function getCellStyle(style, isSticky) {
+  const cellStyle = {
+    ...style,
+    ...defaultCellStyle
+  };
+
+  if (isSticky) {
+    return {
+      ...cellStyle,
+      ...stickyCellStyle
+    };
+  }
+
+  return cellStyle;
 }

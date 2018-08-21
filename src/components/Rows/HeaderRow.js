@@ -5,6 +5,8 @@ import { map } from 'lodash';
 
 import { HeaderCell } from './Cells';
 
+import { headerStyles } from '../../styles/row.styles';
+
 export default class HeaderRow extends PureComponent {
   renderColumns = () => {
     const {
@@ -80,7 +82,10 @@ export default class HeaderRow extends PureComponent {
     const { className } = this.props;
 
     return (
-      <div className={classNames(className, 'Sticky-React-Table--Header')}>
+      <div
+        className={classNames(className, 'Sticky-React-Table--Header')}
+        style={headerStyles}
+      >
         {this.renderColumns()}
       </div>
     );

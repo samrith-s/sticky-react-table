@@ -4,10 +4,15 @@ import React, { PureComponent } from 'react';
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
 
-import { ColumnDisplayName } from './Constants';
+import { ColumnDisplayName } from '../constants';
 import Errors from './Errors';
 
 import { sort } from '../util';
+
+import {
+  mainContainerStyle,
+  innerContainerStyle
+} from '../styles/container.styles';
 
 export default class Table extends PureComponent {
   state = {
@@ -199,7 +204,13 @@ export default class Table extends PureComponent {
 
   bodyRenderer = () => {
     const { columns, data, checkedRows } = this.state;
-    const { rowSelection, checkboxRenderer, idKey, rowClassName } = this.props;
+    const {
+      rowSelection,
+      checkboxRenderer,
+      idKey,
+      rowClassName,
+      rowRenderer
+    } = this.props;
 
     return data.map((rowData, index) => {
       const id = rowData[idKey];
@@ -220,6 +231,7 @@ export default class Table extends PureComponent {
           isChecked={isChecked || false}
           onCheck={this.handleRowCheck}
           rowClassName={rowClassName}
+          renderer={rowRenderer}
         />
       );
     });
@@ -253,8 +265,8 @@ export default class Table extends PureComponent {
     const { columns } = this.state;
 
     return (
-      <div className="Sticky-React-Table">
-        <div className="Sticky-React-Table-inner">
+      <div className="Sticky-React-Table" style={mainContainerStyle}>
+        <div className="Sticky-React-Table-inner" style={innerContainerStyle}>
           {this.headerRenderer()}
           {this.bodyRenderer()}
         </div>
@@ -280,7 +292,8 @@ Table.propTypes = {
   onRowCheck: PropTypes.func,
   idKey: PropTypes.string,
   rowClassName: PropTypes.func,
-  headerClassName: PropTypes.string
+  headerClassName: PropTypes.string,
+  rowRenderer: PropTypes.func
 };
 
 Table.defaultProps = {

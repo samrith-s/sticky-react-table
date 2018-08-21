@@ -1,9 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent, Fragment } from 'react';
-import { omit } from 'lodash';
+import { pick } from 'lodash';
 import classNames from 'classnames';
+
 import CheckboxCell from '../../CheckboxCell';
 import Filter from './../../Filters';
+
+import { cellPropKeys } from '../../../constants';
+
+import { getCellStyle } from '../../../util';
 
 export default class HeaderCell extends PureComponent {
   handleDragHandleRef = ref => {
@@ -11,20 +16,20 @@ export default class HeaderCell extends PureComponent {
   };
 
   handleSort = () => {
-    this.props.onSort(omit(this.props, 'onSort'));
+    this.props.onSort(pick(this.props, cellPropKeys));
   };
 
   render() {
     const {
       title,
       style,
-      isLastSticky,
       renderer,
       onDragEnd,
       isSortable,
       sortedColumn,
       dataKey,
       isSticky,
+      isLastSticky,
       id,
       checkedRows,
       onCheck,
@@ -38,11 +43,9 @@ export default class HeaderCell extends PureComponent {
     return (
       <div
         className={classNames('Sticky-React-Table--Header-Cell', {
-          'Sticky-React-Table--is-Sticky': isSticky,
-          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
-          'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
+          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky
         })}
-        style={style}
+        style={getCellStyle(style, isSticky)}
         onClick={this.handleSort}
       >
         {isCheckbox ? (
@@ -55,7 +58,7 @@ export default class HeaderCell extends PureComponent {
           />
         ) : (
           <Fragment>
-            {renderer ? renderer(omit(this.props, 'renderer')) : title}
+            {renderer ? renderer(pick(this.props, cellPropKeys)) : title}
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}
