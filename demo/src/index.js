@@ -10,44 +10,40 @@ import '../../src/themes/dark.scss';
 import './style.css';
 
 export default class App extends Component {
-  state = {
-    rowCount: 100,
-    rows: []
-  };
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    this.setState({
-      rows: generateData(this.state.rowCount)
-    });
+    this.state.rows = generateData(100);
   }
+
+  state = {
+    rows: [],
+    selectedRows: []
+  };
 
   headerRenderer = props => {
     return <HeaderCell {...props} />;
   };
 
-  rowRenderer = props => {
-    if (props.isChecked) {
-      return <div>This is my custom row!</div>;
-    }
-
-    return null;
-  };
-
   //eslint-disable-next-line
   handleSort = column => {};
 
-  //eslint-disable-next-line
-  handleRowCheck = e => {};
+  handleRowCheck = selectedRows => {
+    this.setState({
+      selectedRows
+    });
+  };
 
   render() {
-    const { rows } = this.state;
+    const { rows, selectedRows } = this.state;
+
     return (
       <div className="App">
         <Table
           data={rows}
           fixed={4}
           onRowCheck={this.handleRowCheck}
-          rowRenderer={this.rowRenderer}
+          selectedRows={selectedRows}
         >
           <Column
             title="Name"
