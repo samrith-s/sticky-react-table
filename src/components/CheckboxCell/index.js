@@ -29,7 +29,7 @@ export default class CheckboxCell extends Component {
     return renderElement(
       renderer,
       { ...pick(this.props, cellPropKeys), checkbox, onChange, isChecked },
-      <div>{checkbox}</div>
+      checkbox
     );
   }
 }
