@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import CheckboxCell from '../../CheckboxCell';
 
-import { cellPropKeys } from '../../../constants';
+import { cellPropKeys, RendererType } from '../../../constants';
 
 import { getCellStyle, renderElement } from '../../../util';
 
@@ -26,7 +26,8 @@ export default class Cell extends PureComponent {
       isChecked,
       onCheck,
       isCheckbox,
-      className
+      className,
+      checkboxRenderer
     } = this.props;
 
     return (
@@ -40,7 +41,7 @@ export default class Cell extends PureComponent {
         {isCheckbox ? (
           <CheckboxCell
             id={id}
-            renderer={renderer}
+            renderer={checkboxRenderer}
             onCheck={onCheck}
             isChecked={isChecked}
           />
@@ -78,7 +79,8 @@ Cell.propTypes = {
   isChecked: PropTypes.bool.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
   onCheck: PropTypes.func.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  checkboxRenderer: RendererType
 };
 
 Cell.defaultProps = {

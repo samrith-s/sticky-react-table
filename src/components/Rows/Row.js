@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { Cell } from './Cells';
 
-import { rowPropKeys } from '../../constants';
+import { RendererType, rowPropKeys } from '../../constants';
 
 import { renderElement } from '../../util';
 
@@ -22,7 +22,8 @@ export default class Row extends PureComponent {
       onDragEnd,
       onCheck,
       id,
-      isChecked
+      isChecked,
+      checkboxRenderer
     } = this.props;
 
     return columns.map((column, cellIndex) => {
@@ -58,6 +59,7 @@ export default class Row extends PureComponent {
           }}
           onDragEnd={onDragEnd(cellIndex)}
           key={`sitcky-table-row-${rowIndex}-${cellIndex}`}
+          checkboxRenderer={isCheckbox ? checkboxRenderer : null}
         />
       );
     });
@@ -120,5 +122,6 @@ Row.propTypes = {
   onCheck: PropTypes.func.isRequired,
   rowClassName: PropTypes.func,
   renderer: PropTypes.func,
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  checkboxRenderer: RendererType
 };

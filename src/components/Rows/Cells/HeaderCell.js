@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import CheckboxCell from '../../CheckboxCell';
 
-import { headerCellPropKeys } from '../../../constants';
+import { headerCellPropKeys, RendererType } from '../../../constants';
 
 import { getCellStyle, renderElement } from '../../../util';
 
@@ -35,7 +35,8 @@ export default class HeaderCell extends PureComponent {
       checkedRows,
       onCheck,
       isCheckbox,
-      isAllSelected
+      isAllSelected,
+      checkboxRenderer
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
@@ -51,7 +52,7 @@ export default class HeaderCell extends PureComponent {
         {isCheckbox ? (
           <CheckboxCell
             id={id}
-            renderer={renderer}
+            renderer={checkboxRenderer}
             checkedRows={checkedRows}
             onCheck={onCheck}
             isChecked={isAllSelected}
@@ -103,7 +104,8 @@ HeaderCell.propTypes = {
   checkedRows: PropTypes.array.isRequired,
   onCheck: PropTypes.func.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
-  isAllSelected: PropTypes.bool.isRequired
+  isAllSelected: PropTypes.bool.isRequired,
+  checkboxRenderer: RendererType
 };
 
 HeaderCell.defaultProps = {

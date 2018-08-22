@@ -30,6 +30,10 @@ export default class App extends Component {
     });
   };
 
+  renderCheckbox = ({ checkbox }) => {
+    return <span>{checkbox}</span>;
+  };
+
   render() {
     const { rows, selectedRows } = this.state;
 
@@ -40,6 +44,7 @@ export default class App extends Component {
           fixed={4}
           onRowCheck={this.handleRowCheck}
           selectedRows={selectedRows}
+          checkboxRenderer={this.renderCheckbox}
         >
           <Column
             title="Name"

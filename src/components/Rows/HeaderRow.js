@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { HeaderCell } from './Cells';
 
 import { headerStyles } from '../../styles/row.styles';
+import { RendererType } from '../../constants';
 
 export default class HeaderRow extends PureComponent {
   renderColumns = () => {
@@ -18,7 +19,8 @@ export default class HeaderRow extends PureComponent {
       sortedColumn,
       checkedRows,
       onCheck,
-      isAllSelected
+      isAllSelected,
+      checkboxRenderer
     } = this.props;
 
     return columns.map((column, cellIndex) => {
@@ -56,6 +58,7 @@ export default class HeaderRow extends PureComponent {
           onDragEnd={onDragEnd(cellIndex)}
           key={`sitcky-table-header-${cellIndex}`}
           id="all"
+          checkboxRenderer={isCheckbox ? checkboxRenderer : null}
         />
       );
     });
@@ -87,5 +90,6 @@ HeaderRow.propTypes = {
   checkedRows: PropTypes.array.isRequired,
   onCheck: PropTypes.func.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  checkboxRenderer: RendererType
 };

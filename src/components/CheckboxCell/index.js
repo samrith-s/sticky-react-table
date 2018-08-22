@@ -6,25 +6,30 @@ import { cellPropKeys } from '../../constants';
 
 import { renderElement } from '../../util';
 
-class CheckboxCell extends Component {
+export default class CheckboxCell extends Component {
   handleCellCheck = () => {
-    this.props.onCheck(this.props.id);
+    const { onCheck, id } = this.props;
+
+    onCheck(id);
   };
 
   render() {
     const { id, renderer, isChecked } = this.props;
+    const onChange = this.handleCellCheck;
+
+    const checkbox = (
+      <input
+        type="checkbox"
+        id={id}
+        checked={isChecked}
+        onChange={this.handleCellCheck}
+      />
+    );
 
     return renderElement(
       renderer,
-      pick(this.props, cellPropKeys),
-      <div>
-        <input
-          type="checkbox"
-          id={id}
-          checked={isChecked}
-          onChange={this.handleCellCheck}
-        />
-      </div>
+      { ...pick(this.props, cellPropKeys), checkbox, onChange, isChecked },
+      <div>{checkbox}</div>
     );
   }
 }
@@ -34,5 +39,3 @@ CheckboxCell.propTypes = {
   isChecked: PropTypes.bool.isRequired,
   renderer: PropTypes.func
 };
-
-export default CheckboxCell;

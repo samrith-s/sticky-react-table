@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export const ColumnDisplayName = 'Column';
 
 export const cellPropKeys = [
@@ -9,7 +11,8 @@ export const cellPropKeys = [
   'isCheckbox',
   'style',
   'title',
-  'isAllSelected'
+  'isAllSelected',
+  'checkboxRenderer'
 ];
 
 export const headerCellPropKeys = [...cellPropKeys, 'isSortable'];
@@ -21,3 +24,8 @@ export const rowPropKeys = [
   'columns',
   'isChecked'
 ];
+
+export const RendererType = PropTypes.oneOfType([
+  PropTypes.node,
+  PropTypes.func
+]);
