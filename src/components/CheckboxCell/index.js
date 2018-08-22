@@ -28,7 +28,7 @@ class CheckboxCell extends Component {
 }
 CheckboxCell.propTypes = {
   onCheck: PropTypes.func.isRequired,
-  id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   isChecked: PropTypes.bool.isRequired,
   renderer: PropTypes.func
 };
