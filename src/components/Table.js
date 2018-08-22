@@ -323,13 +323,21 @@ export default class Table extends PureComponent {
     this.dragHandle = ref;
   };
 
+  handleScroll = ({ target }) => {
+    console.log(target);
+  };
+
   render() {
     const { columns } = this.state;
     const { checkboxRenderer } = this.props;
 
     return (
       <div className="Sticky-React-Table" style={mainContainerStyle}>
-        <div className="Sticky-React-Table-inner" style={innerContainerStyle}>
+        <div
+          className="Sticky-React-Table-inner"
+          style={innerContainerStyle}
+          onScroll={this.handleScroll}
+        >
           {this.headerRenderer()}
           {this.bodyRenderer()}
         </div>
