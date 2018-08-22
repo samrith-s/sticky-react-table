@@ -104,6 +104,7 @@ class ColumnSwitcher extends Component {
                       dataKey,
                       onChange,
                       isChecked,
+                      title,
                       type: 'columnSwitcher'
                     })}
                   </div>
