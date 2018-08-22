@@ -33,7 +33,8 @@ export default class Cell extends PureComponent {
     return (
       <div
         className={classNames(className, 'Sticky-React-Table--Row-Cell', {
-          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky
+          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
+          'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
         })}
         style={getCellStyle(style, isSticky)}
         tabIndex={0}

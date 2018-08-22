@@ -44,7 +44,8 @@ export default class HeaderCell extends PureComponent {
     return (
       <div
         className={classNames('Sticky-React-Table--Header-Cell', {
-          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky
+          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
+          'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
         style={getCellStyle(style, isSticky)}
         onClick={this.handleSort}
