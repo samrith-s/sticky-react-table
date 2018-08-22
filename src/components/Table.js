@@ -100,7 +100,6 @@ export default class Table extends PureComponent {
 
   getLeftStyle = cellIndex => {
     const fixed = this.getFixedCount();
-    const { columns } = this.state;
 
     let left = 0;
 
@@ -108,7 +107,7 @@ export default class Table extends PureComponent {
       if (cellIndex === 0) {
         return { left };
       } else if (cellIndex <= fixed - 1) {
-        columns.filter(col => col.visible).forEach(({ width }, index) => {
+        this.getVisibleColumns().forEach(({ width }, index) => {
           if (index < cellIndex) {
             left += width;
           }
@@ -201,27 +200,30 @@ export default class Table extends PureComponent {
   };
 
   headerRenderer = () => {
-    const { columns, sortedColumn } = this.state;
-    const { checkboxRenderer, idKey, headerClassName } = this.props;
+    const { sortedColumn } = this.state;
+    const { checkboxRenderer, idKey, headerClassName: className } = this.props;
 
     const isAllSelected = this.isAllRowsSelected();
     const checkedRows = this.getCheckedRows();
+    const columns = this.getVisibleColumns();
 
     return (
       <HeaderRow
+        {...{
+          sortedColumn,
+          columns,
+          checkboxRenderer,
+          checkedRows,
+          idKey,
+          isAllSelected,
+          className
+        }}
         rowIndex={0}
         styleCalculator={this.getLeftStyle}
         stickyFunction={this.isLastSticky}
         onDragEnd={this.handleDragEnd}
         onSort={this.handleSort}
-        sortedColumn={sortedColumn}
-        columns={columns.filter(col => col.visible)}
-        checkboxRenderer={checkboxRenderer}
-        checkedRows={checkedRows}
         onCheck={this.handleRowCheck}
-        idKey={idKey}
-        isAllSelected={isAllSelected}
-        className={headerClassName}
       />
     );
   };
@@ -251,36 +253,45 @@ export default class Table extends PureComponent {
     }
   };
 
+  getVisibleColumns = () => {
+    return this.state.columns.filter(column => column.visible);
+  };
+
   bodyRenderer = () => {
-    const { columns, data } = this.state;
+    const { data } = this.state;
     const {
       rowSelection,
       checkboxRenderer,
       idKey,
       rowClassName,
-      rowRenderer
+      rowRenderer: renderer
     } = this.props;
+
+    const columns = this.getVisibleColumns();
 
     return data.map((rowData, index) => {
       const id = rowData[idKey];
       const isChecked = this.isRowSelected(id);
+      const rowIndex = index + 1;
 
       return (
         <Row
-          id={id}
-          columns={columns.filter(col => col.visible)}
-          rowData={rowData}
-          rowIndex={index + 1}
+          {...{
+            id,
+            columns,
+            rowData,
+            rowSelection,
+            checkboxRenderer,
+            rowClassName,
+            isChecked,
+            rowIndex,
+            renderer
+          }}
           styleCalculator={this.getLeftStyle}
           stickyFunction={this.isLastSticky}
           onDragEnd={this.handleDragEnd}
-          key={`sticky-table-row-${index + 1}`}
-          rowSelection={rowSelection}
-          checkboxRenderer={checkboxRenderer}
-          isChecked={isChecked || false}
+          key={`sticky-table-row-${id || rowIndex}`}
           onCheck={this.handleRowCheck}
-          rowClassName={rowClassName}
-          renderer={rowRenderer}
         />
       );
     });
