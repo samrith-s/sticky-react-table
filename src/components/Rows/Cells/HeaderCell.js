@@ -95,7 +95,7 @@ HeaderCell.propTypes = {
   isSortable: PropTypes.bool,
   sortedColumn: PropTypes.object,
   dataKey: PropTypes.string,
-  id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   checkedRows: PropTypes.array.isRequired,
   onCheck: PropTypes.func.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
