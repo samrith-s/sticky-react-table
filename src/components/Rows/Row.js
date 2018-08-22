@@ -5,7 +5,9 @@ import classNames from 'classnames';
 
 import { Cell } from './Cells';
 
-import { rowPropKeys } from '../../constants';
+import { RendererType, rowPropKeys } from '../../constants';
+
+import { renderElement } from '../../util';
 
 import { rowStyles } from '../../styles/row.styles';
 
@@ -20,33 +22,44 @@ export default class Row extends PureComponent {
       onDragEnd,
       onCheck,
       id,
-      isChecked
+      isChecked,
+      checkboxRenderer
     } = this.props;
 
-    return columns.map((column, index) => {
-      const { width, dataKey, cellRenderer, isCheckbox, className } = column;
+    return columns.map((column, cellIndex) => {
+      const {
+        width,
+        dataKey,
+        cellRenderer: renderer,
+        isCheckbox,
+        className
+      } = column;
+
       const cellData = get(rowData, dataKey);
-      const style = { width, ...styleCalculator(index) };
-      const { isSticky, isLastSticky } = stickyFunction(index);
+      const style = { width, ...styleCalculator(cellIndex) };
+      const { isSticky, isLastSticky } = stickyFunction(cellIndex);
 
       return (
         <Cell
-          dataKey={dataKey}
-          cellData={cellData}
-          rowData={rowData}
-          style={style}
-          renderer={cellRenderer}
-          cellIndex={index}
-          rowIndex={rowIndex}
-          isSticky={isSticky}
-          isLastSticky={isLastSticky}
-          onDragEnd={onDragEnd(index)}
-          key={`sitcky-table-row-${rowIndex}-${index}`}
-          id={id}
-          onCheck={onCheck}
-          isCheckbox={isCheckbox}
-          isChecked={isChecked}
-          className={className}
+          {...{
+            id,
+            dataKey,
+            cellData,
+            rowData,
+            rowIndex,
+            style,
+            isSticky,
+            isLastSticky,
+            onCheck,
+            isCheckbox,
+            isChecked,
+            className,
+            renderer,
+            cellIndex
+          }}
+          onDragEnd={onDragEnd(cellIndex)}
+          key={`sitcky-table-row-${rowIndex}-${cellIndex}`}
+          checkboxRenderer={isCheckbox ? checkboxRenderer : null}
         />
       );
     });
@@ -82,8 +95,8 @@ export default class Row extends PureComponent {
   render() {
     const { renderer } = this.props;
 
-    if (typeof renderer === 'function') {
-      const row = renderer({
+    if (renderer) {
+      const row = renderElement(renderer, {
         ...pick(this.props, rowPropKeys),
         renderColumns: this.renderColumns,
         defaultRowRenderer: this.defaultRowRenderer
@@ -109,5 +122,6 @@ Row.propTypes = {
   onCheck: PropTypes.func.isRequired,
   rowClassName: PropTypes.func,
   renderer: PropTypes.func,
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  checkboxRenderer: RendererType
 };

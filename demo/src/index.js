@@ -21,10 +21,6 @@ export default class App extends Component {
     selectedRows: []
   };
 
-  headerRenderer = props => {
-    return <HeaderCell {...props} />;
-  };
-
   //eslint-disable-next-line
   handleSort = column => {};
 
@@ -32,6 +28,10 @@ export default class App extends Component {
     this.setState({
       selectedRows
     });
+  };
+
+  renderCheckbox = ({ checkbox }) => {
+    return <span>{checkbox}</span>;
   };
 
   render() {
@@ -44,12 +44,13 @@ export default class App extends Component {
           fixed={4}
           onRowCheck={this.handleRowCheck}
           selectedRows={selectedRows}
+          checkboxRenderer={this.renderCheckbox}
         >
           <Column
             title="Name"
             width={200}
             dataKey="name"
-            headerRenderer={this.headerRenderer}
+            headerRenderer={HeaderCell}
           />
           <Column title="Age" width={50} dataKey="age" />
           <Column title="Gender" width={75} dataKey="gender" />

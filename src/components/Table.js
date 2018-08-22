@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
 
-import { ColumnDisplayName } from '../constants';
+import { ColumnDisplayName, RendererType } from '../constants';
 import Errors from './Errors';
 
 import { sort } from '../util';
@@ -21,7 +21,7 @@ export default class Table extends PureComponent {
     data: PropTypes.array.isRequired,
     onSort: PropTypes.func,
     rowSelection: PropTypes.bool,
-    checkboxRenderer: PropTypes.node,
+    checkboxRenderer: RendererType,
     onRowCheck: PropTypes.func,
     idKey: PropTypes.string,
     rowClassName: PropTypes.func,
@@ -308,10 +308,12 @@ export default class Table extends PureComponent {
   handleDragEnd = columnIndex => e => {
     const widthDiff = e.clientX - e.target.getBoundingClientRect().left;
     const newColumns = [...this.state.columns];
+
     newColumns[columnIndex] = {
       ...newColumns[columnIndex],
       width: newColumns[columnIndex].width + widthDiff
     };
+
     this.setState({
       columns: newColumns
     });
@@ -323,6 +325,7 @@ export default class Table extends PureComponent {
 
   render() {
     const { columns } = this.state;
+    const { checkboxRenderer } = this.props;
 
     return (
       <div className="Sticky-React-Table" style={mainContainerStyle}>
@@ -330,8 +333,9 @@ export default class Table extends PureComponent {
           {this.headerRenderer()}
           {this.bodyRenderer()}
         </div>
+
         <ColumnSwitcher
-          columns={columns}
+          {...{ checkboxRenderer, columns }}
           onChange={this.handleColumnVisibilityChange}
         />
       </div>
