@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import CheckboxCell from '../../CheckboxCell';
 
-import { cellPropKeys } from '../../../constants';
+import { headerCellPropKeys } from '../../../constants';
 
 import { getCellStyle } from '../../../util';
 
@@ -15,8 +15,10 @@ export default class HeaderCell extends PureComponent {
   };
 
   handleSort = () => {
-    this.props.onSort(pick(this.props, cellPropKeys));
+    this.props.onSort(this.getRequiredProps());
   };
+
+  getRequiredProps = () => pick(this.props, headerCellPropKeys);
 
   render() {
     const {
@@ -56,7 +58,7 @@ export default class HeaderCell extends PureComponent {
           />
         ) : (
           <Fragment>
-            {renderer ? renderer(pick(this.props, cellPropKeys)) : title}
+            {renderer ? renderer(this.getRequiredProps()) : title}
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}

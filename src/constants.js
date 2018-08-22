@@ -12,6 +12,8 @@ export const cellPropKeys = [
   'isAllSelected'
 ];
 
+export const headerCellPropKeys = [...cellPropKeys, 'isSortable'];
+
 export const rowPropKeys = [
   'id',
   'rowData',
