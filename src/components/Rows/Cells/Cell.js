@@ -61,15 +61,12 @@ export default class Cell extends PureComponent {
 }
 
 Cell.propTypes = {
+  dataKey: PropTypes.string,
   cellData: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
+    PropTypes.node,
     PropTypes.bool,
     PropTypes.func,
-    PropTypes.element,
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array
+    PropTypes.object
   ]),
   style: PropTypes.object.isRequired,
   isSticky: PropTypes.bool,

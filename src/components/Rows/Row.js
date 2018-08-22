@@ -23,30 +23,39 @@ export default class Row extends PureComponent {
       isChecked
     } = this.props;
 
-    return columns.map((column, index) => {
-      const { width, dataKey, cellRenderer, isCheckbox, className } = column;
+    return columns.map((column, cellIndex) => {
+      const {
+        width,
+        dataKey,
+        cellRenderer: renderer,
+        isCheckbox,
+        className
+      } = column;
+
       const cellData = get(rowData, dataKey);
-      const style = { width, ...styleCalculator(index) };
-      const { isSticky, isLastSticky } = stickyFunction(index);
+      const style = { width, ...styleCalculator(cellIndex) };
+      const { isSticky, isLastSticky } = stickyFunction(cellIndex);
 
       return (
         <Cell
-          dataKey={dataKey}
-          cellData={cellData}
-          rowData={rowData}
-          style={style}
-          renderer={cellRenderer}
-          cellIndex={index}
-          rowIndex={rowIndex}
-          isSticky={isSticky}
-          isLastSticky={isLastSticky}
-          onDragEnd={onDragEnd(index)}
-          key={`sitcky-table-row-${rowIndex}-${index}`}
-          id={id}
-          onCheck={onCheck}
-          isCheckbox={isCheckbox}
-          isChecked={isChecked}
-          className={className}
+          {...{
+            id,
+            dataKey,
+            cellData,
+            rowData,
+            rowIndex,
+            style,
+            isSticky,
+            isLastSticky,
+            onCheck,
+            isCheckbox,
+            isChecked,
+            className,
+            renderer,
+            cellIndex
+          }}
+          onDragEnd={onDragEnd(cellIndex)}
+          key={`sitcky-table-row-${rowIndex}-${cellIndex}`}
         />
       );
     });

@@ -21,40 +21,41 @@ export default class HeaderRow extends PureComponent {
       isAllSelected
     } = this.props;
 
-    return columns.map((column, index) => {
+    return columns.map((column, cellIndex) => {
       const {
         title,
         width,
         dataKey,
-        headerRenderer,
+        headerRenderer: renderer,
         isSortable,
         isCheckbox
       } = column;
-      const style = { width, ...styleCalculator(index) };
-      const { isSticky, isLastSticky } = stickyFunction(index);
+      const style = { width, ...styleCalculator(cellIndex) };
+      const { isSticky, isLastSticky } = stickyFunction(cellIndex);
 
       return (
         <HeaderCell
-          title={title}
-          width={width}
-          dataKey={dataKey}
-          index={index}
-          style={style}
-          isSticky={isSticky}
-          isLastSticky={isLastSticky}
-          renderer={headerRenderer}
-          cellIndex={index}
-          rowIndex={rowIndex}
-          onDragEnd={onDragEnd(index)}
-          key={`sitcky-table-header-${index}`}
-          isSortable={isSortable}
-          onSort={onSort}
-          sortedColumn={sortedColumn}
+          {...{
+            title,
+            width,
+            dataKey,
+            cellIndex,
+            style,
+            isSticky,
+            isLastSticky,
+            renderer,
+            rowIndex,
+            isSortable,
+            onSort,
+            sortedColumn,
+            checkedRows,
+            onCheck,
+            isCheckbox,
+            isAllSelected
+          }}
+          onDragEnd={onDragEnd(cellIndex)}
+          key={`sitcky-table-header-${cellIndex}`}
           id="all"
-          checkedRows={checkedRows}
-          onCheck={onCheck}
-          isCheckbox={isCheckbox}
-          isAllSelected={isAllSelected}
         />
       );
     });

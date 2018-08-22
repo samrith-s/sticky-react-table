@@ -3,6 +3,7 @@ export const ColumnDisplayName = 'Column';
 export const cellPropKeys = [
   'id',
   'rowData',
+  'dataKey',
   'cellData',
   'isChecked',
   'isCheckbox',
