@@ -15,6 +15,34 @@ import {
 } from '../styles/container.styles';
 
 export default class Table extends PureComponent {
+  static propTypes = {
+    children: PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.arrayOf(PropTypes.node)
+    ]).isRequired,
+    fixed: PropTypes.number,
+    data: PropTypes.array.isRequired,
+    onSort: PropTypes.func,
+    rowSelection: PropTypes.bool,
+    checkboxRenderer: PropTypes.node,
+    onRowCheck: PropTypes.func,
+    idKey: PropTypes.string,
+    rowClassName: PropTypes.func,
+    headerClassName: PropTypes.string,
+    rowRenderer: PropTypes.func
+  };
+
+  static defaultProps = {
+    rowSelection: true,
+    idKey: 'id'
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state.columns = this.extractColumns(props);
+  }
+
   state = {
     columns: [],
     sortedColumn: null,
@@ -36,9 +64,12 @@ export default class Table extends PureComponent {
     }
   };
 
-  componentDidMount() {
+  extractColumns = props => {
     const columns = [];
-    if (this.props.rowSelection) {
+
+    const { rowSelection, checkboxRenderer, children } = props;
+
+    if (rowSelection) {
       columns.push({
         dataKey: 'checkbox',
         width: 30,
@@ -46,17 +77,18 @@ export default class Table extends PureComponent {
         index: 0,
         visible: true,
         isCheckbox: true,
-        renderer: this.props.checkboxRenderer
+        renderer: checkboxRenderer
       });
     }
 
-    React.Children.forEach(this.props.children, (child, index) => {
+    React.Children.forEach(children, (child, index) => {
       const { props } = this.validateChild(child);
+
       columns.push({ ...props, index: index + 1, visible: true });
     });
 
-    this.setState({ columns });
-  }
+    return columns;
+  };
 
   getFixedCount = () => {
     const { fixed, rowSelection } = this.props;
@@ -79,8 +111,6 @@ export default class Table extends PureComponent {
         columns.filter(col => col.visible).forEach(({ width }, index) => {
           if (index < cellIndex) {
             left += width;
-          } else {
-            return;
           }
         });
       } else {
@@ -277,25 +307,3 @@ export default class Table extends PureComponent {
     );
   }
 }
-
-Table.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node)
-  ]).isRequired,
-  fixed: PropTypes.number,
-  data: PropTypes.array.isRequired,
-  onSort: PropTypes.func,
-  rowSelection: PropTypes.bool,
-  checkboxRenderer: PropTypes.node,
-  onRowCheck: PropTypes.func,
-  idKey: PropTypes.string,
-  rowClassName: PropTypes.func,
-  headerClassName: PropTypes.string,
-  rowRenderer: PropTypes.func
-};
-
-Table.defaultProps = {
-  rowSelection: true,
-  idKey: 'id'
-};
