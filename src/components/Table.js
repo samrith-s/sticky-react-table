@@ -16,10 +16,7 @@ import {
 
 export default class Table extends PureComponent {
   static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.node,
-      PropTypes.arrayOf(PropTypes.node)
-    ]).isRequired,
+    children: PropTypes.node.isRequired,
     fixed: PropTypes.number,
     data: PropTypes.array.isRequired,
     onSort: PropTypes.func,
