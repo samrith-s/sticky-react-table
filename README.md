@@ -121,15 +121,16 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 #### Properties:
 
-| Property        | Type     | Default     | Description                                                         | Required |
-| --------------- | -------- | ----------- | ------------------------------------------------------------------- | -------- |
-| data            | `Array`  | `undefined` | The array of data to be used by the table to render rows and cells. | **Yes**  |
-| children        | `Column` | `undefined` | The `Column` component. It does not accept any other children.      | **Yes**  |
-| fixed           | `Number` | `undefined` | The number of fixed columns in the table.                           | No       |
-| rowSelection    | `Bool`   | `true`      | This property determines whether checkbox column is rendered.       | No       |
-| idKey           | `String` | `id`        | A key used to uniquely identify data.                               | No       |
-| rowClassName    | `String` | `undefined` | Custom classes for a row.                                           | No       |
-| headerClassName | `String` | `undefined` | Custom classes for the header row.                                  | No       |
+| Property        | Type     | Default     | Description                                                                | Required |
+| --------------- | -------- | ----------- | -------------------------------------------------------------------------- | -------- |
+| data            | `Array`  | `undefined` | The array of data to be used by the table to render rows and cells.        | **Yes**  |
+| children        | `Column` | `undefined` | The `Column` component. It does not accept any other children.             | **Yes**  |
+| fixed           | `Number` | `undefined` | The number of fixed columns in the table.                                  | No       |
+| rowSelection    | `Bool`   | `true`      | This property determines whether checkbox column is rendered.              | No       |
+| idKey           | `String` | `id`        | A key used to uniquely identify data.                                      | No       |
+| rowClassName    | `String` | `undefined` | Custom classes for a row.                                                  | No       |
+| headerClassName | `String` | `undefined` | Custom classes for the header row.                                         | No       |
+| selectedRows    | `Array`  | `undefined` | An array of ids to make the table act as a controlled selection component. | No       |
 
 #### Callbacks:
 
