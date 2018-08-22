@@ -79,7 +79,7 @@ class ColumnSwitcher extends Component {
           >
             {columns
               .filter(({ isCheckbox }) => !isCheckbox)
-              .map(({ title, dataKey, visible: isChecked }) => {
+              .map(({ title, dataKey, visible: isChecked }, index) => {
                 const checkbox = (
                   <label htmlFor={dataKey}>
                     <input
@@ -96,17 +96,21 @@ class ColumnSwitcher extends Component {
                 return (
                   <div
                     className="Sticky-React-Table--Header-Column-Switcher-Item"
-                    key={title}
+                    key={title || dataKey || index}
                   >
-                    {renderElement(checkboxRenderer, {
-                      checkbox,
-                      id: dataKey,
-                      dataKey,
-                      onChange,
-                      isChecked,
-                      title,
-                      type: 'columnSwitcher'
-                    })}
+                    {renderElement(
+                      checkboxRenderer,
+                      {
+                        checkbox,
+                        id: dataKey,
+                        dataKey,
+                        onChange,
+                        isChecked,
+                        title,
+                        type: 'columnSwitcher'
+                      },
+                      checkbox
+                    )}
                   </div>
                 );
               })}
