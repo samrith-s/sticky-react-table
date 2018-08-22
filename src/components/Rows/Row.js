@@ -7,6 +7,8 @@ import { Cell } from './Cells';
 
 import { rowPropKeys } from '../../constants';
 
+import { renderElement } from '../../util';
+
 import { rowStyles } from '../../styles/row.styles';
 
 export default class Row extends PureComponent {
@@ -91,8 +93,8 @@ export default class Row extends PureComponent {
   render() {
     const { renderer } = this.props;
 
-    if (typeof renderer === 'function') {
-      const row = renderer({
+    if (renderer) {
+      const row = renderElement(renderer, {
         ...pick(this.props, rowPropKeys),
         renderColumns: this.renderColumns,
         defaultRowRenderer: this.defaultRowRenderer

@@ -7,7 +7,7 @@ import CheckboxCell from '../../CheckboxCell';
 
 import { headerCellPropKeys } from '../../../constants';
 
-import { getCellStyle } from '../../../util';
+import { getCellStyle, renderElement } from '../../../util';
 
 export default class HeaderCell extends PureComponent {
   handleDragHandleRef = ref => {
@@ -58,13 +58,15 @@ export default class HeaderCell extends PureComponent {
           />
         ) : (
           <Fragment>
-            {renderer ? renderer(this.getRequiredProps()) : title}
+            {renderElement(renderer, this.getRequiredProps(), title)}
+
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}
               onDragEnd={onDragEnd}
               ref={this.handleDragHandleRef}
             />
+
             {isSortable &&
               isSorted && (
                 <div className="Sticky-React-Table-Sort-Icon">

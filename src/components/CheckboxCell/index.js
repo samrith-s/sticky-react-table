@@ -4,6 +4,8 @@ import { pick } from 'lodash';
 
 import { cellPropKeys } from '../../constants';
 
+import { renderElement } from '../../util';
+
 class CheckboxCell extends Component {
   handleCellCheck = () => {
     this.props.onCheck(this.props.id);
@@ -12,10 +14,10 @@ class CheckboxCell extends Component {
   render() {
     const { id, renderer, isChecked } = this.props;
 
-    return renderer ? (
-      renderer(pick(this.props, cellPropKeys))
-    ) : (
-      <div className="">
+    return renderElement(
+      renderer,
+      pick(this.props, cellPropKeys),
+      <div>
         <input
           type="checkbox"
           id={id}

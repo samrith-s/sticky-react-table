@@ -7,7 +7,7 @@ import CheckboxCell from '../../CheckboxCell';
 
 import { cellPropKeys } from '../../../constants';
 
-import { getCellStyle } from '../../../util';
+import { getCellStyle, renderElement } from '../../../util';
 
 export default class Cell extends PureComponent {
   handleDragHandleRef = ref => {
@@ -46,7 +46,8 @@ export default class Cell extends PureComponent {
           />
         ) : (
           <Fragment>
-            {renderer ? renderer(pick(this.props, cellPropKeys)) : cellData}
+            {renderElement(renderer, pick(this.props, cellPropKeys), cellData)}
+
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}
