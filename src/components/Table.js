@@ -192,23 +192,19 @@ export default class Table extends PureComponent {
     return this.props.data.length === this.getCheckedRows().length;
   };
 
-  handleColumnVisibilityChange = ({ target: { id } }) => {
-    const ind = this.state.columns.findIndex(col => col.dataKey === id);
-    if (ind !== -1) {
-      const oldVisibility = this.state.columns[ind].visible;
-      const newColumns = [
-        ...this.state.columns.slice(0, ind),
-        {
-          ...this.state.columns[ind],
-          visible: !oldVisibility
-        },
-        ...this.state.columns.slice(ind + 1)
-      ];
+  handleColumnVisibilityChange = dataKey => {
+    this.setState(({ columns }) => ({
+      columns: columns.map(column => {
+        if (column.dataKey === dataKey) {
+          return {
+            ...column,
+            visible: !column.visible
+          };
+        }
 
-      this.setState({
-        columns: newColumns
-      });
-    }
+        return column;
+      })
+    }));
   };
 
   headerRenderer = () => {

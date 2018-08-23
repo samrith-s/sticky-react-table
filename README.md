@@ -155,12 +155,13 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 #### Properties:
 
-| Property  | Type                | Default     | Description                                                          | Required |
-| --------- | ------------------- | ----------- | -------------------------------------------------------------------- | -------- |
-| dataKey   | `String`            | `undefined` | The data key for the value to be rendered into the cell              | No       |
-| title     | `String`            | `undefined` | The title to be displayed in the header if no renderer is specified. | No       |
-| width     | `Number`            | `0`         | The absolute width of the column.                                    | No       |
-| className | `Array` or `String` | `undefined` | A custom class for the cell.                                         | No       |
+| Property      | Type                | Default     | Description                                                          | Required |
+| ------------- | ------------------- | ----------- | -------------------------------------------------------------------- | -------- |
+| dataKey       | `String`            | `undefined` | The data key for the value to be rendered into the cell              | No       |
+| title         | `String`            | `undefined` | The title to be displayed in the header if no renderer is specified. | No       |
+| width         | `Number`            | `0`         | The absolute width of the column.                                    | No       |
+| className     | `Array` or `String` | `undefined` | A custom class for the cell.                                         | No       |
+| alwaysVisible | `Bool`              | `false`     | Defines whether the column should always be visible.                 | No       |
 
 #### Callbacks:
 
