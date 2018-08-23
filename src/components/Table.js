@@ -42,7 +42,7 @@ export default class Table extends PureComponent {
   static defaultProps = {
     rowSelection: true,
     idKey: 'id',
-    loadMoreLoaderRowCount: 5,
+    loadMoreLoaderRowCount: 1,
     loadMorePageSize: 30,
     loadMoreThreshold: 50
   };
