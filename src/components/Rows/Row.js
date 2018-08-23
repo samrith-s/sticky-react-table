@@ -26,7 +26,7 @@ export default class Row extends PureComponent {
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     checkboxRenderer: RendererType,
     isLoaderRow: PropTypes.bool,
-    loadMoreCellRenderer: RendererType
+    infiniteScrollCellRenderer: RendererType
   };
 
   static defaultProps = {
@@ -45,7 +45,7 @@ export default class Row extends PureComponent {
       id,
       isChecked,
       checkboxRenderer,
-      loadMoreCellRenderer,
+      infiniteScrollCellRenderer,
       isLoaderRow
     } = this.props;
 
@@ -55,7 +55,7 @@ export default class Row extends PureComponent {
       const cellData = get(rowData, dataKey);
       const style = { width, ...styleCalculator(cellIndex) };
       const { isSticky, isLastSticky } = stickyFunction(cellIndex);
-      const renderer = isLoaderRow ? loadMoreCellRenderer : cellRenderer;
+      const renderer = isLoaderRow ? infiniteScrollCellRenderer : cellRenderer;
 
       return (
         <Cell

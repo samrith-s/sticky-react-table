@@ -16,6 +16,17 @@ import {
 } from '../styles/container.styles';
 
 export default class Table extends PureComponent {
+  static validateProps({ infiniteScrollLoadMore, infiniteScrollTotalCount }) {
+    if (
+      (infiniteScrollLoadMore || infiniteScrollTotalCount) &&
+      !(infiniteScrollLoadMore && infiniteScrollTotalCount)
+    ) {
+      throw new Error(
+        `In order to infinite scroll functionality to work both infiniteScrollLoadMore and infiniteScrollTotalCount props must be provided`
+      );
+    }
+  }
+
   static propTypes = {
     children: PropTypes.node.isRequired,
     fixed: PropTypes.number,
@@ -31,26 +42,28 @@ export default class Table extends PureComponent {
     selectedRows: PropTypes.arrayOf(
       PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     ),
-    loadMoreTotalCount: PropTypes.number,
-    loadMoreRows: PropTypes.func,
-    loadMoreThreshold: PropTypes.number,
-    loadMoreLoaderRowCount: PropTypes.number,
-    loadMorePageSize: PropTypes.number,
-    loadMoreCellRenderer: RendererType
+    infiniteScrollTotalCount: PropTypes.number,
+    infiniteScrollLoadMore: PropTypes.func,
+    infiniteScrollThreshold: PropTypes.number,
+    infiniteScrollLoaderRowCount: PropTypes.number,
+    infiniteScrollPageSize: PropTypes.number,
+    infiniteScrollCellRenderer: RendererType
   };
 
   static defaultProps = {
     rowSelection: true,
     idKey: 'id',
-    loadMoreLoaderRowCount: 1,
-    loadMorePageSize: 30,
-    loadMoreThreshold: 50
+    infiniteScrollLoaderRowCount: 1,
+    infiniteScrollPageSize: 30,
+    infiniteScrollThreshold: 50
   };
 
   constructor(props) {
     super(props);
 
     this.state.columns = this.extractColumns(props);
+
+    Table.validateProps(props);
   }
 
   state = {
@@ -273,8 +286,8 @@ export default class Table extends PureComponent {
       idKey,
       rowClassName,
       rowRenderer: renderer,
-      loadMoreLoaderRowCount,
-      loadMoreCellRenderer
+      infiniteScrollLoaderRowCount,
+      infiniteScrollCellRenderer
     } = this.props;
 
     const columns = this.getVisibleColumns();
@@ -297,7 +310,7 @@ export default class Table extends PureComponent {
               isChecked,
               rowIndex,
               renderer,
-              loadMoreCellRenderer,
+              infiniteScrollCellRenderer,
               isLoaderRow
             }}
             styleCalculator={this.getLeftStyle}
@@ -319,7 +332,10 @@ export default class Table extends PureComponent {
        *  calculate how many rows to display as loader rows
        *  if almost all data is loaded - display only n remaining rows
        */
-      const loaderRowCount = Math.min(loadMoreLoaderRowCount, unloadedRowCount);
+      const loaderRowCount = Math.min(
+        infiniteScrollLoaderRowCount,
+        unloadedRowCount
+      );
 
       // generate fake loader row data (we basically only need some distinct ids)
       const loaderRowsData = times(loaderRowCount, index => ({
@@ -359,10 +375,14 @@ export default class Table extends PureComponent {
   };
 
   getUnloadedRowCount = () => {
-    const { loadMoreRows, loadMoreTotalCount, data } = this.props;
+    const {
+      infiniteScrollLoadMore,
+      infiniteScrollTotalCount,
+      data
+    } = this.props;
 
-    if (loadMoreRows && loadMoreTotalCount) {
-      return loadMoreTotalCount - data.length;
+    if (infiniteScrollLoadMore && infiniteScrollTotalCount) {
+      return infiniteScrollTotalCount - data.length;
     }
 
     return 0;
@@ -374,9 +394,9 @@ export default class Table extends PureComponent {
 
   handleScroll = ({ target }) => {
     const {
-      loadMoreThreshold,
-      loadMoreRows,
-      loadMorePageSize,
+      infiniteScrollThreshold,
+      infiniteScrollLoadMore,
+      infiniteScrollPageSize,
       data
     } = this.props;
 
@@ -384,13 +404,13 @@ export default class Table extends PureComponent {
       const scrollPercentage =
         (target.scrollTop / (target.scrollHeight - target.clientHeight)) * 100;
 
-      if (scrollPercentage > loadMoreThreshold) {
-        const nextPage = data.length / loadMorePageSize + 1;
+      if (scrollPercentage > infiniteScrollThreshold) {
+        const nextPage = data.length / infiniteScrollPageSize + 1;
 
         if (!this.requestedPages[nextPage]) {
           this.requestedPages[nextPage] = true;
 
-          loadMoreRows(nextPage * loadMorePageSize, last(data));
+          infiniteScrollLoadMore(nextPage * infiniteScrollPageSize, last(data));
         }
       }
     }

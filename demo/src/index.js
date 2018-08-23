@@ -42,7 +42,7 @@ export default class App extends Component {
     }, 1000);
   };
 
-  loadMoreCellRenderer = () => {
+  infiniteScrollCellRenderer = () => {
     return <div>&hellip;</div>;
   };
 
@@ -57,9 +57,9 @@ export default class App extends Component {
           onRowCheck={this.handleRowCheck}
           selectedRows={selectedRows}
           checkboxRenderer={this.renderCheckbox}
-          loadMoreRows={this.handleLoadMoreRows}
-          loadMoreTotalCount={300}
-          loadMoreCellRenderer={this.loadMoreCellRenderer}
+          infiniteScrollLoadMore={this.handleLoadMoreRows}
+          infiniteScrollTotalCount={300}
+          infiniteScrollCellRenderer={this.infiniteScrollCellRenderer}
         >
           <Column
             title="Name"
