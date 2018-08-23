@@ -51,6 +51,7 @@ export default class App extends Component {
             width={200}
             dataKey="name"
             headerRenderer={HeaderCell}
+            alwaysVisible
           />
           <Column title="Age" width={50} dataKey="age" />
           <Column title="Gender" width={75} dataKey="gender" />
