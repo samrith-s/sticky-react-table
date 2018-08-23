@@ -1,13 +1,7 @@
 // todo-ss: Fix variable names and find common variable names for both light nad dark themes
+@import './partials/variables/_dar-variables';
 
 .Sticky-React-Table {
-  $dark: #666;
-  $white: #222;
-  $gray: #f4f4f4;
-  $gray-light: #555;
-  $gray-lighter: #444;
-  $gray-lightest: #333;
-  $interaction-color: #3e3e3e;
 
   &,
   * {

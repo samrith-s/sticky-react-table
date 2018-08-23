@@ -1,11 +1,6 @@
+@import './partials/variables/_light-variables';
+
 .Sticky-React-Table {
-  $dark: #333;
-  $white: #fff;
-  $gray: #555;
-  $gray-light: #999;
-  $gray-lighter: #efefef;
-  $gray-lightest: #f4f4f4;
-  $interaction-color: #add8e6;
 
   &,
   * {
