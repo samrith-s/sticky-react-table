@@ -4,6 +4,7 @@ import { times, last } from 'lodash';
 
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
+import DefaultInfiniteScrollCellRenderer from './Rows/Cells/DefaultInfiniteScrollCellRenderer';
 
 import { ColumnDisplayName, RendererType } from '../constants';
 import Errors from './Errors';
@@ -55,7 +56,8 @@ export default class Table extends PureComponent {
     idKey: 'id',
     infiniteScrollLoaderRowCount: 1,
     infiniteScrollPageSize: 30,
-    infiniteScrollThreshold: 50
+    infiniteScrollThreshold: 50,
+    infiniteScrollCellRenderer: DefaultInfiniteScrollCellRenderer
   };
 
   constructor(props) {

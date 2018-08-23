@@ -42,10 +42,6 @@ export default class App extends Component {
     }, 1000);
   };
 
-  infiniteScrollCellRenderer = () => {
-    return <div>&hellip;</div>;
-  };
-
   render() {
     const { rows, selectedRows } = this.state;
 
@@ -59,7 +55,6 @@ export default class App extends Component {
           checkboxRenderer={this.renderCheckbox}
           infiniteScrollLoadMore={this.handleLoadMoreRows}
           infiniteScrollTotalCount={300}
-          infiniteScrollCellRenderer={this.infiniteScrollCellRenderer}
         >
           <Column
             title="Name"
