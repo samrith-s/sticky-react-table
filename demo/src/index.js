@@ -13,7 +13,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state.rows = generateData(100);
+    this.state.rows = generateData(30);
   }
 
   state = {
@@ -34,6 +34,14 @@ export default class App extends Component {
     return <span>{checkbox}</span>;
   };
 
+  handleLoadMoreRows = () => {
+    setTimeout(() => {
+      this.setState(({ rows }) => ({
+        rows: rows.concat(generateData(30))
+      }));
+    }, 1000);
+  };
+
   render() {
     const { rows, selectedRows } = this.state;
 
@@ -45,6 +53,8 @@ export default class App extends Component {
           onRowCheck={this.handleRowCheck}
           selectedRows={selectedRows}
           checkboxRenderer={this.renderCheckbox}
+          infiniteScrollLoadMore={this.handleLoadMoreRows}
+          infiniteScrollTotalCount={300}
         >
           <Column
             title="Name"

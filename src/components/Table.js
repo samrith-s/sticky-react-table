@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import { times, last } from 'lodash';
 
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
+import DefaultInfiniteScrollCellRenderer from './Rows/Cells/DefaultInfiniteScrollCellRenderer';
 
 import { ColumnDisplayName, RendererType } from '../constants';
 import Errors from './Errors';
@@ -15,6 +17,17 @@ import {
 } from '../styles/container.styles';
 
 export default class Table extends PureComponent {
+  static validateProps({ infiniteScrollLoadMore, infiniteScrollTotalCount }) {
+    if (
+      (infiniteScrollLoadMore || infiniteScrollTotalCount) &&
+      !(infiniteScrollLoadMore && infiniteScrollTotalCount)
+    ) {
+      throw new Error(
+        `In order to infinite scroll functionality to work both infiniteScrollLoadMore and infiniteScrollTotalCount props must be provided`
+      );
+    }
+  }
+
   static propTypes = {
     children: PropTypes.node.isRequired,
     fixed: PropTypes.number,
@@ -29,18 +42,30 @@ export default class Table extends PureComponent {
     rowRenderer: PropTypes.func,
     selectedRows: PropTypes.arrayOf(
       PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    )
+    ),
+    infiniteScrollTotalCount: PropTypes.number,
+    infiniteScrollLoadMore: PropTypes.func,
+    infiniteScrollThreshold: PropTypes.number,
+    infiniteScrollLoaderRowCount: PropTypes.number,
+    infiniteScrollPageSize: PropTypes.number,
+    infiniteScrollCellRenderer: RendererType
   };
 
   static defaultProps = {
     rowSelection: true,
-    idKey: 'id'
+    idKey: 'id',
+    infiniteScrollLoaderRowCount: 1,
+    infiniteScrollPageSize: 30,
+    infiniteScrollThreshold: 50,
+    infiniteScrollCellRenderer: DefaultInfiniteScrollCellRenderer
   };
 
   constructor(props) {
     super(props);
 
     this.state.columns = this.extractColumns(props);
+
+    Table.validateProps(props);
   }
 
   state = {
@@ -63,6 +88,8 @@ export default class Table extends PureComponent {
       };
     }
   };
+
+  requestedPages = {};
 
   extractColumns = props => {
     const columns = [];
@@ -260,37 +287,67 @@ export default class Table extends PureComponent {
       checkboxRenderer,
       idKey,
       rowClassName,
-      rowRenderer: renderer
+      rowRenderer: renderer,
+      infiniteScrollLoaderRowCount,
+      infiniteScrollCellRenderer
     } = this.props;
 
     const columns = this.getVisibleColumns();
 
-    return data.map((rowData, index) => {
-      const id = rowData[idKey];
-      const isChecked = this.isRowSelected(id);
-      const rowIndex = index + 1;
+    const getRows = (data, isLoaderRow) => {
+      return data.map((rowData, index) => {
+        const id = rowData[idKey];
+        const isChecked = this.isRowSelected(id);
+        const rowIndex = index + 1;
 
-      return (
-        <Row
-          {...{
-            id,
-            columns,
-            rowData,
-            rowSelection,
-            checkboxRenderer,
-            rowClassName,
-            isChecked,
-            rowIndex,
-            renderer
-          }}
-          styleCalculator={this.getLeftStyle}
-          stickyFunction={this.isLastSticky}
-          onDragEnd={this.handleDragEnd}
-          key={`sticky-table-row-${id || rowIndex}`}
-          onCheck={this.handleRowCheck}
-        />
+        return (
+          <Row
+            {...{
+              id,
+              columns,
+              rowData,
+              rowSelection,
+              checkboxRenderer,
+              rowClassName,
+              isChecked,
+              rowIndex,
+              renderer,
+              infiniteScrollCellRenderer,
+              isLoaderRow
+            }}
+            styleCalculator={this.getLeftStyle}
+            stickyFunction={this.isLastSticky}
+            onDragEnd={this.handleDragEnd}
+            key={`sticky-table-row-${id || rowIndex}`}
+            onCheck={this.handleRowCheck}
+          />
+        );
+      });
+    };
+
+    const rows = getRows(data);
+
+    const unloadedRowCount = this.getUnloadedRowCount();
+
+    if (unloadedRowCount) {
+      /**
+       *  calculate how many rows to display as loader rows
+       *  if almost all data is loaded - display only n remaining rows
+       */
+      const loaderRowCount = Math.min(
+        infiniteScrollLoaderRowCount,
+        unloadedRowCount
       );
-    });
+
+      // generate fake loader row data (we basically only need some distinct ids)
+      const loaderRowsData = times(loaderRowCount, index => ({
+        id: `sticky-react-loader-row-${index + 1}`
+      }));
+
+      return rows.concat(getRows(loaderRowsData, true));
+    }
+
+    return rows;
   };
 
   validateChild = child => {
@@ -319,13 +376,59 @@ export default class Table extends PureComponent {
     this.dragHandle = ref;
   };
 
+  getUnloadedRowCount = () => {
+    const {
+      infiniteScrollLoadMore,
+      infiniteScrollTotalCount,
+      data
+    } = this.props;
+
+    if (infiniteScrollLoadMore && infiniteScrollTotalCount) {
+      return infiniteScrollTotalCount - data.length;
+    }
+
+    return 0;
+  };
+
+  isInfiniteLoadingEnabled = () => {
+    return this.getUnloadedRowCount();
+  };
+
+  handleScroll = ({ target }) => {
+    const {
+      infiniteScrollThreshold,
+      infiniteScrollLoadMore,
+      infiniteScrollPageSize,
+      data
+    } = this.props;
+
+    if (this.isInfiniteLoadingEnabled()) {
+      const scrollPercentage =
+        (target.scrollTop / (target.scrollHeight - target.clientHeight)) * 100;
+
+      if (scrollPercentage > infiniteScrollThreshold) {
+        const nextPage = data.length / infiniteScrollPageSize + 1;
+
+        if (!this.requestedPages[nextPage]) {
+          this.requestedPages[nextPage] = true;
+
+          infiniteScrollLoadMore(nextPage * infiniteScrollPageSize, last(data));
+        }
+      }
+    }
+  };
+
   render() {
     const { columns } = this.state;
     const { checkboxRenderer } = this.props;
 
     return (
       <div className="Sticky-React-Table" style={mainContainerStyle}>
-        <div className="Sticky-React-Table-inner" style={innerContainerStyle}>
+        <div
+          className="Sticky-React-Table-inner"
+          style={innerContainerStyle}
+          onScroll={this.handleScroll}
+        >
           {this.headerRenderer()}
           {this.bodyRenderer()}
         </div>
