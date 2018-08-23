@@ -64,5 +64,6 @@
     "custom-table",
     "declarative-table",
     "react-table"
-  ]
+  ],
+  "sideEffects": false
 }
