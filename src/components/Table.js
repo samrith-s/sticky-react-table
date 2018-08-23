@@ -35,13 +35,16 @@ export default class Table extends PureComponent {
     loadMoreRows: PropTypes.func,
     loadMoreThreshold: PropTypes.number,
     loadMoreLoaderRowCount: PropTypes.number,
+    loadMorePageSize: PropTypes.number,
     loadMoreCellRenderer: RendererType
   };
 
   static defaultProps = {
     rowSelection: true,
     idKey: 'id',
-    loadMoreLoaderRowCount: 5
+    loadMoreLoaderRowCount: 5,
+    loadMorePageSize: 30,
+    loadMoreThreshold: 50
   };
 
   constructor(props) {
@@ -70,6 +73,8 @@ export default class Table extends PureComponent {
       };
     }
   };
+
+  fetchedPages = {};
 
   extractColumns = props => {
     const columns = [];
@@ -361,7 +366,30 @@ export default class Table extends PureComponent {
   };
 
   handleScroll = ({ target }) => {
-    return target;
+    const scrollPercentage =
+      (target.scrollTop / (target.scrollHeight - target.clientHeight)) * 100;
+
+    const {
+      loadMoreThreshold,
+      loadMoreRows,
+      loadMorePageSize,
+      loadMoreTotalCount,
+      data
+    } = this.props;
+
+    if (scrollPercentage > loadMoreThreshold) {
+      const dataCount = data.length;
+
+      if (loadMoreTotalCount > dataCount) {
+        const nextPage = dataCount / loadMorePageSize + 1;
+
+        if (!this.fetchedPages[nextPage]) {
+          this.fetchedPages[nextPage] = true;
+
+          loadMoreRows(nextPage * loadMorePageSize);
+        }
+      }
+    }
   };
 
   render() {

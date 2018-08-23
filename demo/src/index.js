@@ -34,7 +34,13 @@ export default class App extends Component {
     return <span>{checkbox}</span>;
   };
 
-  handleLoadMoreRows = () => {};
+  handleLoadMoreRows = () => {
+    setTimeout(() => {
+      this.setState(({ rows }) => ({
+        rows: rows.concat(generateData(30))
+      }));
+    }, 1000);
+  };
 
   loadMoreCellRenderer = () => {
     return <div>&hellip;</div>;
@@ -52,7 +58,7 @@ export default class App extends Component {
           selectedRows={selectedRows}
           checkboxRenderer={this.renderCheckbox}
           loadMoreRows={this.handleLoadMoreRows}
-          loadMoreTotalCount={40}
+          loadMoreTotalCount={300}
           loadMoreCellRenderer={this.loadMoreCellRenderer}
         >
           <Column
