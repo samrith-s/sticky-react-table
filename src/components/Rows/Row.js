@@ -24,7 +24,13 @@ export default class Row extends PureComponent {
     rowClassName: PropTypes.func,
     renderer: PropTypes.func,
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    checkboxRenderer: RendererType
+    checkboxRenderer: RendererType,
+    isLoaderRow: PropTypes.bool,
+    loadMoreCellRenderer: RendererType
+  };
+
+  static defaultProps = {
+    isLoaderRow: false
   };
 
   renderColumns = () => {
@@ -38,21 +44,18 @@ export default class Row extends PureComponent {
       onCheck,
       id,
       isChecked,
-      checkboxRenderer
+      checkboxRenderer,
+      loadMoreCellRenderer,
+      isLoaderRow
     } = this.props;
 
     return columns.map((column, cellIndex) => {
-      const {
-        width,
-        dataKey,
-        cellRenderer: renderer,
-        isCheckbox,
-        className
-      } = column;
+      const { width, dataKey, cellRenderer, isCheckbox, className } = column;
 
       const cellData = get(rowData, dataKey);
       const style = { width, ...styleCalculator(cellIndex) };
       const { isSticky, isLastSticky } = stickyFunction(cellIndex);
+      const renderer = isLoaderRow ? loadMoreCellRenderer : cellRenderer;
 
       return (
         <Cell
@@ -66,7 +69,7 @@ export default class Row extends PureComponent {
             isSticky,
             isLastSticky,
             onCheck,
-            isCheckbox,
+            isCheckbox: isCheckbox && !isLoaderRow,
             isChecked,
             className,
             renderer,

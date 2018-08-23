@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import { times } from 'lodash';
 
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
@@ -29,12 +30,18 @@ export default class Table extends PureComponent {
     rowRenderer: PropTypes.func,
     selectedRows: PropTypes.arrayOf(
       PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    )
+    ),
+    loadMoreTotalCount: PropTypes.number,
+    loadMoreRows: PropTypes.func,
+    loadMoreThreshold: PropTypes.number,
+    loadMoreLoaderRowCount: PropTypes.number,
+    loadMoreCellRenderer: RendererType
   };
 
   static defaultProps = {
     rowSelection: true,
-    idKey: 'id'
+    idKey: 'id',
+    loadMoreLoaderRowCount: 5
   };
 
   constructor(props) {
@@ -264,37 +271,67 @@ export default class Table extends PureComponent {
       checkboxRenderer,
       idKey,
       rowClassName,
-      rowRenderer: renderer
+      rowRenderer: renderer,
+      loadMoreTotalCount,
+      loadMoreRows,
+      loadMoreLoaderRowCount,
+      loadMoreCellRenderer
     } = this.props;
 
     const columns = this.getVisibleColumns();
 
-    return data.map((rowData, index) => {
-      const id = rowData[idKey];
-      const isChecked = this.isRowSelected(id);
-      const rowIndex = index + 1;
+    const getRows = (data, isLoaderRow) => {
+      return data.map((rowData, index) => {
+        const id = rowData[idKey];
+        const isChecked = this.isRowSelected(id);
+        const rowIndex = index + 1;
 
-      return (
-        <Row
-          {...{
-            id,
-            columns,
-            rowData,
-            rowSelection,
-            checkboxRenderer,
-            rowClassName,
-            isChecked,
-            rowIndex,
-            renderer
-          }}
-          styleCalculator={this.getLeftStyle}
-          stickyFunction={this.isLastSticky}
-          onDragEnd={this.handleDragEnd}
-          key={`sticky-table-row-${id || rowIndex}`}
-          onCheck={this.handleRowCheck}
-        />
-      );
-    });
+        return (
+          <Row
+            {...{
+              id,
+              columns,
+              rowData,
+              rowSelection,
+              checkboxRenderer,
+              rowClassName,
+              isChecked,
+              rowIndex,
+              renderer,
+              loadMoreCellRenderer,
+              isLoaderRow
+            }}
+            styleCalculator={this.getLeftStyle}
+            stickyFunction={this.isLastSticky}
+            onDragEnd={this.handleDragEnd}
+            key={`sticky-table-row-${id || rowIndex}`}
+            onCheck={this.handleRowCheck}
+          />
+        );
+      });
+    };
+
+    const rows = getRows(data);
+
+    if (loadMoreRows && loadMoreTotalCount) {
+      const dataCount = data.length;
+      const unloadedRowCount = loadMoreTotalCount - dataCount;
+
+      if (unloadedRowCount) {
+        const loaderRowCount = Math.min(
+          loadMoreLoaderRowCount,
+          unloadedRowCount
+        );
+
+        const loaderRowsData = times(loaderRowCount, index => ({
+          id: `sticky-react-loader-row-${index + 1}`
+        }));
+
+        return rows.concat(getRows(loaderRowsData, true));
+      }
+    }
+
+    return rows;
   };
 
   validateChild = child => {
@@ -324,7 +361,7 @@ export default class Table extends PureComponent {
   };
 
   handleScroll = ({ target }) => {
-    console.log(target);
+    return target;
   };
 
   render() {
