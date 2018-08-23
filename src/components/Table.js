@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { times } from 'lodash';
+import { times, last } from 'lodash';
 
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
@@ -74,7 +74,7 @@ export default class Table extends PureComponent {
     }
   };
 
-  fetchedPages = {};
+  requestedPages = {};
 
   extractColumns = props => {
     const columns = [];
@@ -277,8 +277,6 @@ export default class Table extends PureComponent {
       idKey,
       rowClassName,
       rowRenderer: renderer,
-      loadMoreTotalCount,
-      loadMoreRows,
       loadMoreLoaderRowCount,
       loadMoreCellRenderer
     } = this.props;
@@ -318,22 +316,21 @@ export default class Table extends PureComponent {
 
     const rows = getRows(data);
 
-    if (loadMoreRows && loadMoreTotalCount) {
-      const dataCount = data.length;
-      const unloadedRowCount = loadMoreTotalCount - dataCount;
+    const unloadedRowCount = this.getUnloadedRowCount();
 
-      if (unloadedRowCount) {
-        const loaderRowCount = Math.min(
-          loadMoreLoaderRowCount,
-          unloadedRowCount
-        );
+    if (unloadedRowCount) {
+      /**
+       *  calculate how many rows to display as loader rows
+       *  if almost all data is loaded - display only n remaining rows
+       */
+      const loaderRowCount = Math.min(loadMoreLoaderRowCount, unloadedRowCount);
 
-        const loaderRowsData = times(loaderRowCount, index => ({
-          id: `sticky-react-loader-row-${index + 1}`
-        }));
+      // generate fake loader row data (we basically only need some distinct ids)
+      const loaderRowsData = times(loaderRowCount, index => ({
+        id: `sticky-react-loader-row-${index + 1}`
+      }));
 
-        return rows.concat(getRows(loaderRowsData, true));
-      }
+      return rows.concat(getRows(loaderRowsData, true));
     }
 
     return rows;
@@ -365,28 +362,39 @@ export default class Table extends PureComponent {
     this.dragHandle = ref;
   };
 
-  handleScroll = ({ target }) => {
-    const scrollPercentage =
-      (target.scrollTop / (target.scrollHeight - target.clientHeight)) * 100;
+  getUnloadedRowCount = () => {
+    const { loadMoreRows, loadMoreTotalCount, data } = this.props;
 
+    if (loadMoreRows && loadMoreTotalCount) {
+      return loadMoreTotalCount - data.length;
+    }
+
+    return 0;
+  };
+
+  isInfiniteLoadingEnabled = () => {
+    return this.getUnloadedRowCount();
+  };
+
+  handleScroll = ({ target }) => {
     const {
       loadMoreThreshold,
       loadMoreRows,
       loadMorePageSize,
-      loadMoreTotalCount,
       data
     } = this.props;
 
-    if (scrollPercentage > loadMoreThreshold) {
-      const dataCount = data.length;
+    if (this.isInfiniteLoadingEnabled()) {
+      const scrollPercentage =
+        (target.scrollTop / (target.scrollHeight - target.clientHeight)) * 100;
 
-      if (loadMoreTotalCount > dataCount) {
-        const nextPage = dataCount / loadMorePageSize + 1;
+      if (scrollPercentage > loadMoreThreshold) {
+        const nextPage = data.length / loadMorePageSize + 1;
 
-        if (!this.fetchedPages[nextPage]) {
-          this.fetchedPages[nextPage] = true;
+        if (!this.requestedPages[nextPage]) {
+          this.requestedPages[nextPage] = true;
 
-          loadMoreRows(nextPage * loadMorePageSize);
+          loadMoreRows(nextPage * loadMorePageSize, last(data));
         }
       }
     }
