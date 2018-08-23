@@ -12,6 +12,21 @@ import { renderElement } from '../../util';
 import { rowStyles } from '../../styles/row.styles';
 
 export default class Row extends PureComponent {
+  static propTypes = {
+    columns: PropTypes.array.isRequired,
+    rowData: PropTypes.object.isRequired,
+    rowIndex: PropTypes.number.isRequired,
+    styleCalculator: PropTypes.func.isRequired,
+    stickyFunction: PropTypes.func.isRequired,
+    onDragEnd: PropTypes.func.isRequired,
+    isChecked: PropTypes.bool.isRequired,
+    onCheck: PropTypes.func.isRequired,
+    rowClassName: PropTypes.func,
+    renderer: PropTypes.func,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    checkboxRenderer: RendererType
+  };
+
   renderColumns = () => {
     const {
       columns,
@@ -110,18 +125,3 @@ export default class Row extends PureComponent {
     return this.defaultRowRenderer();
   }
 }
-
-Row.propTypes = {
-  columns: PropTypes.array.isRequired,
-  rowData: PropTypes.object.isRequired,
-  rowIndex: PropTypes.number.isRequired,
-  styleCalculator: PropTypes.func.isRequired,
-  stickyFunction: PropTypes.func.isRequired,
-  onDragEnd: PropTypes.func.isRequired,
-  isChecked: PropTypes.bool.isRequired,
-  onCheck: PropTypes.func.isRequired,
-  rowClassName: PropTypes.func,
-  renderer: PropTypes.func,
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  checkboxRenderer: RendererType
-};
