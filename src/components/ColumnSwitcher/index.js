@@ -98,14 +98,19 @@ class ColumnSwitcher extends Component {
                     className="Sticky-React-Table--Header-Column-Switcher-Item"
                     key={title || dataKey || index}
                   >
-                    {renderElement(checkboxRenderer, {
-                      checkbox,
-                      id: dataKey,
-                      dataKey,
-                      onChange,
-                      isChecked,
-                      type: 'columnSwitcher'
-                    })}
+                    {renderElement(
+                      checkboxRenderer,
+                      {
+                        checkbox,
+                        id: dataKey,
+                        dataKey,
+                        onChange,
+                        isChecked,
+                        title,
+                        type: 'columnSwitcher'
+                      },
+                      checkbox
+                    )}
                   </div>
                 );
               })}

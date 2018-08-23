@@ -1,6 +1,6 @@
 {
   "name": "sticky-react-table",
-  "version": "0.2.3",
+  "version": "0.3.2",
   "description": "A super flexible, scalable and robust table with sticky header and columns for all your tabular needs.",
   "homepage": "http://samrith-s.github.io/sticky-react-table",
   "main": "lib/index.js",
@@ -21,7 +21,8 @@
     "test:coverage": "nwb test-react --coverage",
     "test:watch": "nwb test-react --server",
     "deploy": "gh-pages -d demo/dist",
-    "deploy:new": "yarn build && yarn deploy"
+    "deploy:new": "yarn build && yarn deploy",
+    "npm:publish": "npm version $1 && yarn deploy:new && git push origin master --tags && npm publish"
   },
   "dependencies": {
     "classnames": "^2.2.6",
