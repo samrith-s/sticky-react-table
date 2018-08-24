@@ -391,7 +391,7 @@ export default class Table extends PureComponent {
   };
 
   isInfiniteLoadingEnabled = () => {
-    return this.getUnloadedRowCount();
+    return !!this.getUnloadedRowCount();
   };
 
   handleScroll = ({ target }) => {
@@ -402,18 +402,16 @@ export default class Table extends PureComponent {
       data
     } = this.props;
 
-    if (this.isInfiniteLoadingEnabled()) {
-      const scrollPercentage =
-        (target.scrollTop / (target.scrollHeight - target.clientHeight)) * 100;
+    const scrollPercentage =
+      (target.scrollTop / (target.scrollHeight - target.clientHeight)) * 100;
 
-      if (scrollPercentage > infiniteScrollThreshold) {
-        const nextPage = data.length / infiniteScrollPageSize + 1;
+    if (scrollPercentage > infiniteScrollThreshold) {
+      const nextPage = data.length / infiniteScrollPageSize + 1;
 
-        if (!this.requestedPages[nextPage]) {
-          this.requestedPages[nextPage] = true;
+      if (!this.requestedPages[nextPage]) {
+        this.requestedPages[nextPage] = true;
 
-          infiniteScrollLoadMore(nextPage * infiniteScrollPageSize, last(data));
-        }
+        infiniteScrollLoadMore(nextPage * infiniteScrollPageSize, last(data));
       }
     }
   };
@@ -421,13 +419,14 @@ export default class Table extends PureComponent {
   render() {
     const { columns } = this.state;
     const { checkboxRenderer } = this.props;
+    const infiniteLoadingEnabled = this.isInfiniteLoadingEnabled();
 
     return (
       <div className="Sticky-React-Table" style={mainContainerStyle}>
         <div
           className="Sticky-React-Table-inner"
           style={innerContainerStyle}
-          onScroll={this.handleScroll}
+          onScroll={infiniteLoadingEnabled ? this.handleScroll : null}
         >
           {this.headerRenderer()}
           {this.bodyRenderer()}
