@@ -346,12 +346,14 @@ export default class Table extends PureComponent {
         unloadedRowCount
       );
 
+      const rowCount = rows.length;
+
       // generate fake loader row data (we basically only need some distinct ids)
       const loaderRowsData = times(loaderRowCount, index => ({
-        id: `sticky-react-loader-row-${index + 1}`
+        id: `sticky-react-loader-row-${rowCount + index + 1}`
       }));
 
-      return rows.concat(getRows(loaderRowsData, true, rows.length));
+      return rows.concat(getRows(loaderRowsData, true, rowCount));
     }
 
     return rows;
