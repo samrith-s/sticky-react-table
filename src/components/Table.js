@@ -56,7 +56,7 @@ export default class Table extends PureComponent {
     idKey: 'id',
     infiniteScrollLoaderRowCount: 1,
     infiniteScrollPageSize: 30,
-    infiniteScrollThreshold: 50,
+    infiniteScrollThreshold: 10,
     infiniteScrollCellRenderer: DefaultInfiniteScrollCellRenderer
   };
 
@@ -90,6 +90,8 @@ export default class Table extends PureComponent {
   };
 
   requestedPages = {};
+  rowRefs = {};
+  innerRef = {};
 
   extractColumns = props => {
     const columns = [];
@@ -280,6 +282,10 @@ export default class Table extends PureComponent {
     return this.state.columns.filter(column => column.visible);
   };
 
+  saveRowRef = (ref, rowIndex) => {
+    this.rowRefs[rowIndex] = ref;
+  };
+
   bodyRenderer = () => {
     const { data } = this.state;
     const {
@@ -294,11 +300,11 @@ export default class Table extends PureComponent {
 
     const columns = this.getVisibleColumns();
 
-    const getRows = (data, isLoaderRow) => {
+    const getRows = (data, isLoaderRow, startIndex = 0) => {
       return data.map((rowData, index) => {
         const id = rowData[idKey];
         const isChecked = this.isRowSelected(id);
-        const rowIndex = index + 1;
+        const rowIndex = startIndex + index + 1;
 
         return (
           <Row
@@ -315,6 +321,7 @@ export default class Table extends PureComponent {
               infiniteScrollCellRenderer,
               isLoaderRow
             }}
+            getRef={this.saveRowRef}
             styleCalculator={this.getLeftStyle}
             stickyFunction={this.isLastSticky}
             onDragEnd={this.handleDragEnd}
@@ -339,12 +346,14 @@ export default class Table extends PureComponent {
         unloadedRowCount
       );
 
+      const rowCount = rows.length;
+
       // generate fake loader row data (we basically only need some distinct ids)
       const loaderRowsData = times(loaderRowCount, index => ({
-        id: `sticky-react-loader-row-${index + 1}`
+        id: `sticky-react-loader-row-${rowCount + index + 1}`
       }));
 
-      return rows.concat(getRows(loaderRowsData, true));
+      return rows.concat(getRows(loaderRowsData, true, rowCount));
     }
 
     return rows;
@@ -391,10 +400,10 @@ export default class Table extends PureComponent {
   };
 
   isInfiniteLoadingEnabled = () => {
-    return this.getUnloadedRowCount();
+    return !!this.getUnloadedRowCount();
   };
 
-  handleScroll = ({ target }) => {
+  handleScroll = () => {
     const {
       infiniteScrollThreshold,
       infiniteScrollLoadMore,
@@ -402,32 +411,43 @@ export default class Table extends PureComponent {
       data
     } = this.props;
 
-    if (this.isInfiniteLoadingEnabled()) {
-      const scrollPercentage =
-        (target.scrollTop / (target.scrollHeight - target.clientHeight)) * 100;
+    const dataCount = data.length;
+    const nextPage = Math.floor(dataCount / infiniteScrollPageSize) + 1;
 
-      if (scrollPercentage > infiniteScrollThreshold) {
-        const nextPage = data.length / infiniteScrollPageSize + 1;
+    if (!this.requestedPages[nextPage]) {
+      const targetRow = this.rowRefs[dataCount - infiniteScrollThreshold];
 
-        if (!this.requestedPages[nextPage]) {
-          this.requestedPages[nextPage] = true;
+      const {
+        top: innerTop,
+        height: viewPortHeight
+      } = this.innerRef.getBoundingClientRect();
 
-          infiniteScrollLoadMore(nextPage * infiniteScrollPageSize, last(data));
-        }
+      const { top: rowTop } = targetRow.getBoundingClientRect();
+
+      if (viewPortHeight - rowTop + innerTop > 0) {
+        this.requestedPages[nextPage] = true;
+
+        infiniteScrollLoadMore(nextPage * infiniteScrollPageSize, last(data));
       }
     }
+  };
+
+  saveInnerRef = ref => {
+    this.innerRef = ref;
   };
 
   render() {
     const { columns } = this.state;
     const { checkboxRenderer } = this.props;
+    const infiniteLoadingEnabled = this.isInfiniteLoadingEnabled();
 
     return (
       <div className="Sticky-React-Table" style={mainContainerStyle}>
         <div
+          ref={this.saveInnerRef}
           className="Sticky-React-Table-inner"
           style={innerContainerStyle}
-          onScroll={this.handleScroll}
+          onScroll={infiniteLoadingEnabled ? this.handleScroll : null}
         >
           {this.headerRenderer()}
           {this.bodyRenderer()}

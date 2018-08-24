@@ -26,7 +26,8 @@ export default class Row extends PureComponent {
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     checkboxRenderer: RendererType,
     isLoaderRow: PropTypes.bool,
-    infiniteScrollCellRenderer: RendererType
+    infiniteScrollCellRenderer: RendererType,
+    getRef: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -91,11 +92,18 @@ export default class Row extends PureComponent {
     return '';
   };
 
+  getRef = ref => {
+    const { getRef, rowIndex } = this.props;
+
+    getRef(ref, rowIndex);
+  };
+
   defaultRowRenderer = () => {
     const { isChecked } = this.props;
 
     return (
       <div
+        ref={this.getRef}
         className={classNames(
           'Sticky-React-Table--Row',
           this.getRowClassNames(),
