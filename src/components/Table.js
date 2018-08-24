@@ -294,11 +294,11 @@ export default class Table extends PureComponent {
 
     const columns = this.getVisibleColumns();
 
-    const getRows = (data, isLoaderRow) => {
+    const getRows = (data, isLoaderRow, startIndex = 0) => {
       return data.map((rowData, index) => {
         const id = rowData[idKey];
         const isChecked = this.isRowSelected(id);
-        const rowIndex = index + 1;
+        const rowIndex = startIndex + index + 1;
 
         return (
           <Row
@@ -344,7 +344,7 @@ export default class Table extends PureComponent {
         id: `sticky-react-loader-row-${index + 1}`
       }));
 
-      return rows.concat(getRows(loaderRowsData, true));
+      return rows.concat(getRows(loaderRowsData, true, rows.length));
     }
 
     return rows;
