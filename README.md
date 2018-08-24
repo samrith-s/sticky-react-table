@@ -122,7 +122,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 #### Properties:
 
 | Property                     | Type                 | Default     | Description                                                                                         | Required |
-| ---------------------------- | ---------------------| ----------- | --------------------------------------------------------------------------------------------------- | -------- |
+| ---------------------------- | -------------------- | ----------- | --------------------------------------------------------------------------------------------------- | -------- |
 | data                         | `Array`              | `undefined` | The array of data to be used by the table to render rows and cells.                                 | **Yes**  |
 | children                     | `Column`             | `undefined` | The `Column` component. It does not accept any other children.                                      | **Yes**  |
 | fixed                        | `Number`             | `undefined` | The number of fixed columns in the table.                                                           | No       |
@@ -140,12 +140,13 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 #### Callbacks:
 
-| Name             | Description                          | Parameters                                              |
-| ---------------- | ------------------------------------ | ------------------------------------------------------- |
-| onSort           | Pass a custom sorting functionality. | Array of column data                                    |
-| onRowCheck       | Handle checking of a row.            | Id of the checked row or `all` if all rows are checked. |
-| checkboxRenderer | Custom renderer for checkbox column. | [Cell Props][cell-props]                                |
-| rowRenderer      | Custom row renderer                  | [Row Props][row-props]                                  |
+| Name             | Description                          | Parameters                                                |
+| ---------------- | ------------------------------------ | --------------------------------------------------------- |
+| onSort           | Pass a custom sorting functionality. | Array of column data                                      |
+| onRowCheck       | Handle checking of a row.            | Id of the checked row or `"all"` if all rows are checked. |
+| checkboxRenderer | Custom renderer for checkbox column. | [Cell Props][cell-props]                                  |
+| rowRenderer      | Custom row renderer                  | [Row Props][row-props]                                    |
+| ref              | Get ref of inner component.          | Reference to inner component                              |
 
 # <a name="null"></a>
 
