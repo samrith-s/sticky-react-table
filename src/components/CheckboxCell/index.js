@@ -4,33 +4,38 @@ import { pick } from 'lodash';
 
 import { cellPropKeys } from '../../constants';
 
-class CheckboxCell extends Component {
+import { renderElement } from '../../util';
+
+export default class CheckboxCell extends Component {
   handleCellCheck = () => {
-    this.props.onCheck(this.props.id);
+    const { onCheck, id } = this.props;
+
+    onCheck(id);
   };
 
   render() {
     const { id, renderer, isChecked } = this.props;
+    const onChange = this.handleCellCheck;
 
-    return renderer ? (
-      renderer(pick(this.props, cellPropKeys))
-    ) : (
-      <div className="">
-        <input
-          type="checkbox"
-          id={id}
-          checked={isChecked}
-          onChange={this.handleCellCheck}
-        />
-      </div>
+    const checkbox = (
+      <input
+        type="checkbox"
+        id={id}
+        checked={isChecked}
+        onChange={this.handleCellCheck}
+      />
+    );
+
+    return renderElement(
+      renderer,
+      { ...pick(this.props, cellPropKeys), checkbox, onChange, isChecked },
+      checkbox
     );
   }
 }
 CheckboxCell.propTypes = {
   onCheck: PropTypes.func.isRequired,
-  id: PropTypes.oneOfType([(PropTypes.number, PropTypes.string)]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   isChecked: PropTypes.bool.isRequired,
   renderer: PropTypes.func
 };
-
-export default CheckboxCell;

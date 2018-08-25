@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import { times, last } from 'lodash';
 
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
+import DefaultInfiniteScrollCellRenderer from './Rows/Cells/DefaultInfiniteScrollCellRenderer';
 
-import { ColumnDisplayName } from '../constants';
+import { ColumnDisplayName, RendererType } from '../constants';
 import Errors from './Errors';
 
 import { sort } from '../util';
@@ -15,6 +17,57 @@ import {
 } from '../styles/container.styles';
 
 export default class Table extends PureComponent {
+  static validateProps({ infiniteScrollLoadMore, infiniteScrollTotalCount }) {
+    if (
+      (infiniteScrollLoadMore || infiniteScrollTotalCount) &&
+      !(infiniteScrollLoadMore && infiniteScrollTotalCount)
+    ) {
+      throw new Error(
+        `In order to infinite scroll functionality to work both infiniteScrollLoadMore and infiniteScrollTotalCount props must be provided`
+      );
+    }
+  }
+
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    fixed: PropTypes.number,
+    data: PropTypes.array.isRequired,
+    onSort: PropTypes.func,
+    rowSelection: PropTypes.bool,
+    checkboxRenderer: RendererType,
+    onRowCheck: PropTypes.func,
+    idKey: PropTypes.string,
+    rowClassName: PropTypes.func,
+    headerClassName: PropTypes.string,
+    rowRenderer: PropTypes.func,
+    selectedRows: PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    ),
+    infiniteScrollTotalCount: PropTypes.number,
+    infiniteScrollLoadMore: PropTypes.func,
+    infiniteScrollThreshold: PropTypes.number,
+    infiniteScrollLoaderRowCount: PropTypes.number,
+    infiniteScrollPageSize: PropTypes.number,
+    infiniteScrollCellRenderer: RendererType
+  };
+
+  static defaultProps = {
+    rowSelection: true,
+    idKey: 'id',
+    infiniteScrollLoaderRowCount: 1,
+    infiniteScrollPageSize: 30,
+    infiniteScrollThreshold: 10,
+    infiniteScrollCellRenderer: DefaultInfiniteScrollCellRenderer
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state.columns = this.extractColumns(props);
+
+    Table.validateProps(props);
+  }
+
   state = {
     columns: [],
     sortedColumn: null,
@@ -36,9 +89,16 @@ export default class Table extends PureComponent {
     }
   };
 
-  componentDidMount() {
+  requestedPages = {};
+  rowRefs = {};
+  innerRef = {};
+
+  extractColumns = props => {
     const columns = [];
-    if (this.props.rowSelection) {
+
+    const { rowSelection, checkboxRenderer, children } = props;
+
+    if (rowSelection) {
       columns.push({
         dataKey: 'checkbox',
         width: 30,
@@ -46,17 +106,18 @@ export default class Table extends PureComponent {
         index: 0,
         visible: true,
         isCheckbox: true,
-        renderer: this.props.checkboxRenderer
+        renderer: checkboxRenderer
       });
     }
 
-    React.Children.forEach(this.props.children, (child, index) => {
+    React.Children.forEach(children, (child, index) => {
       const { props } = this.validateChild(child);
+
       columns.push({ ...props, index: index + 1, visible: true });
     });
 
-    this.setState({ columns });
-  }
+    return columns;
+  };
 
   getFixedCount = () => {
     const { fixed, rowSelection } = this.props;
@@ -68,7 +129,6 @@ export default class Table extends PureComponent {
 
   getLeftStyle = cellIndex => {
     const fixed = this.getFixedCount();
-    const { columns } = this.state;
 
     let left = 0;
 
@@ -76,11 +136,9 @@ export default class Table extends PureComponent {
       if (cellIndex === 0) {
         return { left };
       } else if (cellIndex <= fixed - 1) {
-        columns.filter(col => col.visible).forEach(({ width }, index) => {
+        this.getVisibleColumns().forEach(({ width }, index) => {
           if (index < cellIndex) {
             left += width;
-          } else {
-            return;
           }
         });
       } else {
@@ -109,69 +167,88 @@ export default class Table extends PureComponent {
   };
 
   handleRowCheck = id => {
-    const { checkedRows, data } = this.state;
-    const { onRowCheck, idKey } = this.props;
-    let newCheckedRows = [...checkedRows];
+    const { data } = this.state;
+    const { onRowCheck, idKey, selectedRows } = this.props;
+
+    let checkedRows = [...this.getCheckedRows()];
+
     if (id === 'all') {
-      if (newCheckedRows.length === data.length) {
-        newCheckedRows = [];
+      if (checkedRows.length === data.length) {
+        checkedRows = [];
       } else {
-        newCheckedRows = data.map(row => row[idKey]);
+        checkedRows = data.map(row => row[idKey]);
       }
     } else {
-      const ind = checkedRows.findIndex(rowId => rowId === id);
-      if (ind !== -1) {
-        newCheckedRows.splice(ind, 1);
+      const index = checkedRows.findIndex(rowId => rowId === id);
+
+      if (index !== -1) {
+        checkedRows.splice(index, 1);
       } else {
-        newCheckedRows.push(id);
+        checkedRows.push(id);
       }
     }
-    this.setState(
-      {
-        checkedRows: newCheckedRows
-      },
-      () => onRowCheck && onRowCheck(newCheckedRows)
-    );
-  };
 
-  handleColumnVisibilityChange = ({ target: { id } }) => {
-    const ind = this.state.columns.findIndex(col => col.dataKey === id);
-    if (ind !== -1) {
-      const oldVisibility = this.state.columns[ind].visible;
-      const newColumns = [
-        ...this.state.columns.slice(0, ind),
-        {
-          ...this.state.columns[ind],
-          visible: !oldVisibility
-        },
-        ...this.state.columns.slice(ind + 1)
-      ];
-
+    if (selectedRows && onRowCheck) {
+      onRowCheck(checkedRows);
+    } else {
       this.setState({
-        columns: newColumns
+        checkedRows
       });
     }
   };
 
+  getCheckedRows = () => {
+    return this.props.selectedRows || this.state.checkedRows;
+  };
+
+  isRowSelected = rowId => {
+    return this.getCheckedRows().includes(rowId);
+  };
+
+  isAllRowsSelected = () => {
+    return this.props.data.length === this.getCheckedRows().length;
+  };
+
+  handleColumnVisibilityChange = dataKey => {
+    this.setState(({ columns }) => ({
+      columns: columns.map(column => {
+        if (column.dataKey === dataKey) {
+          return {
+            ...column,
+            visible: !column.visible
+          };
+        }
+
+        return column;
+      })
+    }));
+  };
+
   headerRenderer = () => {
-    const { columns, sortedColumn, checkedRows, data } = this.state;
-    const isAllSelected = data.length === checkedRows.length;
-    const { checkboxRenderer, idKey, headerClassName } = this.props;
+    const { sortedColumn } = this.state;
+    const { checkboxRenderer, idKey, headerClassName: className } = this.props;
+
+    const isAllSelected = this.isAllRowsSelected();
+    const checkedRows = this.getCheckedRows();
+    const columns = this.getVisibleColumns();
+
     return (
       <HeaderRow
+        {...{
+          sortedColumn,
+          columns,
+          checkboxRenderer,
+          checkedRows,
+          idKey,
+          isAllSelected,
+          className
+        }}
         rowIndex={0}
         styleCalculator={this.getLeftStyle}
         stickyFunction={this.isLastSticky}
         onDragEnd={this.handleDragEnd}
         onSort={this.handleSort}
-        sortedColumn={sortedColumn}
-        columns={columns.filter(col => col.visible)}
-        checkboxRenderer={checkboxRenderer}
-        checkedRows={checkedRows}
         onCheck={this.handleRowCheck}
-        idKey={idKey}
-        isAllSelected={isAllSelected}
-        className={headerClassName}
       />
     );
   };
@@ -201,39 +278,85 @@ export default class Table extends PureComponent {
     }
   };
 
+  getVisibleColumns = () => {
+    return this.state.columns.filter(column => column.visible);
+  };
+
+  saveRowRef = (ref, rowIndex) => {
+    this.rowRefs[rowIndex] = ref;
+  };
+
   bodyRenderer = () => {
-    const { columns, data, checkedRows } = this.state;
+    const { data } = this.state;
     const {
       rowSelection,
       checkboxRenderer,
       idKey,
       rowClassName,
-      rowRenderer
+      rowRenderer: renderer,
+      infiniteScrollLoaderRowCount,
+      infiniteScrollCellRenderer
     } = this.props;
 
-    return data.map((rowData, index) => {
-      const id = rowData[idKey];
-      const isChecked = checkedRows.includes(id);
+    const columns = this.getVisibleColumns();
 
-      return (
-        <Row
-          id={id}
-          columns={columns.filter(col => col.visible)}
-          rowData={rowData}
-          rowIndex={index + 1}
-          styleCalculator={this.getLeftStyle}
-          stickyFunction={this.isLastSticky}
-          onDragEnd={this.handleDragEnd}
-          key={`sticky-table-row-${index + 1}`}
-          rowSelection={rowSelection}
-          checkboxRenderer={checkboxRenderer}
-          isChecked={isChecked || false}
-          onCheck={this.handleRowCheck}
-          rowClassName={rowClassName}
-          renderer={rowRenderer}
-        />
+    const getRows = (data, isLoaderRow, startIndex = 0) => {
+      return data.map((rowData, index) => {
+        const id = rowData[idKey];
+        const isChecked = this.isRowSelected(id);
+        const rowIndex = startIndex + index + 1;
+
+        return (
+          <Row
+            {...{
+              id,
+              columns,
+              rowData,
+              rowSelection,
+              checkboxRenderer,
+              rowClassName,
+              isChecked,
+              rowIndex,
+              renderer,
+              infiniteScrollCellRenderer,
+              isLoaderRow
+            }}
+            getRef={this.saveRowRef}
+            styleCalculator={this.getLeftStyle}
+            stickyFunction={this.isLastSticky}
+            onDragEnd={this.handleDragEnd}
+            key={`sticky-table-row-${id || rowIndex}`}
+            onCheck={this.handleRowCheck}
+          />
+        );
+      });
+    };
+
+    const rows = getRows(data);
+
+    const unloadedRowCount = this.getUnloadedRowCount();
+
+    if (unloadedRowCount) {
+      /**
+       *  calculate how many rows to display as loader rows
+       *  if almost all data is loaded - display only n remaining rows
+       */
+      const loaderRowCount = Math.min(
+        infiniteScrollLoaderRowCount,
+        unloadedRowCount
       );
-    });
+
+      const rowCount = rows.length;
+
+      // generate fake loader row data (we basically only need some distinct ids)
+      const loaderRowsData = times(loaderRowCount, index => ({
+        id: `sticky-react-loader-row-${rowCount + index + 1}`
+      }));
+
+      return rows.concat(getRows(loaderRowsData, true, rowCount));
+    }
+
+    return rows;
   };
 
   validateChild = child => {
@@ -247,10 +370,12 @@ export default class Table extends PureComponent {
   handleDragEnd = columnIndex => e => {
     const widthDiff = e.clientX - e.target.getBoundingClientRect().left;
     const newColumns = [...this.state.columns];
+
     newColumns[columnIndex] = {
       ...newColumns[columnIndex],
       width: newColumns[columnIndex].width + widthDiff
     };
+
     this.setState({
       columns: newColumns
     });
@@ -260,42 +385,79 @@ export default class Table extends PureComponent {
     this.dragHandle = ref;
   };
 
+  getUnloadedRowCount = () => {
+    const {
+      infiniteScrollLoadMore,
+      infiniteScrollTotalCount,
+      data
+    } = this.props;
+
+    if (infiniteScrollLoadMore && infiniteScrollTotalCount) {
+      return infiniteScrollTotalCount - data.length;
+    }
+
+    return 0;
+  };
+
+  isInfiniteLoadingEnabled = () => {
+    return !!this.getUnloadedRowCount();
+  };
+
+  handleScroll = () => {
+    const {
+      infiniteScrollThreshold,
+      infiniteScrollLoadMore,
+      infiniteScrollPageSize,
+      data
+    } = this.props;
+
+    const dataCount = data.length;
+    const nextPage = Math.floor(dataCount / infiniteScrollPageSize) + 1;
+
+    if (!this.requestedPages[nextPage]) {
+      const targetRow = this.rowRefs[dataCount - infiniteScrollThreshold];
+
+      const {
+        top: innerTop,
+        height: viewPortHeight
+      } = this.innerRef.getBoundingClientRect();
+
+      const { top: rowTop } = targetRow.getBoundingClientRect();
+
+      if (viewPortHeight - rowTop + innerTop > 0) {
+        this.requestedPages[nextPage] = true;
+
+        infiniteScrollLoadMore(nextPage * infiniteScrollPageSize, last(data));
+      }
+    }
+  };
+
+  saveInnerRef = ref => {
+    this.innerRef = ref;
+  };
+
   render() {
     const { columns } = this.state;
+    const { checkboxRenderer } = this.props;
+    const infiniteLoadingEnabled = this.isInfiniteLoadingEnabled();
 
     return (
       <div className="Sticky-React-Table" style={mainContainerStyle}>
-        <div className="Sticky-React-Table-inner" style={innerContainerStyle}>
+        <div
+          ref={this.saveInnerRef}
+          className="Sticky-React-Table-inner"
+          style={innerContainerStyle}
+          onScroll={infiniteLoadingEnabled ? this.handleScroll : null}
+        >
           {this.headerRenderer()}
           {this.bodyRenderer()}
         </div>
+
         <ColumnSwitcher
-          columns={columns}
+          {...{ checkboxRenderer, columns }}
           onChange={this.handleColumnVisibilityChange}
         />
       </div>
     );
   }
 }
-
-Table.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node)
-  ]).isRequired,
-  fixed: PropTypes.number,
-  data: PropTypes.array.isRequired,
-  onSort: PropTypes.func,
-  rowSelection: PropTypes.bool,
-  checkboxRenderer: PropTypes.node,
-  onRowCheck: PropTypes.func,
-  idKey: PropTypes.string,
-  rowClassName: PropTypes.func,
-  headerClassName: PropTypes.string,
-  rowRenderer: PropTypes.func
-};
-
-Table.defaultProps = {
-  rowSelection: true,
-  idKey: 'id'
-};

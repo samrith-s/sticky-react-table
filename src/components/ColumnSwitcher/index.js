@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import memoize from 'memoize-one';
+
+import ColumnSwitcherItem from './ColumnSwitcherItem';
 
 import { columnSwitcherStyle } from '../../styles/column.styles';
+import { RendererType } from '../../constants';
 
 class ColumnSwitcher extends Component {
   state = {
@@ -54,8 +58,20 @@ class ColumnSwitcher extends Component {
     }
   };
 
+  getSwitchableColumns = memoize(columns =>
+    columns.filter(
+      column =>
+        !column.isCheckbox &&
+        !column.alwaysVisible &&
+        column.dataKey &&
+        column.title
+    )
+  );
+
   render() {
-    const { columns, onChange } = this.props;
+    let { onChange, checkboxRenderer, columns } = this.props;
+
+    columns = this.getSwitchableColumns(columns);
 
     return (
       <div
@@ -69,32 +85,24 @@ class ColumnSwitcher extends Component {
         >
           :
         </div>
+
         {this.state.visible && (
           <div
             className="Sticky-React-Table--Header-Column-Switcher-Dropdown"
             ref={this.handleMenuRef}
           >
-            {columns
-              .filter(({ isCheckbox }) => !isCheckbox)
-              .map(({ title, dataKey, visible }) => {
-                return (
-                  <div
-                    className="Sticky-React-Table--Header-Column-Switcher-Item"
-                    key={title}
-                  >
-                    <label htmlFor={dataKey}>
-                      <input
-                        type="checkbox"
-                        id={dataKey}
-                        name="column"
-                        onChange={onChange}
-                        checked={visible}
-                      />
-                      {title}
-                    </label>
-                  </div>
-                );
-              })}
+            {columns.map(({ title, dataKey, visible: isChecked }) => (
+              <ColumnSwitcherItem
+                key={dataKey}
+                {...{
+                  isChecked,
+                  title,
+                  dataKey,
+                  onChange,
+                  checkboxRenderer
+                }}
+              />
+            ))}
           </div>
         )}
       </div>
@@ -104,7 +112,8 @@ class ColumnSwitcher extends Component {
 
 ColumnSwitcher.propTypes = {
   columns: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  checkboxRenderer: RendererType
 };
 
 export default ColumnSwitcher;
