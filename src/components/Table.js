@@ -9,6 +9,8 @@ import DefaultInfiniteScrollCellRenderer from './Rows/Cells/DefaultInfiniteScrol
 import { ColumnDisplayName, RendererType } from '../constants';
 import Errors from './Errors';
 
+import { RowId } from '../types';
+
 import { sort } from '../util';
 
 import {
@@ -40,9 +42,7 @@ export default class Table extends PureComponent {
     rowClassName: PropTypes.func,
     headerClassName: PropTypes.string,
     rowRenderer: PropTypes.func,
-    selectedRows: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    ),
+    selectedRows: PropTypes.arrayOf(RowId),
     infiniteScrollTotalCount: PropTypes.number,
     infiniteScrollLoadMore: PropTypes.func,
     infiniteScrollThreshold: PropTypes.number,

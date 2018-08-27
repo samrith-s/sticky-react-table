@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { Cell } from './Cells';
 
 import { RendererType, rowPropKeys } from '../../constants';
+import { RowId } from '../../types';
 
 import { renderElement } from '../../util';
 
@@ -23,7 +24,7 @@ export default class Row extends PureComponent {
     onCheck: PropTypes.func.isRequired,
     rowClassName: PropTypes.func,
     renderer: PropTypes.func,
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    id: RowId.isRequired,
     checkboxRenderer: RendererType,
     isLoaderRow: PropTypes.bool,
     infiniteScrollCellRenderer: RendererType,

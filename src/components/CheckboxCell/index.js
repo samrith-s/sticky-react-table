@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { pick } from 'lodash';
 
 import { cellPropKeys } from '../../constants';
+import { RowId } from '../../types';
 
 import { renderElement } from '../../util';
 
@@ -35,7 +36,7 @@ export default class CheckboxCell extends Component {
 }
 CheckboxCell.propTypes = {
   onCheck: PropTypes.func.isRequired,
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  id: RowId.isRequired,
   isChecked: PropTypes.bool.isRequired,
   renderer: PropTypes.func
 };

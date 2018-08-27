@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import CheckboxCell from '../../CheckboxCell';
 
 import { cellPropKeys, RendererType } from '../../../constants';
+import { RowId } from '../../../types';
 
 import { getCellStyle, renderElement } from '../../../util';
 
@@ -76,7 +77,7 @@ Cell.propTypes = {
   isLastSticky: PropTypes.bool,
   renderer: PropTypes.func,
   onDragEnd: PropTypes.func.isRequired,
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  id: RowId.isRequired,
   isChecked: PropTypes.bool.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
   onCheck: PropTypes.func.isRequired,

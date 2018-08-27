@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import CheckboxCell from '../../CheckboxCell';
 
 import { headerCellPropKeys, RendererType } from '../../../constants';
+import { RowId } from '../../../types';
 
 import { getCellStyle, renderElement } from '../../../util';
 
@@ -101,7 +102,7 @@ HeaderCell.propTypes = {
   isSortable: PropTypes.bool,
   sortedColumn: PropTypes.object,
   dataKey: PropTypes.string,
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  id: RowId.isRequired,
   checkedRows: PropTypes.array.isRequired,
   onCheck: PropTypes.func.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
