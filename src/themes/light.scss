@@ -1,11 +1,6 @@
+@import './partials/variables/_light-variables';
+
 .Sticky-React-Table {
-  $dark: #333;
-  $white: #fff;
-  $gray: #555;
-  $gray-light: #999;
-  $gray-lighter: #efefef;
-  $gray-lightest: #f4f4f4;
-  $interaction-color: #add8e6;
 
   &,
   * {
@@ -75,7 +70,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $interaction-color;
+      background-color: $interaction;
     }
 
     &-Cell {
@@ -87,13 +82,13 @@
       word-wrap: break-word;
 
       &:focus {
-        box-shadow: inset 0 0 0 2px darken($interaction-color, 17.5%);
+        box-shadow: inset 0 0 0 2px darken($interaction, 17.5%);
         outline: 0;
       }
     }
 
     &.Sticky-React-Table--Row--is-Checked {
-      background: lighten($interaction-color, 5%);
+      background: lighten($interaction, 5%);
     }
   }
 

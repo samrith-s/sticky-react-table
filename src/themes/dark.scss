@@ -1,13 +1,7 @@
 // todo-ss: Fix variable names and find common variable names for both light nad dark themes
+@import './partials/variables/_dark-variables';
 
 .Sticky-React-Table {
-  $dark: #666;
-  $white: #222;
-  $gray: #f4f4f4;
-  $gray-light: #555;
-  $gray-lighter: #444;
-  $gray-lightest: #333;
-  $interaction-color: #3e3e3e;
 
   &,
   * {
@@ -15,11 +9,11 @@
   }
 
   &--Header {
-    background: darken($gray-lighter, 5%);
-    color: $gray;
+    background: darken($gray-lighter, 11.6%);
+    color: $white;
     flex-shrink: 0;
     user-select: none;
-    border-bottom: 1px solid rgba($dark, 0.15);
+    border-bottom: 1px solid rgba($gray-lightest, 0.15);
     cursor: pointer;
 
     &-Cell {
@@ -36,16 +30,16 @@
     }
 
     &-Column-Switcher {
-      color: $gray;
+      color: $white;
 
       &-Icon {
         border-radius: 3px;
         position: relative;
         padding: 3px 10px;
         font-weight: bold;
-        background: $gray-lightest;
-        color: $gray-light;
-        border: 1px solid rgba($dark, 0.25);
+        background: $gray;
+        color: $gray-lighter;
+        border: 1px solid rgba($gray-lightest, 0.25);
         cursor: pointer;
       }
 
@@ -56,11 +50,11 @@
         padding: 10px;
         max-height: 300px;
         min-width: 200px;
-        background: $white;
+        background: $dark;
         overflow: auto;
         transform: translate(0, 100%);
-        box-shadow: 0 2px 5px 1px rgba($dark, 0.15);
-        border: 1px solid rgba($dark, 0.15);
+        box-shadow: 0 2px 5px 1px rgba($gray-lightest, 0.15);
+        border: 1px solid rgba($gray-lightest, 0.15);
       }
 
       &-Item label {
@@ -74,17 +68,17 @@
   }
 
   &--Row {
-    background: $white;
-    border-bottom: 1px solid rgba($dark, 0.1);
-    color: darken($gray, 25%);
+    background: $dark;
+    border-bottom: 1px solid rgba($gray-lightest, 0.1);
+    color: lighten($gray-lightest, 30.5%);
     cursor: pointer;
 
     &:nth-child(odd) {
-      background: darken($white, 5%);
+      background: darken($dark, 5%);
     }
 
     &:hover {
-      background-color: $interaction-color;
+      background-color: $interaction;
     }
 
     &-Cell {
@@ -96,22 +90,22 @@
       word-wrap: break-word;
 
       &:focus {
-        box-shadow: inset 0 0 0 2px darken($interaction-color, 17.5%);
+        box-shadow: inset 0 0 0 2px darken($interaction, 17.5%);
         outline: 0;
       }
     }
 
     &.Sticky-React-Table--Row--is-Checked {
-      background: lighten($interaction-color, 5%);
+      background: lighten($interaction, 5%);
     }
   }
 
   &--Row-Cell,
   &--Header-Cell {
-    border-right: 1px solid rgba($dark, 0.15);
+    border-right: 1px solid rgba($gray-lightest, 0.15);
 
     &:hover .Sticky-React-Table-Resize-Handler {
-      background: rgba($dark, 0.5);
+      background: rgba($gray-lightest, 0.5);
     }
 
     &-Checkbox {
