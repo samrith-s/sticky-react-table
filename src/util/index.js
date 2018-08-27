@@ -1,3 +1,4 @@
+import React from 'react';
 import { orderBy } from 'lodash';
 
 import { defaultCellStyle, stickyCellStyle } from '../styles/cell.styles';
@@ -31,3 +32,13 @@ export function getCellStyle(style, isSticky) {
 
   return cellStyle;
 }
+
+export const renderElement = (element, props, defaultRenderer) => {
+  if (!element) {
+    return defaultRenderer;
+  }
+
+  return React.isValidElement(element)
+    ? React.cloneElement(element, props)
+    : React.createElement(element, props);
+};

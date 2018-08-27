@@ -10,50 +10,58 @@ import '../../src/themes/dark.scss';
 import './style.css';
 
 export default class App extends Component {
-  state = {
-    rowCount: 100,
-    rows: []
-  };
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    this.setState({
-      rows: generateData(this.state.rowCount)
-    });
+    this.state.rows = generateData(30);
   }
 
-  headerRenderer = props => {
-    return <HeaderCell {...props} />;
-  };
-
-  rowRenderer = props => {
-    if (props.isChecked) {
-      return <div>This is my custom row!</div>;
-    }
-
-    return null;
+  state = {
+    rows: [],
+    selectedRows: []
   };
 
   //eslint-disable-next-line
   handleSort = column => {};
 
-  //eslint-disable-next-line
-  handleRowCheck = e => {};
+  handleRowCheck = selectedRows => {
+    this.setState({
+      selectedRows
+    });
+  };
+
+  renderCheckbox = ({ checkbox }) => {
+    return <span>{checkbox}</span>;
+  };
+
+  handleLoadMoreRows = () => {
+    setTimeout(() => {
+      this.setState(({ rows }) => ({
+        rows: rows.concat(generateData(30))
+      }));
+    }, 1000);
+  };
 
   render() {
-    const { rows } = this.state;
+    const { rows, selectedRows } = this.state;
+
     return (
       <div className="App">
         <Table
           data={rows}
           fixed={4}
           onRowCheck={this.handleRowCheck}
-          rowRenderer={this.rowRenderer}
+          selectedRows={selectedRows}
+          checkboxRenderer={this.renderCheckbox}
+          infiniteScrollLoadMore={this.handleLoadMoreRows}
+          infiniteScrollTotalCount={300}
         >
           <Column
             title="Name"
             width={200}
             dataKey="name"
-            headerRenderer={this.headerRenderer}
+            headerRenderer={HeaderCell}
+            alwaysVisible
           />
           <Column title="Age" width={50} dataKey="age" />
           <Column title="Gender" width={75} dataKey="gender" />

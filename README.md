@@ -102,7 +102,7 @@ ReactDOM.render(<MyTable />, rootElement);
 
 From here on, you can customize the cell, row or header renderers, add custom classes, style it however you need.
 
-If you use a SASS as a pre-processor, two default themes are provided: light and dark. To use the themes, simply import the relevant theme.
+If you use SASS as a pre-processor, two default themes are provided: light and dark. To use the themes, simply import the relevant theme.
 
 - Light Theme: `sticky-react-table/lib/themes/light.scss`
 - Dark Theme: `sticky-react-table/lib/themes/dark.scss`
@@ -119,26 +119,34 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 ### Table
 
-**Properties:**
+#### Properties:
 
-| Property        | Type     | Default     | Description                                                         | Required |
-| --------------- | -------- | ----------- | ------------------------------------------------------------------- | -------- |
-| data            | `Array`  | `undefined` | The array of data to be used by the table to render rows and cells. | **Yes**  |
-| children        | `Column` | `undefined` | The `Column` component. It does not accept any other children.      | **Yes**  |
-| fixed           | `Number` | `undefined` | The number of fixed columns in the table.                           | No       |
-| rowSelection    | `Bool`   | `true`      | This property determines whether checkbox column is rendered.       | No       |
-| idKey           | `String` | `id`        | A key used to uniquely identify data.                               | No       |
-| rowClassName    | `String` | `undefined` | Custom classes for a row.                                           | No       |
-| headerClassName | `String` | `undefined` | Custom classes for the header row.                                  | No       |
+| Property                     | Type                 | Default     | Description                                                                                         | Required |
+| ---------------------------- | -------------------- | ----------- | --------------------------------------------------------------------------------------------------- | -------- |
+| data                         | `Array`              | `undefined` | The array of data to be used by the table to render rows and cells.                                 | **Yes**  |
+| children                     | `Column`             | `undefined` | The `Column` component. It does not accept any other children.                                      | **Yes**  |
+| fixed                        | `Number`             | `undefined` | The number of fixed columns in the table.                                                           | No       |
+| rowSelection                 | `Bool`               | `true`      | This property determines whether checkbox column is rendered.                                       | No       |
+| idKey                        | `String`             | `id`        | A key used to uniquely identify data.                                                               | No       |
+| rowClassName                 | `String`             | `undefined` | Custom classes for a row.                                                                           | No       |
+| headerClassName              | `String`             | `undefined` | Custom classes for the header row.                                                                  | No       |
+| selectedRows                 | `Array`              | `undefined` | An array of ids to make the table act as a controlled selection component.                          | No       |
+| infiniteScrollTotalCount     | `Number`             | `undefined` | Total number of rows which can be loaded using infinite loader.                                     | No       |
+| infiniteScrollLoadMore       | `Function`           | `undefined` | Invoked when a new page is requested when using infinite loader.                                    | No       |
+| infiniteScrollThreshold      | `Number`             | `10`        | The number of rows before the end of the table that will trigger a call to infiniteScrollThreshold. | No       |
+| infiniteScrollLoaderRowCount | `Number`             | `5`         | The number of additional rows to display at the bottom for progress indication.                     | No       |
+| infiniteScrollPageSize       | `Number`             | `30`        | A number of rows loaded with each portion.                                                          | No       |
+| infiniteScrollCellRenderer   | `Node` or `Function` | `undefined` | Custom content to display within cells of additional loader rows.                                   | No       |
 
-**Callbacks:**
+#### Callbacks:
 
-| Name             | Description                          | Parameters                                              |
-| ---------------- | ------------------------------------ | ------------------------------------------------------- |
-| onSort           | Pass a custom sorting functionality. | Array of column data                                    |
-| onRowCheck       | Handle checking of a row.            | Id of the checked row or `all` if all rows are checked. |
-| checkboxRenderer | Custom renderer for checkbox column. | [Cell Props][cell-props]                                |
-| rowRenderer      | Custom row renderer                  | [Row Props][row-props]                                  |
+| Name             | Description                          | Parameters                                                |
+| ---------------- | ------------------------------------ | --------------------------------------------------------- |
+| onSort           | Pass a custom sorting functionality. | Array of column data                                      |
+| onRowCheck       | Handle checking of a row.            | Id of the checked row or `"all"` if all rows are checked. |
+| checkboxRenderer | Custom renderer for checkbox column. | [Cell Props][cell-props]                                  |
+| rowRenderer      | Custom row renderer                  | [Row Props][row-props]                                    |
+| ref              | Get ref of inner component.          | Reference to inner component                              |
 
 # <a name="null"></a>
 
@@ -146,16 +154,17 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 ### Column
 
-**Properties:**
+#### Properties:
 
-| Property  | Type                | Default     | Description                                                          | Required |
-| --------- | ------------------- | ----------- | -------------------------------------------------------------------- | -------- |
-| dataKey   | `String`            | `undefined` | The data key for the value to be rendered into the cell              | No       |
-| title     | `String`            | `undefined` | The title to be displayed in the header if no renderer is specified. | No       |
-| width     | `Number`            | `0`         | The absolute width of the column.                                    | No       |
-| className | `Array` or `String` | `undefined` | A custom class for the cell.                                         | No       |
+| Property      | Type                | Default     | Description                                                          | Required |
+| ------------- | ------------------- | ----------- | -------------------------------------------------------------------- | -------- |
+| dataKey       | `String`            | `undefined` | The data key for the value to be rendered into the cell              | No       |
+| title         | `String`            | `undefined` | The title to be displayed in the header if no renderer is specified. | No       |
+| width         | `Number`            | `0`         | The absolute width of the column.                                    | No       |
+| className     | `Array` or `String` | `undefined` | A custom class for the cell.                                         | No       |
+| alwaysVisible | `Bool`              | `false`     | Defines whether the column should always be visible.                 | No       |
 
-**Callbacks:**
+#### Callbacks:
 
 | Name           | Description                                                     | Parameters               |
 | -------------- | --------------------------------------------------------------- | ------------------------ |
@@ -184,6 +193,8 @@ propTypes = {
   isAllSelected: PropTypes.bool // Only available in headerRenderer
 }
 ```
+
+# <a name="null"></a>
 
 <a name="row-props"></a>
 

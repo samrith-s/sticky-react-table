@@ -6,6 +6,7 @@ import { map } from 'lodash';
 import { HeaderCell } from './Cells';
 
 import { headerStyles } from '../../styles/row.styles';
+import { RendererType } from '../../constants';
 
 export default class HeaderRow extends PureComponent {
   renderColumns = () => {
@@ -20,20 +21,21 @@ export default class HeaderRow extends PureComponent {
       checkedRows,
       onCheck,
       isAllSelected,
-      data
+      data,
+      checkboxRenderer
     } = this.props;
 
-    return columns.map((column, index) => {
+    return columns.map((column, cellIndex) => {
       const {
         title,
         width,
         dataKey,
-        headerRenderer,
+        headerRenderer: renderer,
         isSortable,
         isCheckbox
       } = column;
-      const style = { width, ...styleCalculator(index) };
-      const { isSticky, isLastSticky } = stickyFunction(index);
+      const style = { width, ...styleCalculator(cellIndex) };
+      const { isSticky, isLastSticky } = stickyFunction(cellIndex);
 
       const columnData = data.reduce((values, row) => {
         if (values[row[dataKey]]) {
@@ -52,27 +54,29 @@ export default class HeaderRow extends PureComponent {
 
       return (
         <HeaderCell
-          title={title}
-          width={width}
-          dataKey={dataKey}
-          index={index}
-          style={style}
-          isSticky={isSticky}
-          isLastSticky={isLastSticky}
-          renderer={headerRenderer}
-          cellIndex={index}
-          rowIndex={rowIndex}
-          onDragEnd={onDragEnd(index)}
-          key={`sitcky-table-header-${index}`}
-          isSortable={isSortable}
-          onSort={onSort}
-          sortedColumn={sortedColumn}
+          {...{
+            title,
+            width,
+            dataKey,
+            cellIndex,
+            style,
+            isSticky,
+            isLastSticky,
+            renderer,
+            rowIndex,
+            isSortable,
+            onSort,
+            sortedColumn,
+            checkedRows,
+            onCheck,
+            isCheckbox,
+            isAllSelected,
+            columnData
+          }}
+          onDragEnd={onDragEnd(cellIndex)}
+          key={`sitcky-table-header-${cellIndex}`}
           id="all"
-          checkedRows={checkedRows}
-          onCheck={onCheck}
-          isCheckbox={isCheckbox}
-          isAllSelected={isAllSelected}
-          columnData={columnData}
+          checkboxRenderer={isCheckbox ? checkboxRenderer : null}
         />
       );
     });
@@ -104,5 +108,6 @@ HeaderRow.propTypes = {
   checkedRows: PropTypes.array.isRequired,
   onCheck: PropTypes.func.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  checkboxRenderer: RendererType
 };

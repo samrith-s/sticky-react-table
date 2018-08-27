@@ -6,9 +6,9 @@ import classNames from 'classnames';
 import CheckboxCell from '../../CheckboxCell';
 import Filter from './../../Filters';
 
-import { cellPropKeys } from '../../../constants';
+import { headerCellPropKeys, RendererType } from '../../../constants';
 
-import { getCellStyle } from '../../../util';
+import { getCellStyle, renderElement } from '../../../util';
 
 export default class HeaderCell extends PureComponent {
   handleDragHandleRef = ref => {
@@ -16,8 +16,10 @@ export default class HeaderCell extends PureComponent {
   };
 
   handleSort = () => {
-    this.props.onSort(pick(this.props, cellPropKeys));
+    this.props.onSort(this.getRequiredProps());
   };
+
+  getRequiredProps = () => pick(this.props, headerCellPropKeys);
 
   render() {
     const {
@@ -35,7 +37,8 @@ export default class HeaderCell extends PureComponent {
       onCheck,
       isCheckbox,
       isAllSelected,
-      columnData
+      columnData,
+      checkboxRenderer
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
@@ -43,7 +46,8 @@ export default class HeaderCell extends PureComponent {
     return (
       <div
         className={classNames('Sticky-React-Table--Header-Cell', {
-          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky
+          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
+          'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
         style={getCellStyle(style, isSticky)}
         onClick={this.handleSort}
@@ -51,20 +55,22 @@ export default class HeaderCell extends PureComponent {
         {isCheckbox ? (
           <CheckboxCell
             id={id}
-            renderer={renderer}
+            renderer={checkboxRenderer}
             checkedRows={checkedRows}
             onCheck={onCheck}
             isChecked={isAllSelected}
           />
         ) : (
           <Fragment>
-            {renderer ? renderer(pick(this.props, cellPropKeys)) : title}
+            {renderElement(renderer, this.getRequiredProps(), title)}
+
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}
               onDragEnd={onDragEnd}
               ref={this.handleDragHandleRef}
             />
+
             {isSortable &&
               isSorted && (
                 <div className="Sticky-React-Table-Sort-Icon">
@@ -103,7 +109,8 @@ HeaderCell.propTypes = {
   onCheck: PropTypes.func.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
-  columnData: PropTypes.object
+  columnData: PropTypes.object,
+  checkboxRenderer: RendererType
 };
 
 HeaderCell.defaultProps = {
