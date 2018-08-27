@@ -42,3 +42,6 @@ export const renderElement = (element, props, defaultRenderer) => {
     ? React.cloneElement(element, props)
     : React.createElement(element, props);
 };
+
+export const getClass = (postfix, prefix = 'Sticky-React-Table') =>
+  `${prefix}${postfix}`;

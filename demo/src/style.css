@@ -9,3 +9,7 @@ body,
   font-family: sans-serif;
   line-height: 1.423156456;
 }
+
+.Sticky-React-Table--Row {
+  height: 110px;
+}
