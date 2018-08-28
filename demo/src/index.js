@@ -5,6 +5,7 @@ import { generateData } from './utils/data-generator';
 
 import { Table, Column } from '../../src';
 import HeaderCell from './HeaderCell';
+import ColumnFilter from './ColumnFilter';
 
 import '../../src/themes/dark.scss';
 import './style.css';
@@ -56,16 +57,16 @@ export default class App extends Component {
           infiniteScrollLoadMore={this.handleLoadMoreRows}
           infiniteScrollTotalCount={300}
         >
-          <Column
-            title="Name"
-            width={200}
-            dataKey="name"
-            headerRenderer={HeaderCell}
-            alwaysVisible
-          />
+          <Column title="Name" width={200} dataKey="name" alwaysVisible />
           <Column title="Age" width={50} dataKey="age" />
           <Column title="Gender" width={75} dataKey="gender" />
-          <Column title="Designation" width={200} dataKey="designation" />
+          <Column
+            title="Designation"
+            width={200}
+            dataKey="designation"
+            headerRenderer={HeaderCell}
+            filterRenderer={ColumnFilter}
+          />
           <Column title="Location" width={150} dataKey="location" />
           <Column title="Top Skill" width={250} dataKey="topSkill" />
           <Column title="Email" width={300} dataKey="email" />
