@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Filter extends Component {
-  static propTypes = {
-    columnData: PropTypes.object.isRequired
-  };
+import FilterItem from './FilterItem';
 
+import { RendererType } from '../../constants';
+
+import { renderElement } from '../../util';
+
+export default class Filter extends Component {
   state = {
     visibility: false
   };
@@ -61,9 +63,38 @@ class Filter extends Component {
     this.icon = ref;
   };
 
+  isChecked = (dataKey, value) => {
+    return this.props.filters[dataKey] && this.props.filters[dataKey][value];
+  };
+
   render() {
-    const { columnData } = this.props;
+    const { data, dataKey, filterRenderer, onFilterChange } = this.props;
     const { visibility } = this.state;
+
+    const columnData = data.reduce((values, row) => {
+      if (values[row[dataKey]]) {
+        values[row[dataKey]].count++;
+      } else {
+        values[row[dataKey]] = {
+          id: row.id,
+          value: row[dataKey],
+          count: 1
+        };
+      }
+      return values;
+    }, {});
+
+    const headerFilters = Object.keys(columnData).map(value => (
+      <FilterItem
+        value={value}
+        count={columnData[value].count}
+        onChange={onFilterChange}
+        dataKey={dataKey}
+        key={value}
+        isChecked={this.isChecked(dataKey, value)}
+      />
+    ));
+
     return (
       <div className="Sticky-React-Table--Header-Filter">
         <div
@@ -79,31 +110,13 @@ class Filter extends Component {
             className="Sticky-React-Table--Header-Filter-Dropdown"
             ref={this.handleMenuRef}
           >
-            {Object.keys(columnData).map(value => {
-              return (
-                <div
-                  className="Sticky-React-Table--Header-Filter-Dropdown-Item"
-                  key={value}
-                >
-                  <label htmlFor={value}>
-                    <input
-                      type="checkbox"
-                      id={value}
-                      name="column"
-                      onChange={this.handleChange}
-                    />
-                    <span className="Sticky-React-Table--Header-Filter-Dropdown-Row">
-                      <span className="Sticky-React-Table--Header-Filter-Dropdown-Value">
-                        {value}
-                      </span>
-                      <span className="Sticky-React-Table--Header-Filter-Dropdown-Count">
-                        {columnData[value].count}
-                      </span>
-                    </span>
-                  </label>
-                </div>
-              );
-            })}
+            {renderElement(
+              filterRenderer,
+              {
+                ...this.props
+              },
+              headerFilters
+            )}
           </div>
         )}
       </div>
@@ -111,4 +124,10 @@ class Filter extends Component {
   }
 }
 
-export default Filter;
+Filter.propTypes = {
+  data: PropTypes.array.isRequired,
+  filters: PropTypes.object.isRequired,
+  dataKey: PropTypes.string.isRequired,
+  filterRenderer: RendererType,
+  onFilterChange: PropTypes.func
+};

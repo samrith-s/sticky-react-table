@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { times, last } from 'lodash';
+import { times, last, isEmpty } from 'lodash';
 
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
@@ -9,7 +9,7 @@ import DefaultInfiniteScrollCellRenderer from './Rows/Cells/DefaultInfiniteScrol
 import { ColumnDisplayName, RendererType } from '../constants';
 import Errors from './Errors';
 
-import { sort } from '../util';
+import { sort, filter } from '../util';
 
 import {
   mainContainerStyle,
@@ -72,20 +72,31 @@ export default class Table extends PureComponent {
     columns: [],
     sortedColumn: null,
     data: [],
-    checkedRows: []
+    checkedRows: [],
+    filters: {}
   };
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
-    if (nextProps.onSort || prevState.sortedColumn === null) {
+    if (
+      (nextProps.onSort || prevState.sortedColumn === null) &&
+      isEmpty(prevState.filters)
+    ) {
       return { data: nextProps.data };
     } else {
-      return {
-        data: sort(
+      let data = [...nextProps.data];
+      if (prevState.sortedColumn !== null && !nextProps.onSort) {
+        data = sort(
           nextProps.data,
           prevState.sortedColumn.dataKey,
           prevState.sortedColumn.dir.toLowerCase()
-        )
-      };
+        );
+      }
+
+      if (!isEmpty(prevState.filters)) {
+        data = filter(data, prevState.filters);
+      }
+
+      return { data };
     }
   };
 
@@ -224,8 +235,27 @@ export default class Table extends PureComponent {
     }));
   };
 
+  handleFilterChange = (key, value, count) => {
+    const filters = { ...this.state.filters };
+    if (filters[key]) {
+      if (filters[key][value]) {
+        delete filters[key][value];
+        if (isEmpty(filters[key])) {
+          delete filters[key];
+        }
+      } else {
+        filters[key][value] = count;
+      }
+    } else {
+      filters[key] = { [value]: count };
+    }
+    this.setState({
+      filters
+    });
+  };
+
   headerRenderer = () => {
-    const { sortedColumn } = this.state;
+    const { sortedColumn, filters, data } = this.state;
     const { checkboxRenderer, idKey, headerClassName: className } = this.props;
 
     const isAllSelected = this.isAllRowsSelected();
@@ -241,7 +271,9 @@ export default class Table extends PureComponent {
           checkedRows,
           idKey,
           isAllSelected,
-          className
+          className,
+          data,
+          filters
         }}
         rowIndex={0}
         styleCalculator={this.getLeftStyle}
@@ -249,6 +281,7 @@ export default class Table extends PureComponent {
         onDragEnd={this.handleDragEnd}
         onSort={this.handleSort}
         onCheck={this.handleRowCheck}
+        onFilterChange={this.handleFilterChange}
       />
     );
   };

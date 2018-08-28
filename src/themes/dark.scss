@@ -87,9 +87,10 @@
         border: 1px solid rgba(1, 1, 1, 0.15);
         color: black;
 
-        &-Row {
-          display: flex;
-          justify-content: space-between;
+        &-Item {
+          label {
+            cursor: pointer;
+          }
         }
       }
     }

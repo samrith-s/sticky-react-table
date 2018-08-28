@@ -15,8 +15,14 @@ export default class HeaderCell extends PureComponent {
     this.dragHadle = ref;
   };
 
-  handleSort = () => {
-    this.props.onSort(this.getRequiredProps());
+  handleSort = e => {
+    if (
+      !e.target.classList.contains(
+        'Sticky-React-Table--Header-Filter-Dropdown-Value'
+      )
+    ) {
+      this.props.onSort(this.getRequiredProps());
+    }
   };
 
   getRequiredProps = () => pick(this.props, headerCellPropKeys);
@@ -37,8 +43,11 @@ export default class HeaderCell extends PureComponent {
       onCheck,
       isCheckbox,
       isAllSelected,
-      columnData,
-      checkboxRenderer
+      data,
+      checkboxRenderer,
+      filterRenderer,
+      onFilterChange,
+      filters
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
@@ -81,7 +90,13 @@ export default class HeaderCell extends PureComponent {
                   )}
                 </div>
               )}
-            <Filter columnData={columnData} />
+            <Filter
+              data={data}
+              dataKey={dataKey}
+              filterRenderer={filterRenderer}
+              onFilterChange={onFilterChange}
+              filters={filters}
+            />
           </Fragment>
         )}
       </div>
@@ -110,7 +125,11 @@ HeaderCell.propTypes = {
   isCheckbox: PropTypes.bool.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
   columnData: PropTypes.object,
-  checkboxRenderer: RendererType
+  checkboxRenderer: RendererType,
+  data: PropTypes.array.isRequired,
+  filterRenderer: RendererType,
+  onFilterChange: PropTypes.func,
+  filters: PropTypes.object.isRequired
 };
 
 HeaderCell.defaultProps = {

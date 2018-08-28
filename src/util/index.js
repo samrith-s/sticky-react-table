@@ -1,5 +1,5 @@
 import React from 'react';
-import { orderBy } from 'lodash';
+import { orderBy, get } from 'lodash';
 
 import { defaultCellStyle, stickyCellStyle } from '../styles/cell.styles';
 
@@ -15,6 +15,25 @@ export function dragHandlerSizing(ref) {
 
 export function sort(data, key, direction = 'asc') {
   return orderBy(data, key, direction);
+}
+
+export function filter(data, filters) {
+  return data.filter(row => {
+    let toFilter = true;
+    Object.keys(filters).forEach(columnKey => {
+      let isCurrentColumnFilterPresent = false;
+      Object.keys(filters[columnKey]).forEach(filterKey => {
+        if (get(row, columnKey) === filterKey) {
+          isCurrentColumnFilterPresent = true;
+        }
+      });
+
+      if (isCurrentColumnFilterPresent === false) {
+        toFilter = false;
+      }
+    });
+    return toFilter;
+  });
 }
 
 export function getCellStyle(style, isSticky) {
