@@ -65,11 +65,13 @@ export default class HeaderCell extends PureComponent {
             <span onClick={this.handleSort}>
               {renderElement(renderer, this.getRequiredProps(), title)}
             </span>
-            <Filter
-              data={data}
-              dataKey={dataKey}
-              filterRenderer={filterRenderer}
-            />
+            {filterRenderer && (
+              <Filter
+                data={data}
+                dataKey={dataKey}
+                filterRenderer={filterRenderer}
+              />
+            )}
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}

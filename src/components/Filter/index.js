@@ -63,32 +63,28 @@ export default class Filter extends Component {
   render() {
     const { filterRenderer, data, dataKey } = this.props;
     return (
-      <span>
-        {filterRenderer ? (
+      <div
+        className="Sticky-React-Table--Header-Column-Filter"
+        style={filtersStyles}
+      >
+        <div
+          className="Sticky-React-Table--Header-Column-Filter-Icon"
+          onClick={this.handleIconClick}
+          ref={this.handleIconRef}
+          style={filterIconStyles}
+        >
+          :
+        </div>
+        {this.state.visible && (
           <div
-            className="Sticky-React-Table--Header-Column-Filter"
-            style={filtersStyles}
+            className="Sticky-React-Table--Header-Column-Filter-Dropdown"
+            ref={this.handleMenuRef}
+            style={filterDropdownStyles}
           >
-            <div
-              className="Sticky-React-Table--Header-Column-Filter-Icon"
-              onClick={this.handleIconClick}
-              ref={this.handleIconRef}
-              style={filterIconStyles}
-            >
-              :
-            </div>
-            {this.state.visible && (
-              <div
-                className="Sticky-React-Table--Header-Column-Filter-Dropdown"
-                ref={this.handleMenuRef}
-                style={filterDropdownStyles}
-              >
-                {renderElement(filterRenderer, { data, dataKey }, null)}
-              </div>
-            )}
+            {renderElement(filterRenderer, { data, dataKey }, null)}
           </div>
-        ) : null}
-      </span>
+        )}
+      </div>
     );
   }
 }
