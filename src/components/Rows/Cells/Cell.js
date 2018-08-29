@@ -27,15 +27,20 @@ export default class Cell extends PureComponent {
       onCheck,
       isCheckbox,
       className,
-      checkboxRenderer
+      checkboxRenderer,
+      cellIndex
     } = this.props;
 
     return (
       <div
-        className={classNames(className, 'Sticky-React-Table--Row-Cell', {
-          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
-          'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
-        })}
+        className={classNames(
+          className,
+          `Sticky-React-Table--Row-Cell Sticky-React-Table--Row-Cell-${cellIndex}`,
+          {
+            'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
+            'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
+          }
+        )}
         style={getCellStyle(style, isSticky)}
         tabIndex={0}
       >
@@ -81,7 +86,8 @@ Cell.propTypes = {
   isCheckbox: PropTypes.bool.isRequired,
   onCheck: PropTypes.func.isRequired,
   className: PropTypes.string,
-  checkboxRenderer: RendererType
+  checkboxRenderer: RendererType,
+  cellIndex: PropTypes.number.isRequired
 };
 
 Cell.defaultProps = {

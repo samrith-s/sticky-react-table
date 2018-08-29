@@ -18,6 +18,10 @@ export default class HeaderCell extends PureComponent {
     this.props.onSort(this.getRequiredProps());
   };
 
+  onMaxColumnResize = () => {
+    this.props.onMaxColumnResize(this.props.cellIndex);
+  };
+
   getRequiredProps = () => pick(this.props, headerCellPropKeys);
 
   render() {
@@ -67,6 +71,7 @@ export default class HeaderCell extends PureComponent {
               draggable={true}
               onDragEnd={onDragEnd}
               ref={this.handleDragHandleRef}
+              onDoubleClick={this.onMaxColumnResize}
             />
 
             {isSortable &&
@@ -106,7 +111,9 @@ HeaderCell.propTypes = {
   onCheck: PropTypes.func.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
-  checkboxRenderer: RendererType
+  checkboxRenderer: RendererType,
+  onMaxColumnResize: PropTypes.func.isRequired,
+  cellIndex: PropTypes.number.isRequired
 };
 
 HeaderCell.defaultProps = {

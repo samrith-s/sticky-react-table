@@ -224,6 +224,31 @@ export default class Table extends PureComponent {
     }));
   };
 
+  handleMaxColumnResize = cellIndex => {
+    const columnDivs = document.getElementsByClassName(
+      `Sticky-React-Table--Row-Cell-${cellIndex}`
+    );
+
+    const columns = [...this.state.columns];
+    const resizedColumn = { ...columns[cellIndex] };
+
+    let maxWidth = resizedColumn.width;
+    maxWidth = Array.prototype.reduce.call(
+      columnDivs,
+      (maxWith, div) => {
+        maxWidth = Math.max(maxWidth, div.scrollWidth);
+        return maxWidth;
+      },
+      maxWidth
+    );
+
+    resizedColumn.width = maxWidth;
+    columns.splice(cellIndex, 1, resizedColumn);
+    this.setState({
+      columns
+    });
+  };
+
   headerRenderer = () => {
     const { sortedColumn } = this.state;
     const { checkboxRenderer, idKey, headerClassName: className } = this.props;
@@ -249,6 +274,7 @@ export default class Table extends PureComponent {
         onDragEnd={this.handleDragEnd}
         onSort={this.handleSort}
         onCheck={this.handleRowCheck}
+        onMaxColumnResize={this.handleMaxColumnResize}
       />
     );
   };

@@ -20,7 +20,8 @@ export default class HeaderRow extends PureComponent {
       checkedRows,
       onCheck,
       isAllSelected,
-      checkboxRenderer
+      checkboxRenderer,
+      onMaxColumnResize
     } = this.props;
 
     return columns.map((column, cellIndex) => {
@@ -59,6 +60,7 @@ export default class HeaderRow extends PureComponent {
           key={`sitcky-table-header-${cellIndex}`}
           id="all"
           checkboxRenderer={isCheckbox ? checkboxRenderer : null}
+          onMaxColumnResize={onMaxColumnResize}
         />
       );
     });
@@ -91,5 +93,6 @@ HeaderRow.propTypes = {
   onCheck: PropTypes.func.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  checkboxRenderer: RendererType
+  checkboxRenderer: RendererType,
+  onMaxColumnResize: PropTypes.func.isRequired
 };
