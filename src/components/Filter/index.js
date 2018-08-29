@@ -61,7 +61,7 @@ export default class Filter extends Component {
   };
 
   render() {
-    const { filterRenderer, data, dataKey } = this.props;
+    const { filterRenderer, data, dataKey, filterIconRenderer } = this.props;
     return (
       <div
         className="Sticky-React-Table--Header-Column-Filter"
@@ -73,7 +73,7 @@ export default class Filter extends Component {
           ref={this.handleIconRef}
           style={filterIconStyles}
         >
-          :
+          {renderElement(filterIconRenderer, {}, ':')}
         </div>
         {this.state.visible && (
           <div
@@ -92,5 +92,6 @@ export default class Filter extends Component {
 Filter.propTypes = {
   data: PropTypes.array.isRequired,
   dataKey: PropTypes.string.isRequired,
-  filterRenderer: RendererType
+  filterRenderer: RendererType,
+  filterIconRenderer: RendererType
 };

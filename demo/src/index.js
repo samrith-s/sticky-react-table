@@ -6,6 +6,7 @@ import { generateData } from './utils/data-generator';
 import { Table, Column } from '../../src';
 import HeaderCell from './HeaderCell';
 import FilterCell from './FilterCell';
+import FilterIcon from './FilterIcon';
 
 import '../../src/themes/dark.scss';
 import './style.css';
@@ -66,8 +67,20 @@ export default class App extends Component {
             alwaysVisible
           />
           <Column title="Age" width={50} dataKey="age" />
-          <Column title="Gender" width={75} dataKey="gender" />
-          <Column title="Designation" width={200} dataKey="designation" />
+          <Column
+            title="Gender"
+            width={75}
+            dataKey="gender"
+            filterRenderer={FilterCell}
+            filterIconRenderer={FilterIcon}
+          />
+          <Column
+            title="Designation"
+            width={200}
+            dataKey="designation"
+            filterRenderer={FilterCell}
+            filterIconRenderer={FilterIcon}
+          />
           <Column title="Location" width={150} dataKey="location" />
           <Column title="Top Skill" width={250} dataKey="topSkill" />
           <Column title="Email" width={300} dataKey="email" />
