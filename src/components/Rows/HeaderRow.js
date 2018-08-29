@@ -8,6 +8,28 @@ import { headerStyles } from '../../styles/row.styles';
 import { RendererType } from '../../constants';
 
 export default class HeaderRow extends PureComponent {
+  state = {
+    draggingColumn: null,
+    dragOverColumn: null
+  };
+
+  onHeaderDragOver = cellIndex => {
+    this.setState({
+      dragOverColumn: cellIndex
+    });
+  };
+
+  onHeaderDragStart = cellIndex => {
+    this.setState({
+      draggingColumn: cellIndex
+    });
+  };
+
+  onHeaderDragEnd = () => {
+    const { draggingColumn, dragOverColumn } = this.state;
+    this.props.onReorderColumn(draggingColumn, dragOverColumn);
+  };
+
   renderColumns = () => {
     const {
       columns,
@@ -59,6 +81,9 @@ export default class HeaderRow extends PureComponent {
           key={`sitcky-table-header-${cellIndex}`}
           id="all"
           checkboxRenderer={isCheckbox ? checkboxRenderer : null}
+          onHeaderDragStart={this.onHeaderDragStart}
+          onHeaderDragEnd={this.onHeaderDragEnd}
+          onHeaderDragOver={this.onHeaderDragOver}
         />
       );
     });

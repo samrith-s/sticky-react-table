@@ -224,6 +224,16 @@ export default class Table extends PureComponent {
     }));
   };
 
+  handleReorderColumn = (startIndex, endIndex) => {
+    const columns = [...this.state.columns];
+
+    const removedColumns = columns.splice(startIndex, 1);
+    columns.splice(endIndex, 0, removedColumns[0]);
+    this.setState({
+      columns
+    });
+  };
+
   headerRenderer = () => {
     const { sortedColumn } = this.state;
     const { checkboxRenderer, idKey, headerClassName: className } = this.props;
@@ -249,6 +259,7 @@ export default class Table extends PureComponent {
         onDragEnd={this.handleDragEnd}
         onSort={this.handleSort}
         onCheck={this.handleRowCheck}
+        onReorderColumn={this.handleReorderColumn}
       />
     );
   };

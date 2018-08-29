@@ -20,6 +20,14 @@ export default class HeaderCell extends PureComponent {
 
   getRequiredProps = () => pick(this.props, headerCellPropKeys);
 
+  onHeaderDragOver = () => {
+    this.props.onHeaderDragOver(this.props.cellIndex);
+  };
+
+  onHeaderDragStart = () => {
+    this.props.onHeaderDragStart(this.props.cellIndex);
+  };
+
   render() {
     const {
       title,
@@ -36,7 +44,8 @@ export default class HeaderCell extends PureComponent {
       onCheck,
       isCheckbox,
       isAllSelected,
-      checkboxRenderer
+      checkboxRenderer,
+      onHeaderDragEnd
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
@@ -49,6 +58,10 @@ export default class HeaderCell extends PureComponent {
         })}
         style={getCellStyle(style, isSticky)}
         onClick={this.handleSort}
+        draggable={true}
+        onDragOver={this.onHeaderDragOver}
+        onDragStart={this.onHeaderDragStart}
+        onDragEnd={onHeaderDragEnd}
       >
         {isCheckbox ? (
           <CheckboxCell
@@ -106,7 +119,11 @@ HeaderCell.propTypes = {
   onCheck: PropTypes.func.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
-  checkboxRenderer: RendererType
+  checkboxRenderer: RendererType,
+  onHeaderDragEnd: PropTypes.func.isRequired,
+  onHeaderDragStart: PropTypes.func.isRequired,
+  onHeaderDragOver: PropTypes.func.isRequired,
+  cellIndex: PropTypes.number.isRequired
 };
 
 HeaderCell.defaultProps = {
