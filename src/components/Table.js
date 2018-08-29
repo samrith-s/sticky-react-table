@@ -225,7 +225,7 @@ export default class Table extends PureComponent {
   };
 
   headerRenderer = () => {
-    const { sortedColumn } = this.state;
+    const { sortedColumn, data } = this.state;
     const { checkboxRenderer, idKey, headerClassName: className } = this.props;
 
     const isAllSelected = this.isAllRowsSelected();
@@ -241,7 +241,8 @@ export default class Table extends PureComponent {
           checkedRows,
           idKey,
           isAllSelected,
-          className
+          className,
+          data
         }}
         rowIndex={0}
         styleCalculator={this.getLeftStyle}

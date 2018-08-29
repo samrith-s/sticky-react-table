@@ -8,6 +8,7 @@ import CheckboxCell from '../../CheckboxCell';
 import { headerCellPropKeys, RendererType } from '../../../constants';
 
 import { getCellStyle, renderElement } from '../../../util';
+import Filter from '../../Filter';
 
 export default class HeaderCell extends PureComponent {
   handleDragHandleRef = ref => {
@@ -36,7 +37,9 @@ export default class HeaderCell extends PureComponent {
       onCheck,
       isCheckbox,
       isAllSelected,
-      checkboxRenderer
+      checkboxRenderer,
+      filterRenderer,
+      data
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
@@ -48,7 +51,6 @@ export default class HeaderCell extends PureComponent {
           'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
         style={getCellStyle(style, isSticky)}
-        onClick={this.handleSort}
       >
         {isCheckbox ? (
           <CheckboxCell
@@ -60,8 +62,14 @@ export default class HeaderCell extends PureComponent {
           />
         ) : (
           <Fragment>
-            {renderElement(renderer, this.getRequiredProps(), title)}
-
+            <span onClick={this.handleSort}>
+              {renderElement(renderer, this.getRequiredProps(), title)}
+            </span>
+            <Filter
+              data={data}
+              dataKey={dataKey}
+              filterRenderer={filterRenderer}
+            />
             <div
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}
@@ -106,7 +114,9 @@ HeaderCell.propTypes = {
   onCheck: PropTypes.func.isRequired,
   isCheckbox: PropTypes.bool.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
-  checkboxRenderer: RendererType
+  checkboxRenderer: RendererType,
+  filterRenderer: RendererType,
+  data: PropTypes.array.isRequired
 };
 
 HeaderCell.defaultProps = {

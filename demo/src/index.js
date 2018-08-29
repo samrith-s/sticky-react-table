@@ -5,6 +5,7 @@ import { generateData } from './utils/data-generator';
 
 import { Table, Column } from '../../src';
 import HeaderCell from './HeaderCell';
+import FilterCell from './FilterCell';
 
 import '../../src/themes/dark.scss';
 import './style.css';
@@ -61,6 +62,7 @@ export default class App extends Component {
             width={200}
             dataKey="name"
             headerRenderer={HeaderCell}
+            filterRenderer={FilterCell}
             alwaysVisible
           />
           <Column title="Age" width={50} dataKey="age" />
