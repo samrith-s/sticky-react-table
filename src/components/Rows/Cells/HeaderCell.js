@@ -28,6 +28,10 @@ export default class HeaderCell extends PureComponent {
     this.props.onHeaderDragStart(this.props.cellIndex);
   };
 
+  onDragStart = e => {
+    e.stopPropagation();
+  };
+
   render() {
     const {
       title,
@@ -56,9 +60,9 @@ export default class HeaderCell extends PureComponent {
           'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
           'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
-        style={getCellStyle(style, isSticky)}
+        style={getCellStyle(style, isSticky, !isCheckbox)}
         onClick={this.handleSort}
-        draggable={true}
+        draggable
         onDragOver={this.onHeaderDragOver}
         onDragStart={this.onHeaderDragStart}
         onDragEnd={onHeaderDragEnd}
@@ -79,6 +83,7 @@ export default class HeaderCell extends PureComponent {
               className="Sticky-React-Table-Resize-Handler"
               draggable={true}
               onDragEnd={onDragEnd}
+              onDragStart={this.onDragStart}
               ref={this.handleDragHandleRef}
             />
 
