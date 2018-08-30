@@ -39,7 +39,7 @@ export default class HeaderCell extends PureComponent {
       isAllSelected,
       checkboxRenderer,
       filterRenderer,
-      filterIconRenderer,
+      filterTrigger,
       data
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
@@ -71,7 +71,7 @@ export default class HeaderCell extends PureComponent {
                 data={data}
                 dataKey={dataKey}
                 filterRenderer={filterRenderer}
-                filterIconRenderer={filterIconRenderer}
+                filterTrigger={filterTrigger}
               />
             )}
             <div
@@ -120,7 +120,7 @@ HeaderCell.propTypes = {
   isAllSelected: PropTypes.bool.isRequired,
   checkboxRenderer: RendererType,
   filterRenderer: RendererType,
-  filterIconRenderer: RendererType,
+  filterTrigger: RendererType,
   data: PropTypes.array.isRequired
 };
 

@@ -5,11 +5,11 @@ export default class FilterCell extends Component {
   render() {
     const { data, dataKey } = this.props;
     return (
-      <div>
+      <span>
         {data.slice(0, 10).map((row, ind) => {
-          return <div key={ind}>{row[dataKey]}</div>;
+          return <span key={ind}>{row[dataKey]}</span>;
         })}
-      </div>
+      </span>
     );
   }
 }

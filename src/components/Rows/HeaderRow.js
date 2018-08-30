@@ -33,7 +33,7 @@ export default class HeaderRow extends PureComponent {
         isSortable,
         isCheckbox,
         filterRenderer,
-        filterIconRenderer
+        filterTrigger
       } = column;
       const style = { width, ...styleCalculator(cellIndex) };
       const { isSticky, isLastSticky } = stickyFunction(cellIndex);
@@ -58,7 +58,7 @@ export default class HeaderRow extends PureComponent {
             isCheckbox,
             isAllSelected,
             filterRenderer,
-            filterIconRenderer,
+            filterTrigger,
             data
           }}
           onDragEnd={onDragEnd(cellIndex)}

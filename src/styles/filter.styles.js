@@ -4,7 +4,8 @@ export const filtersStyles = {
 
 export const filterDropdownStyles = {
   position: 'absolute',
-  maxHeight: '300px'
+  maxHeight: '300px',
+  overflow: 'hidden'
 };
 
 export const filterIconStyles = {

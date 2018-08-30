@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { renderElement } from '../../util';
@@ -53,6 +53,7 @@ export default class Filter extends Component {
         (this.icon &&
           this.menu &&
           e.target !== this.icon &&
+          !this.icon.contains(e.target) &&
           !this.menu.contains(e.target))
       ) {
         this.toggleDropdownVisibility(false);
@@ -61,30 +62,32 @@ export default class Filter extends Component {
   };
 
   render() {
-    const { filterRenderer, data, dataKey, filterIconRenderer } = this.props;
+    const { filterRenderer, data, dataKey, filterTrigger } = this.props;
     return (
-      <div
-        className="Sticky-React-Table--Header-Column-Filter"
-        style={filtersStyles}
-      >
-        <div
-          className="Sticky-React-Table--Header-Column-Filter-Icon"
-          onClick={this.handleIconClick}
-          ref={this.handleIconRef}
-          style={filterIconStyles}
+      <Fragment>
+        <span
+          className="Sticky-React-Table--Header-Column-Filter"
+          style={filtersStyles}
         >
-          {renderElement(filterIconRenderer, {}, ':')}
-        </div>
-        {this.state.visible && (
-          <div
-            className="Sticky-React-Table--Header-Column-Filter-Dropdown"
-            ref={this.handleMenuRef}
-            style={filterDropdownStyles}
+          <span
+            className="Sticky-React-Table--Header-Column-Filter-Icon"
+            onClick={this.handleIconClick}
+            ref={this.handleIconRef}
+            style={filterIconStyles}
           >
-            {renderElement(filterRenderer, { data, dataKey }, null)}
-          </div>
-        )}
-      </div>
+            {renderElement(filterTrigger, {}, ':')}
+          </span>
+          {this.state.visible && (
+            <span
+              className="Sticky-React-Table--Header-Column-Filter-Dropdown"
+              ref={this.handleMenuRef}
+              style={filterDropdownStyles}
+            >
+              {renderElement(filterRenderer, { data, dataKey }, null)}
+            </span>
+          )}
+        </span>
+      </Fragment>
     );
   }
 }
@@ -93,5 +96,5 @@ Filter.propTypes = {
   data: PropTypes.array.isRequired,
   dataKey: PropTypes.string.isRequired,
   filterRenderer: RendererType,
-  filterIconRenderer: RendererType
+  filterTrigger: RendererType
 };

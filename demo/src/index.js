@@ -72,14 +72,14 @@ export default class App extends Component {
             width={75}
             dataKey="gender"
             filterRenderer={FilterCell}
-            filterIconRenderer={FilterIcon}
+            filterTrigger={FilterIcon}
           />
           <Column
             title="Designation"
             width={200}
             dataKey="designation"
             filterRenderer={FilterCell}
-            filterIconRenderer={FilterIcon}
+            filterTrigger={FilterIcon}
           />
           <Column title="Location" width={150} dataKey="location" />
           <Column title="Top Skill" width={250} dataKey="topSkill" />
