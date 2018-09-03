@@ -24,6 +24,18 @@ export default class HeaderCell extends PureComponent {
 
   getRequiredProps = () => pick(this.props, headerCellPropKeys);
 
+  onHeaderDragOver = () => {
+    this.props.onHeaderDragOver(this.props.cellIndex);
+  };
+
+  onHeaderDragStart = () => {
+    this.props.onHeaderDragStart(this.props.cellIndex);
+  };
+
+  onDragStart = e => {
+    e.stopPropagation();
+  };
+
   render() {
     const {
       title,
@@ -40,7 +52,8 @@ export default class HeaderCell extends PureComponent {
       onCheck,
       isCheckbox,
       isAllSelected,
-      checkboxRenderer
+      checkboxRenderer,
+      onHeaderDragEnd
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
@@ -52,7 +65,12 @@ export default class HeaderCell extends PureComponent {
           'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
           'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
-        style={getCellStyle(cellStyle, isSticky)}
+        style={getCellStyle(cellStyle, isSticky, !isCheckbox)}
+        onClick={this.handleSort}
+        draggable
+        onDragOver={this.onHeaderDragOver}
+        onDragStart={this.onHeaderDragStart}
+        onDragEnd={onHeaderDragEnd}
       >
         <div style={{ width }}>
           {isCheckbox ? (
@@ -114,6 +132,9 @@ HeaderCell.propTypes = {
   isCheckbox: PropTypes.bool.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
   checkboxRenderer: RendererType,
+  onHeaderDragEnd: PropTypes.func.isRequired,
+  onHeaderDragStart: PropTypes.func.isRequired,
+  onHeaderDragOver: PropTypes.func.isRequired,
   onAutoResizeColumn: PropTypes.func.isRequired,
   cellIndex: PropTypes.number.isRequired
 };
