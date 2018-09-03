@@ -165,10 +165,12 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 #### Callbacks:
 
-| Name           | Description                                                     | Parameters               |
-| -------------- | --------------------------------------------------------------- | ------------------------ |
-| cellRenderer   | A custom cell renderer to modify the default rendering.         | [Cell Props][cell-props] |
-| headerRenderer | A custom header cell renderer to modify the defaultt rendering. | [Cell Props][cell-props] |
+| Name           | Description                                                             | Parameters                   |
+| -------------- | ----------------------------------------------------------------------- | ---------------------------- |
+| cellRenderer   | A custom cell renderer to modify the default rendering.                 | [Cell Props][cell-props]     |
+| headerRenderer | A custom header cell renderer to modify the defaultt rendering.         | [Cell Props][cell-props]     |
+| fitlerRenderer | A custom header filter renderer to add column filters.                  | [Filter Props][filter-props] |
+| fitlerTrigger  | A custom header filter trigger renderer for showing the column filters. | None                         |
 
 # <a name="null"></a>
 
@@ -191,6 +193,19 @@ propTypes = {
   title: PropTypes.string, // Only available in headerRenderer
   isAllSelected: PropTypes.bool // Only available in headerRenderer
 }
+```
+
+<a name="filter-props"></a>
+
+### Filter Props
+
+The filter props allows you to access the data for the table and the dataKey of a column. This helps in creating a custom filters in any column, based on the data of the table.
+
+```js
+propTypes = {
+  data: PropTypes.array,
+  dataKey: PropTypes.string
+};
 ```
 
 # <a name="null"></a>
