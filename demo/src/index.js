@@ -5,6 +5,8 @@ import { generateData } from './utils/data-generator';
 
 import { Table, Column } from '../../src';
 import HeaderCell from './HeaderCell';
+import FilterCell from './FilterCell';
+import FilterIcon from './FilterIcon';
 import EmailCellRenderer from './EmailCellRenderer';
 
 import '../../src/themes/dark.scss';
@@ -62,11 +64,24 @@ export default class App extends Component {
             width={200}
             dataKey="name"
             headerRenderer={HeaderCell}
+            filterRenderer={FilterCell}
             alwaysVisible
           />
           <Column title="Age" width={50} dataKey="age" />
-          <Column title="Gender" width={75} dataKey="gender" />
-          <Column title="Designation" width={200} dataKey="designation" />
+          <Column
+            title="Gender"
+            width={75}
+            dataKey="gender"
+            filterRenderer={FilterCell}
+            filterTrigger={FilterIcon}
+          />
+          <Column
+            title="Designation"
+            width={200}
+            dataKey="designation"
+            filterRenderer={FilterCell}
+            filterTrigger={FilterIcon}
+          />
           <Column title="Location" width={150} dataKey="location" />
           <Column title="Top Skill" width={250} dataKey="topSkill" />
           <Column

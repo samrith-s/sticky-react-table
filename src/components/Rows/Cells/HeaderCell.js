@@ -8,6 +8,7 @@ import CheckboxCell from '../../CheckboxCell';
 import { headerCellPropKeys, RendererType } from '../../../constants';
 
 import { getCellStyle, renderElement } from '../../../util';
+import Filter from '../../Filter';
 
 export default class HeaderCell extends PureComponent {
   handleDragHandleRef = ref => {
@@ -53,6 +54,9 @@ export default class HeaderCell extends PureComponent {
       isCheckbox,
       isAllSelected,
       checkboxRenderer,
+      filterRenderer,
+      filterTrigger,
+      data,
       onHeaderDragEnd
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
@@ -66,7 +70,6 @@ export default class HeaderCell extends PureComponent {
           'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
         style={getCellStyle(cellStyle, isSticky, !isCheckbox)}
-        onClick={this.handleSort}
         draggable
         onDragOver={this.onHeaderDragOver}
         onDragStart={this.onHeaderDragStart}
@@ -83,8 +86,17 @@ export default class HeaderCell extends PureComponent {
             />
           ) : (
             <Fragment>
-              {renderElement(renderer, this.getRequiredProps(), title)}
-
+              <span onClick={this.handleSort}>
+                {renderElement(renderer, this.getRequiredProps(), title)}
+              </span>
+              {filterRenderer && (
+                <Filter
+                  data={data}
+                  dataKey={dataKey}
+                  filterRenderer={filterRenderer}
+                  filterTrigger={filterTrigger}
+                />
+              )}
               <div
                 className="Sticky-React-Table-Resize-Handler"
                 draggable={true}
@@ -132,6 +144,9 @@ HeaderCell.propTypes = {
   isCheckbox: PropTypes.bool.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
   checkboxRenderer: RendererType,
+  filterRenderer: RendererType,
+  filterTrigger: RendererType,
+  data: PropTypes.array.isRequired,
   onHeaderDragEnd: PropTypes.func.isRequired,
   onHeaderDragStart: PropTypes.func.isRequired,
   onHeaderDragOver: PropTypes.func.isRequired,
