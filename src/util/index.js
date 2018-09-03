@@ -1,7 +1,11 @@
 import React from 'react';
 import { orderBy } from 'lodash';
 
-import { defaultCellStyle, stickyCellStyle } from '../styles/cell.styles';
+import {
+  defaultCellStyle,
+  stickyCellStyle,
+  reorderableHeaderCellStyle
+} from '../styles/cell.styles';
 
 export function dragHandlerSizing(ref) {
   const { left } = ref.getBoundingClientRect();
@@ -17,16 +21,23 @@ export function sort(data, key, direction = 'asc') {
   return orderBy(data, key, direction);
 }
 
-export function getCellStyle(style, isSticky) {
-  const cellStyle = {
+export function getCellStyle(style, isSticky, isReorderableHeaderCell = false) {
+  let cellStyle = {
     ...style,
     ...defaultCellStyle
   };
 
   if (isSticky) {
-    return {
+    cellStyle = {
       ...cellStyle,
       ...stickyCellStyle
+    };
+  }
+
+  if (isReorderableHeaderCell) {
+    cellStyle = {
+      ...cellStyle,
+      ...reorderableHeaderCellStyle
     };
   }
 

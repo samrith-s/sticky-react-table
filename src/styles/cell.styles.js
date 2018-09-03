@@ -13,3 +13,7 @@ export const defaultInfiniteScrollCellStyle = {
   padding: '7px 0',
   opacity: 0.25
 };
+
+export const reorderableHeaderCellStyle = {
+  cursor: 'move'
+};

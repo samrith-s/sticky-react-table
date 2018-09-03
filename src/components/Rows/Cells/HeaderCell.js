@@ -19,7 +19,23 @@ export default class HeaderCell extends PureComponent {
     this.props.onSort(this.getRequiredProps());
   };
 
+  onAutoResizeColumn = () => {
+    this.props.onAutoResizeColumn(this.props.cellIndex);
+  };
+
   getRequiredProps = () => pick(this.props, headerCellPropKeys);
+
+  onHeaderDragOver = () => {
+    this.props.onHeaderDragOver(this.props.cellIndex);
+  };
+
+  onHeaderDragStart = () => {
+    this.props.onHeaderDragStart(this.props.cellIndex);
+  };
+
+  onDragStart = e => {
+    e.stopPropagation();
+  };
 
   render() {
     const {
@@ -40,59 +56,68 @@ export default class HeaderCell extends PureComponent {
       checkboxRenderer,
       filterRenderer,
       filterTrigger,
-      data
+      data,
+      onHeaderDragEnd
     } = this.props;
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
 
+    const { width, ...cellStyle } = style;
     return (
       <div
         className={classNames('Sticky-React-Table--Header-Cell', {
           'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
           'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
-        style={getCellStyle(style, isSticky)}
+        style={getCellStyle(cellStyle, isSticky, !isCheckbox)}
+        draggable
+        onDragOver={this.onHeaderDragOver}
+        onDragStart={this.onHeaderDragStart}
+        onDragEnd={onHeaderDragEnd}
       >
-        {isCheckbox ? (
-          <CheckboxCell
-            id={id}
-            renderer={checkboxRenderer}
-            checkedRows={checkedRows}
-            onCheck={onCheck}
-            isChecked={isAllSelected}
-          />
-        ) : (
-          <Fragment>
-            <span onClick={this.handleSort}>
-              {renderElement(renderer, this.getRequiredProps(), title)}
-            </span>
-            {filterRenderer && (
-              <Filter
-                data={data}
-                dataKey={dataKey}
-                filterRenderer={filterRenderer}
-                filterTrigger={filterTrigger}
-              />
-            )}
-            <div
-              className="Sticky-React-Table-Resize-Handler"
-              draggable={true}
-              onDragEnd={onDragEnd}
-              ref={this.handleDragHandleRef}
+        <div style={{ width }}>
+          {isCheckbox ? (
+            <CheckboxCell
+              id={id}
+              renderer={checkboxRenderer}
+              checkedRows={checkedRows}
+              onCheck={onCheck}
+              isChecked={isAllSelected}
             />
-
-            {isSortable &&
-              isSorted && (
-                <div className="Sticky-React-Table-Sort-Icon">
-                  {sortDir === 'ASC' ? (
-                    <Fragment>&uarr;</Fragment>
-                  ) : (
-                    <Fragment>&darr;</Fragment>
-                  )}
-                </div>
+          ) : (
+            <Fragment>
+              <span onClick={this.handleSort}>
+                {renderElement(renderer, this.getRequiredProps(), title)}
+              </span>
+              {filterRenderer && (
+                <Filter
+                  data={data}
+                  dataKey={dataKey}
+                  filterRenderer={filterRenderer}
+                  filterTrigger={filterTrigger}
+                />
               )}
-          </Fragment>
-        )}
+              <div
+                className="Sticky-React-Table-Resize-Handler"
+                draggable={true}
+                onDragEnd={onDragEnd}
+                ref={this.handleDragHandleRef}
+                onDoubleClick={this.onAutoResizeColumn}
+              />
+
+              {isSortable &&
+                isSorted && (
+                  <div className="Sticky-React-Table-Sort-Icon">
+                    {sortDir === 'ASC' ? (
+                      <Fragment>&uarr;</Fragment>
+                    ) : (
+                      <Fragment>&darr;</Fragment>
+                    )}
+                  </div>
+                )}
+            </Fragment>
+          )}
+        </div>
       </div>
     );
   }
@@ -121,7 +146,12 @@ HeaderCell.propTypes = {
   checkboxRenderer: RendererType,
   filterRenderer: RendererType,
   filterTrigger: RendererType,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  onHeaderDragEnd: PropTypes.func.isRequired,
+  onHeaderDragStart: PropTypes.func.isRequired,
+  onHeaderDragOver: PropTypes.func.isRequired,
+  onAutoResizeColumn: PropTypes.func.isRequired,
+  cellIndex: PropTypes.number.isRequired
 };
 
 HeaderCell.defaultProps = {

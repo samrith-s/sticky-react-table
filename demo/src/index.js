@@ -7,6 +7,7 @@ import { Table, Column } from '../../src';
 import HeaderCell from './HeaderCell';
 import FilterCell from './FilterCell';
 import FilterIcon from './FilterIcon';
+import EmailCellRenderer from './EmailCellRenderer';
 
 import '../../src/themes/dark.scss';
 import './style.css';
@@ -83,7 +84,12 @@ export default class App extends Component {
           />
           <Column title="Location" width={150} dataKey="location" />
           <Column title="Top Skill" width={250} dataKey="topSkill" />
-          <Column title="Email" width={300} dataKey="email" />
+          <Column
+            title="Email"
+            width={30}
+            dataKey="email"
+            cellRenderer={EmailCellRenderer}
+          />
           <Column title="Phone" width={200} dataKey="phone" />
           <Column title="Experience" width={100} dataKey="experience" />
           <Column title="Language" width={100} dataKey="language" />

@@ -224,6 +224,65 @@ export default class Table extends PureComponent {
     }));
   };
 
+  checkIfFirstColumnIsCheckbox = () => {
+    return this.state.columns.length > 0 && this.state.columns[0].isCheckbox;
+  };
+
+  handleReorderColumn = (startIndex, endIndex) => {
+    if (startIndex !== null && endIndex !== null) {
+      if (
+        startIndex === 0 ||
+        (endIndex === 0 && this.checkIfFirstColumnIsCheckbox())
+      ) {
+        return;
+      }
+      const columns = [...this.state.columns];
+
+      const removedColumns = columns.splice(startIndex, 1);
+      columns.splice(endIndex, 0, removedColumns[0]);
+      this.setState({
+        columns
+      });
+    }
+  };
+
+  handleAutoResizeColumn = cellIndex => {
+    const columnCells = this.innerRef.getElementsByClassName(
+      `Sticky-React-Table--Row-Cell-${cellIndex}`
+    );
+
+    const columns = [...this.state.columns];
+    let maxWidth = columns[cellIndex].width;
+
+    const mainElement = document.createElement('div');
+    mainElement.classList.add('main-div');
+    this.innerRef.appendChild(mainElement);
+
+    maxWidth = Array.prototype.reduce.call(
+      columnCells,
+      (maxWidth, cell) => {
+        const dummyElement = document.createElement('div');
+        dummyElement.classList.add('my-class');
+        mainElement.appendChild(dummyElement);
+        dummyElement.innerHTML = cell.outerHTML.replace(
+          /width:\s*\d+px\s*;/,
+          'width: max-content;'
+        );
+
+        maxWidth = Math.max(maxWidth, dummyElement.offsetWidth);
+        return maxWidth;
+      },
+      maxWidth
+    );
+
+    this.innerRef.removeChild(mainElement);
+
+    columns[cellIndex].width = maxWidth;
+    this.setState({
+      columns
+    });
+  };
+
   headerRenderer = () => {
     const { sortedColumn, data } = this.state;
     const { checkboxRenderer, idKey, headerClassName: className } = this.props;
@@ -250,6 +309,8 @@ export default class Table extends PureComponent {
         onDragEnd={this.handleDragEnd}
         onSort={this.handleSort}
         onCheck={this.handleRowCheck}
+        onReorderColumn={this.handleReorderColumn}
+        onAutoResizeColumn={this.handleAutoResizeColumn}
       />
     );
   };
@@ -369,6 +430,7 @@ export default class Table extends PureComponent {
   };
 
   handleDragEnd = columnIndex => e => {
+    e.stopPropagation();
     const widthDiff = e.clientX - e.target.getBoundingClientRect().left;
     const newColumns = [...this.state.columns];
 
