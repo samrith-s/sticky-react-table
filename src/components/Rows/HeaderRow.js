@@ -42,7 +42,8 @@ export default class HeaderRow extends PureComponent {
       checkedRows,
       onCheck,
       isAllSelected,
-      checkboxRenderer
+      checkboxRenderer,
+      onAutoResizeColumn
     } = this.props;
 
     return columns.map((column, cellIndex) => {
@@ -84,6 +85,7 @@ export default class HeaderRow extends PureComponent {
           onHeaderDragStart={this.onHeaderDragStart}
           onHeaderDragEnd={this.onHeaderDragEnd}
           onHeaderDragOver={this.onHeaderDragOver}
+          onAutoResizeColumn={onAutoResizeColumn}
         />
       );
     });
@@ -116,5 +118,6 @@ HeaderRow.propTypes = {
   onCheck: PropTypes.func.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  checkboxRenderer: RendererType
+  checkboxRenderer: RendererType,
+  onAutoResizeColumn: PropTypes.func.isRequired
 };
