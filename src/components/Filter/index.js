@@ -64,30 +64,28 @@ export default class Filter extends Component {
   render() {
     const { filterRenderer, data, dataKey, filterTrigger } = this.props;
     return (
-      <Fragment>
+      <span
+        className="Sticky-React-Table--Header-Column-Filter"
+        style={filtersStyles}
+      >
         <span
-          className="Sticky-React-Table--Header-Column-Filter"
-          style={filtersStyles}
+          className="Sticky-React-Table--Header-Column-Filter-Icon"
+          onClick={this.handleIconClick}
+          ref={this.handleIconRef}
+          style={filterIconStyles}
         >
-          <span
-            className="Sticky-React-Table--Header-Column-Filter-Icon"
-            onClick={this.handleIconClick}
-            ref={this.handleIconRef}
-            style={filterIconStyles}
-          >
-            {renderElement(filterTrigger, {}, ':')}
-          </span>
-          {this.state.visible && (
-            <span
-              className="Sticky-React-Table--Header-Column-Filter-Dropdown"
-              ref={this.handleMenuRef}
-              style={filterDropdownStyles}
-            >
-              {renderElement(filterRenderer, { data, dataKey }, null)}
-            </span>
-          )}
+          {renderElement(filterTrigger, {}, ':')}
         </span>
-      </Fragment>
+        {this.state.visible && (
+          <div
+            className="Sticky-React-Table--Header-Column-Filter-Dropdown"
+            ref={this.handleMenuRef}
+            style={filterDropdownStyles}
+          >
+            {renderElement(filterRenderer, { data, dataKey }, null)}
+          </div>
+        )}
+      </span>
     );
   }
 }
