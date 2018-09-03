@@ -43,6 +43,7 @@ export default class HeaderRow extends PureComponent {
       onCheck,
       isAllSelected,
       checkboxRenderer,
+      data,
       onAutoResizeColumn
     } = this.props;
 
@@ -53,7 +54,9 @@ export default class HeaderRow extends PureComponent {
         dataKey,
         headerRenderer: renderer,
         isSortable,
-        isCheckbox
+        isCheckbox,
+        filterRenderer,
+        filterTrigger
       } = column;
       const style = { width, ...styleCalculator(cellIndex) };
       const { isSticky, isLastSticky } = stickyFunction(cellIndex);
@@ -76,7 +79,10 @@ export default class HeaderRow extends PureComponent {
             checkedRows,
             onCheck,
             isCheckbox,
-            isAllSelected
+            isAllSelected,
+            filterRenderer,
+            filterTrigger,
+            data
           }}
           onDragEnd={onDragEnd(cellIndex)}
           key={`sitcky-table-header-${cellIndex}`}

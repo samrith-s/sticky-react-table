@@ -165,10 +165,12 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 #### Callbacks:
 
-| Name           | Description                                                     | Parameters               |
-| -------------- | --------------------------------------------------------------- | ------------------------ |
-| cellRenderer   | A custom cell renderer to modify the default rendering.         | [Cell Props][cell-props] |
-| headerRenderer | A custom header cell renderer to modify the defaultt rendering. | [Cell Props][cell-props] |
+| Name           | Description                                                             | Parameters                   |
+| -------------- | ----------------------------------------------------------------------- | ---------------------------- |
+| cellRenderer   | A custom cell renderer to modify the default rendering.                 | [Cell Props][cell-props]     |
+| headerRenderer | A custom header cell renderer to modify the default rendering.          | [Cell Props][cell-props]     |
+| filterRenderer | A custom header filter renderer to add column filters.                  | [Filter Props][filter-props] |
+| filterTrigger  | A custom header filter trigger renderer for showing the column filters. | None                         |
 
 # <a name="null"></a>
 
@@ -178,7 +180,7 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 The cell props allow you to access the data for the entire row, and some additional information about the cell. This particularly helps in customizing the cell, based on the information or the data for that row.
 
-Every custom render function you use across the table, ex. `headerRenderer` and `cellRenderer`, get these props as the paramters of the renderer.
+Every custom render function you use across the table, ex. `headerRenderer` and `cellRenderer`, get these props as the parameters of the renderer.
 
 ```js
 propTypes = {
@@ -191,6 +193,21 @@ propTypes = {
   title: PropTypes.string, // Only available in headerRenderer
   isAllSelected: PropTypes.bool // Only available in headerRenderer
 }
+```
+
+# <a name="null"></a>
+
+<a name="filter-props"></a>
+
+### Filter Props
+
+The filter props allows you to access the data for the table and the dataKey of a column. This helps in creating a custom filters in any column, based on the data of the table.
+
+```js
+propTypes = {
+  data: PropTypes.array,
+  dataKey: PropTypes.string
+};
 ```
 
 # <a name="null"></a>
