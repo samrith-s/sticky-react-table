@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { renderElement } from '../../util';
 import {
-  filtersStyles,
   filterDropdownStyles,
   filterIconStyles
 } from '../../styles/filter.styles';
@@ -64,10 +63,7 @@ export default class Filter extends Component {
   render() {
     const { filterRenderer, data, dataKey, filterTrigger } = this.props;
     return (
-      <span
-        className="Sticky-React-Table--Header-Column-Filter"
-        style={filtersStyles}
-      >
+      <Fragment>
         <span
           className="Sticky-React-Table--Header-Column-Filter-Icon"
           onClick={this.handleIconClick}
@@ -85,7 +81,7 @@ export default class Filter extends Component {
             {renderElement(filterRenderer, { data, dataKey }, null)}
           </div>
         )}
-      </span>
+      </Fragment>
     );
   }
 }
