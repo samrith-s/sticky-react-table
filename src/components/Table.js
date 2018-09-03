@@ -224,26 +224,36 @@ export default class Table extends PureComponent {
     }));
   };
 
-  handleMaxColumnResize = cellIndex => {
-    const columnDivs = document.getElementsByClassName(
+  handleAutoResizeColumn = cellIndex => {
+    const columnCells = document.getElementsByClassName(
       `Sticky-React-Table--Row-Cell-${cellIndex}`
     );
 
-    const columns = [...this.state.columns];
-    const resizedColumn = { ...columns[cellIndex] };
+    const { columns } = this.state;
+    let maxWidth = columns[cellIndex].width;
 
-    let maxWidth = resizedColumn.width;
+    const mainEl = document.createElement('div');
+    mainEl.classList.add('main-div');
+    this.innerRef.appendChild(mainEl);
+
     maxWidth = Array.prototype.reduce.call(
-      columnDivs,
-      (maxWith, div) => {
-        maxWidth = Math.max(maxWidth, div.scrollWidth);
+      columnCells,
+      (maxWith, cell) => {
+        const dummyElement = document.createElement('div');
+        dummyElement.classList.add('my-class');
+        mainEl.appendChild(dummyElement);
+        dummyElement.innerHTML = cell.outerHTML.replace(
+          /width:\s*\d+px\s*;/,
+          'width: max-content;'
+        );
+
+        maxWidth = Math.max(maxWidth, dummyElement.offsetWidth);
         return maxWidth;
       },
       maxWidth
     );
 
-    resizedColumn.width = maxWidth;
-    columns.splice(cellIndex, 1, resizedColumn);
+    columns[cellIndex] = { ...columns[cellIndex], width: maxWidth };
     this.setState({
       columns
     });
@@ -274,7 +284,7 @@ export default class Table extends PureComponent {
         onDragEnd={this.handleDragEnd}
         onSort={this.handleSort}
         onCheck={this.handleRowCheck}
-        onMaxColumnResize={this.handleMaxColumnResize}
+        onAutoResizeColumn={this.handleAutoResizeColumn}
       />
     );
   };

@@ -31,6 +31,8 @@ export default class Cell extends PureComponent {
       cellIndex
     } = this.props;
 
+    const { width, ...cellStyle } = style;
+
     return (
       <div
         className={classNames(
@@ -41,28 +43,34 @@ export default class Cell extends PureComponent {
             'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
           }
         )}
-        style={getCellStyle(style, isSticky)}
+        style={getCellStyle(cellStyle, isSticky)}
         tabIndex={0}
       >
-        {isCheckbox ? (
-          <CheckboxCell
-            id={id}
-            renderer={checkboxRenderer}
-            onCheck={onCheck}
-            isChecked={isChecked}
-          />
-        ) : (
-          <Fragment>
-            {renderElement(renderer, pick(this.props, cellPropKeys), cellData)}
-
-            <div
-              className="Sticky-React-Table-Resize-Handler"
-              draggable={true}
-              onDragEnd={onDragEnd}
-              ref={this.handleDragHandleRef}
+        <div style={{ width }}>
+          {isCheckbox ? (
+            <CheckboxCell
+              id={id}
+              renderer={checkboxRenderer}
+              onCheck={onCheck}
+              isChecked={isChecked}
             />
-          </Fragment>
-        )}
+          ) : (
+            <Fragment>
+              {renderElement(
+                renderer,
+                pick(this.props, cellPropKeys),
+                cellData
+              )}
+
+              <div
+                className="Sticky-React-Table-Resize-Handler"
+                draggable={true}
+                onDragEnd={onDragEnd}
+                ref={this.handleDragHandleRef}
+              />
+            </Fragment>
+          )}
+        </div>
       </div>
     );
   }

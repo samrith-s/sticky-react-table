@@ -18,8 +18,8 @@ export default class HeaderCell extends PureComponent {
     this.props.onSort(this.getRequiredProps());
   };
 
-  onMaxColumnResize = () => {
-    this.props.onMaxColumnResize(this.props.cellIndex);
+  onAutoResizeColumn = () => {
+    this.props.onAutoResizeColumn(this.props.cellIndex);
   };
 
   getRequiredProps = () => pick(this.props, headerCellPropKeys);
@@ -45,47 +45,49 @@ export default class HeaderCell extends PureComponent {
     const isSorted = sortedColumn && sortedColumn.dataKey === dataKey;
     const sortDir = sortedColumn ? sortedColumn.dir : '';
 
+    const { width, ...cellStyle } = style;
     return (
       <div
         className={classNames('Sticky-React-Table--Header-Cell', {
           'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
           'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
         })}
-        style={getCellStyle(style, isSticky)}
-        onClick={this.handleSort}
+        style={getCellStyle(cellStyle, isSticky)}
       >
-        {isCheckbox ? (
-          <CheckboxCell
-            id={id}
-            renderer={checkboxRenderer}
-            checkedRows={checkedRows}
-            onCheck={onCheck}
-            isChecked={isAllSelected}
-          />
-        ) : (
-          <Fragment>
-            {renderElement(renderer, this.getRequiredProps(), title)}
-
-            <div
-              className="Sticky-React-Table-Resize-Handler"
-              draggable={true}
-              onDragEnd={onDragEnd}
-              ref={this.handleDragHandleRef}
-              onDoubleClick={this.onMaxColumnResize}
+        <div style={{ width }}>
+          {isCheckbox ? (
+            <CheckboxCell
+              id={id}
+              renderer={checkboxRenderer}
+              checkedRows={checkedRows}
+              onCheck={onCheck}
+              isChecked={isAllSelected}
             />
+          ) : (
+            <Fragment>
+              {renderElement(renderer, this.getRequiredProps(), title)}
 
-            {isSortable &&
-              isSorted && (
-                <div className="Sticky-React-Table-Sort-Icon">
-                  {sortDir === 'ASC' ? (
-                    <Fragment>&uarr;</Fragment>
-                  ) : (
-                    <Fragment>&darr;</Fragment>
-                  )}
-                </div>
-              )}
-          </Fragment>
-        )}
+              <div
+                className="Sticky-React-Table-Resize-Handler"
+                draggable={true}
+                onDragEnd={onDragEnd}
+                ref={this.handleDragHandleRef}
+                onDoubleClick={this.onAutoResizeColumn}
+              />
+
+              {isSortable &&
+                isSorted && (
+                  <div className="Sticky-React-Table-Sort-Icon">
+                    {sortDir === 'ASC' ? (
+                      <Fragment>&uarr;</Fragment>
+                    ) : (
+                      <Fragment>&darr;</Fragment>
+                    )}
+                  </div>
+                )}
+            </Fragment>
+          )}
+        </div>
       </div>
     );
   }
@@ -112,7 +114,7 @@ HeaderCell.propTypes = {
   isCheckbox: PropTypes.bool.isRequired,
   isAllSelected: PropTypes.bool.isRequired,
   checkboxRenderer: RendererType,
-  onMaxColumnResize: PropTypes.func.isRequired,
+  onAutoResizeColumn: PropTypes.func.isRequired,
   cellIndex: PropTypes.number.isRequired
 };
 
