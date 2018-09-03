@@ -225,23 +225,23 @@ export default class Table extends PureComponent {
   };
 
   handleAutoResizeColumn = cellIndex => {
-    const columnCells = document.getElementsByClassName(
+    const columnCells = this.innerRef.getElementsByClassName(
       `Sticky-React-Table--Row-Cell-${cellIndex}`
     );
 
-    const { columns } = this.state;
+    const columns = [...this.state.columns];
     let maxWidth = columns[cellIndex].width;
 
-    const mainEl = document.createElement('div');
-    mainEl.classList.add('main-div');
-    this.innerRef.appendChild(mainEl);
+    const mainElement = document.createElement('div');
+    mainElement.classList.add('main-div');
+    this.innerRef.appendChild(mainElement);
 
     maxWidth = Array.prototype.reduce.call(
       columnCells,
-      (maxWith, cell) => {
+      (maxWidth, cell) => {
         const dummyElement = document.createElement('div');
         dummyElement.classList.add('my-class');
-        mainEl.appendChild(dummyElement);
+        mainElement.appendChild(dummyElement);
         dummyElement.innerHTML = cell.outerHTML.replace(
           /width:\s*\d+px\s*;/,
           'width: max-content;'
@@ -253,7 +253,9 @@ export default class Table extends PureComponent {
       maxWidth
     );
 
-    columns[cellIndex] = { ...columns[cellIndex], width: maxWidth };
+    this.innerRef.removeChild(mainElement);
+
+    columns[cellIndex].width = maxWidth;
     this.setState({
       columns
     });
