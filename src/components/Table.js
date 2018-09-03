@@ -224,6 +224,43 @@ export default class Table extends PureComponent {
     }));
   };
 
+  handleAutoResizeColumn = cellIndex => {
+    const columnCells = this.innerRef.getElementsByClassName(
+      `Sticky-React-Table--Row-Cell-${cellIndex}`
+    );
+
+    const columns = [...this.state.columns];
+    let maxWidth = columns[cellIndex].width;
+
+    const mainElement = document.createElement('div');
+    mainElement.classList.add('main-div');
+    this.innerRef.appendChild(mainElement);
+
+    maxWidth = Array.prototype.reduce.call(
+      columnCells,
+      (maxWidth, cell) => {
+        const dummyElement = document.createElement('div');
+        dummyElement.classList.add('my-class');
+        mainElement.appendChild(dummyElement);
+        dummyElement.innerHTML = cell.outerHTML.replace(
+          /width:\s*\d+px\s*;/,
+          'width: max-content;'
+        );
+
+        maxWidth = Math.max(maxWidth, dummyElement.offsetWidth);
+        return maxWidth;
+      },
+      maxWidth
+    );
+
+    this.innerRef.removeChild(mainElement);
+
+    columns[cellIndex].width = maxWidth;
+    this.setState({
+      columns
+    });
+  };
+
   headerRenderer = () => {
     const { sortedColumn } = this.state;
     const { checkboxRenderer, idKey, headerClassName: className } = this.props;
@@ -249,6 +286,7 @@ export default class Table extends PureComponent {
         onDragEnd={this.handleDragEnd}
         onSort={this.handleSort}
         onCheck={this.handleRowCheck}
+        onAutoResizeColumn={this.handleAutoResizeColumn}
       />
     );
   };

@@ -27,37 +27,50 @@ export default class Cell extends PureComponent {
       onCheck,
       isCheckbox,
       className,
-      checkboxRenderer
+      checkboxRenderer,
+      cellIndex
     } = this.props;
+
+    const { width, ...cellStyle } = style;
 
     return (
       <div
-        className={classNames(className, 'Sticky-React-Table--Row-Cell', {
-          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
-          'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
-        })}
-        style={getCellStyle(style, isSticky)}
+        className={classNames(
+          className,
+          `Sticky-React-Table--Row-Cell Sticky-React-Table--Row-Cell-${cellIndex}`,
+          {
+            'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
+            'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
+          }
+        )}
+        style={getCellStyle(cellStyle, isSticky)}
         tabIndex={0}
       >
-        {isCheckbox ? (
-          <CheckboxCell
-            id={id}
-            renderer={checkboxRenderer}
-            onCheck={onCheck}
-            isChecked={isChecked}
-          />
-        ) : (
-          <Fragment>
-            {renderElement(renderer, pick(this.props, cellPropKeys), cellData)}
-
-            <div
-              className="Sticky-React-Table-Resize-Handler"
-              draggable={true}
-              onDragEnd={onDragEnd}
-              ref={this.handleDragHandleRef}
+        <div style={{ width }}>
+          {isCheckbox ? (
+            <CheckboxCell
+              id={id}
+              renderer={checkboxRenderer}
+              onCheck={onCheck}
+              isChecked={isChecked}
             />
-          </Fragment>
-        )}
+          ) : (
+            <Fragment>
+              {renderElement(
+                renderer,
+                pick(this.props, cellPropKeys),
+                cellData
+              )}
+
+              <div
+                className="Sticky-React-Table-Resize-Handler"
+                draggable={true}
+                onDragEnd={onDragEnd}
+                ref={this.handleDragHandleRef}
+              />
+            </Fragment>
+          )}
+        </div>
       </div>
     );
   }
@@ -81,7 +94,8 @@ Cell.propTypes = {
   isCheckbox: PropTypes.bool.isRequired,
   onCheck: PropTypes.func.isRequired,
   className: PropTypes.string,
-  checkboxRenderer: RendererType
+  checkboxRenderer: RendererType,
+  cellIndex: PropTypes.number.isRequired
 };
 
 Cell.defaultProps = {
