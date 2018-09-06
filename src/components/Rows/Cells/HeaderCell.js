@@ -7,7 +7,7 @@ import CheckboxCell from '../../CheckboxCell';
 
 import { headerCellPropKeys, RendererType } from '../../../constants';
 
-import { getCellStyle, renderElement } from '../../../util';
+import { getCellStyle, renderElement, stopPropagation } from '../../../util';
 import Filter from '../../Filter';
 
 export default class HeaderCell extends PureComponent {
@@ -25,16 +25,14 @@ export default class HeaderCell extends PureComponent {
 
   getRequiredProps = () => pick(this.props, headerCellPropKeys);
 
-  onHeaderDragOver = () => {
+  onHeaderDragOver = e => {
+    e.stopPropagation();
     this.props.onHeaderDragOver(this.props.cellIndex);
   };
 
-  onHeaderDragStart = () => {
-    this.props.onHeaderDragStart(this.props.cellIndex);
-  };
-
-  onDragStart = e => {
+  onHeaderDragStart = e => {
     e.stopPropagation();
+    this.props.onHeaderDragStart(this.props.cellIndex);
   };
 
   render() {
@@ -72,6 +70,7 @@ export default class HeaderCell extends PureComponent {
         style={getCellStyle(cellStyle, isSticky, !isCheckbox)}
         draggable
         onDragOver={this.onHeaderDragOver}
+        onDragEnter={stopPropagation}
         onDragStart={this.onHeaderDragStart}
         onDragEnd={onHeaderDragEnd}
       >
