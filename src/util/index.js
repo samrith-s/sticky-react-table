@@ -53,3 +53,5 @@ export const renderElement = (element, props, defaultRenderer) => {
     ? React.cloneElement(element, props)
     : React.createElement(element, props);
 };
+
+export const stopPropagation = e => e.stopPropagation();
