@@ -26,12 +26,12 @@ export default class HeaderCell extends PureComponent {
   getRequiredProps = () => pick(this.props, headerCellPropKeys);
 
   onHeaderDragOver = e => {
-    e.stopPropagation();
+    stopPropagation(e);
     this.props.onHeaderDragOver(this.props.cellIndex);
   };
 
   onHeaderDragStart = e => {
-    e.stopPropagation();
+    stopPropagation(e);
     this.props.onHeaderDragStart(this.props.cellIndex);
   };
 
