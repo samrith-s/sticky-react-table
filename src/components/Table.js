@@ -48,7 +48,8 @@ export default class Table extends PureComponent {
     infiniteScrollThreshold: PropTypes.number,
     infiniteScrollLoaderRowCount: PropTypes.number,
     infiniteScrollPageSize: PropTypes.number,
-    infiniteScrollCellRenderer: RendererType
+    infiniteScrollCellRenderer: RendererType,
+    innerRef: PropTypes.func
   };
 
   static defaultProps = {
@@ -57,7 +58,8 @@ export default class Table extends PureComponent {
     infiniteScrollLoaderRowCount: 1,
     infiniteScrollPageSize: 30,
     infiniteScrollThreshold: 10,
-    infiniteScrollCellRenderer: DefaultInfiniteScrollCellRenderer
+    infiniteScrollCellRenderer: DefaultInfiniteScrollCellRenderer,
+    innerRef: () => {}
   };
 
   constructor(props) {
@@ -497,6 +499,8 @@ export default class Table extends PureComponent {
 
   saveInnerRef = ref => {
     this.innerRef = ref;
+
+    this.props.innerRef(ref);
   };
 
   render() {
