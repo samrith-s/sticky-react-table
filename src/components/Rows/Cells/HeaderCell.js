@@ -63,9 +63,9 @@ export default class HeaderCell extends PureComponent {
     const { width, ...cellStyle } = style;
     return (
       <div
-        className={classNames('Sticky-React-Table--Header-Cell', {
+        className={classNames('Sticky-React-Table--Header-Cell-Wrapper', {
           'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
-          'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
+          'Sticky-React-Table--Header-Cell-Checkbox-Wrapper': isCheckbox
         })}
         style={getCellStyle(cellStyle, isSticky, !isCheckbox)}
         draggable
@@ -74,7 +74,12 @@ export default class HeaderCell extends PureComponent {
         onDragStart={this.onHeaderDragStart}
         onDragEnd={onHeaderDragEnd}
       >
-        <div style={{ width }}>
+        <div
+          className={classNames('Sticky-React-Table--Header-Cell', {
+            'Sticky-React-Table--Header-Cell-Checkbox': isCheckbox
+          })}
+          style={{ width }}
+        >
           {isCheckbox ? (
             <CheckboxCell
               id={id}

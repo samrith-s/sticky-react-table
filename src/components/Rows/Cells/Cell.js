@@ -35,18 +35,24 @@ export default class Cell extends PureComponent {
 
     return (
       <div
-        className={classNames(
-          className,
-          `Sticky-React-Table--Row-Cell Sticky-React-Table--Row-Cell-${cellIndex}`,
-          {
-            'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
-            'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
-          }
-        )}
+        className={classNames('Sticky-React-Table--Row-Cell-Wrapper', {
+          'Sticky-React-Table--is-Sticky--is-Last': isLastSticky,
+          'Sticky-React-Table--Row-Cell-Checkbox-Wrapper': isCheckbox
+        })}
         style={getCellStyle(cellStyle, isSticky)}
         tabIndex={0}
       >
-        <div style={{ width }}>
+        <div
+          className={classNames(
+            className,
+            'Sticky-React-Table--Row-Cell',
+            `Sticky-React-Table--Row-Cell-${cellIndex}`,
+            {
+              'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
+            }
+          )}
+          style={{ width }}
+        >
           {isCheckbox ? (
             <CheckboxCell
               id={id}
