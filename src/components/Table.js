@@ -48,7 +48,8 @@ export default class Table extends PureComponent {
     infiniteScrollThreshold: PropTypes.number,
     infiniteScrollLoaderRowCount: PropTypes.number,
     infiniteScrollPageSize: PropTypes.number,
-    infiniteScrollCellRenderer: RendererType
+    infiniteScrollCellRenderer: RendererType,
+    innerRef: PropTypes.func
   };
 
   static defaultProps = {
@@ -499,7 +500,10 @@ export default class Table extends PureComponent {
   };
 
   saveInnerRef = ref => {
+    const { innerRef } = this.props;
+
     this.innerRef = ref;
+    innerRef && innerRef(ref);
   };
 
   render() {
