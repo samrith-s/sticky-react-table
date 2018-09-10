@@ -155,5 +155,5 @@ HeaderCell.propTypes = {
 
 HeaderCell.defaultProps = {
   isCheckbox: false,
-  isSortable: false
+  isSortable: true
 };
