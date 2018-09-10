@@ -60,8 +60,19 @@ export default class Filter extends Component {
     }
   };
 
+  getFilterAlignment = () => {
+    const { filterAlignment } = this.props;
+
+    if (filterAlignment !== 'left' && filterAlignment !== 'right') {
+      return 'left';
+    }
+
+    return filterAlignment;
+  };
+
   render() {
-    const { filterRenderer, data, dataKey, filterTrigger } = this.props;
+    const { data, dataKey, filterRenderer, filterTrigger } = this.props;
+    const { visible } = this.state;
     return (
       <Fragment>
         <span
@@ -72,11 +83,11 @@ export default class Filter extends Component {
         >
           {renderElement(filterTrigger, {}, ':')}
         </span>
-        {this.state.visible && (
+        {visible && (
           <div
             className="Sticky-React-Table--Header-Column-Filter-Dropdown"
             ref={this.handleMenuRef}
-            style={filterDropdownStyles}
+            style={filterDropdownStyles(this.getFilterAlignment())}
           >
             {renderElement(filterRenderer, { data, dataKey }, null)}
           </div>
@@ -90,5 +101,6 @@ Filter.propTypes = {
   data: PropTypes.array.isRequired,
   dataKey: PropTypes.string.isRequired,
   filterRenderer: RendererType,
-  filterTrigger: RendererType
+  filterTrigger: RendererType,
+  filterAlignment: PropTypes.string
 };

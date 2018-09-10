@@ -54,6 +54,7 @@ export default class HeaderCell extends PureComponent {
       checkboxRenderer,
       filterRenderer,
       filterTrigger,
+      filterAlignment,
       data,
       onHeaderDragEnd
     } = this.props;
@@ -99,6 +100,7 @@ export default class HeaderCell extends PureComponent {
                   dataKey={dataKey}
                   filterRenderer={filterRenderer}
                   filterTrigger={filterTrigger}
+                  filterAlignment={filterAlignment}
                 />
               )}
               <div
@@ -150,6 +152,7 @@ HeaderCell.propTypes = {
   checkboxRenderer: RendererType,
   filterRenderer: RendererType,
   filterTrigger: RendererType,
+  filterAlignment: PropTypes.string,
   data: PropTypes.array.isRequired,
   onHeaderDragEnd: PropTypes.func.isRequired,
   onHeaderDragStart: PropTypes.func.isRequired,

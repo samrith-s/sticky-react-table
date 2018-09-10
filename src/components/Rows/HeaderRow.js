@@ -56,7 +56,8 @@ export default class HeaderRow extends PureComponent {
         isSortable,
         isCheckbox,
         filterRenderer,
-        filterTrigger
+        filterTrigger,
+        filterAlignment
       } = column;
       const style = { width, ...styleCalculator(cellIndex) };
       const { isSticky, isLastSticky } = stickyFunction(cellIndex);
@@ -82,6 +83,7 @@ export default class HeaderRow extends PureComponent {
             isAllSelected,
             filterRenderer,
             filterTrigger,
+            filterAlignment,
             data
           }}
           onDragEnd={onDragEnd(cellIndex)}
@@ -112,6 +114,7 @@ export default class HeaderRow extends PureComponent {
 }
 
 HeaderRow.propTypes = {
+  data: PropTypes.array,
   columns: PropTypes.array.isRequired,
   rowIndex: PropTypes.number.isRequired,
   styleCalculator: PropTypes.func.isRequired,
@@ -125,5 +128,6 @@ HeaderRow.propTypes = {
   isAllSelected: PropTypes.bool.isRequired,
   className: PropTypes.string,
   checkboxRenderer: RendererType,
-  onAutoResizeColumn: PropTypes.func.isRequired
+  onAutoResizeColumn: PropTypes.func.isRequired,
+  onReorderColumn: PropTypes.func
 };
