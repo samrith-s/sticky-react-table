@@ -14,5 +14,8 @@ module.exports = {
         plugins: [require('precss'), require('autoprefixer')]
       }
     }
+  },
+  babel: {
+    cherryPick: ['lodash', 'react-spinners']
   }
 };
