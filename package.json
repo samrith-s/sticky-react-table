@@ -1,6 +1,6 @@
 {
   "name": "sticky-react-table",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "description": "A super flexible, scalable and robust table with sticky header and columns for all your tabular needs.",
   "homepage": "http://samrith-s.github.io/sticky-react-table",
   "main": "lib/index.js",
