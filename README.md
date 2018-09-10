@@ -253,26 +253,26 @@ For any issues or queries you might have about the table, please feel free to cr
 
 We started developing Sticky React Table due to a lot of issues we faced while implementing tables in our application, with React. Leading up to `1.0.0`, we plan on supporting the following features:
 
-- Fixed Columns
-- Fixed Header
-- Column Resizing
-- Column Switching
-- Column Reordering
-- Column Sorting
-- Column Filtering
-- Cell Renderer
-- Row Renderer
-- Header Renderer
-- Row Selection
-- Infinite Scrolling
-- Keyboard Navigation (as per Gmail)
-- More events (scroll, keyup, keydown, keypress, etc.)
+- ✅ Fixed Columns
+- ✅ Fixed Header
+- ✅ Column Resizing
+- ✅ Column Switching
+- ✅ Column Reordering
+- ✅ Column Sorting
+- ✅ Column Filtering
+- ✅ Cell Renderer
+- ✅ Row Renderer
+- ✅ Header Renderer
+- ✅ Row Selection
+- ✅ Infinite Scrolling
+- ✅ Column resizing based on length of value (a la Excel)
+- ❌ Keyboard Navigation (as per Gmail)
+- ❌ More events (scroll, keyup, keydown, keypress, etc.)
 
 In the future, we plan on implementing the following:
 
 - Virtualization
 - Better support for custom classes
-- Column resizing based on length of value (a la Excel)
 
 Features at no point will we build:
 
