@@ -11,7 +11,8 @@ Column.propTypes = {
 };
 
 Column.defaultProps = {
-  alwaysVisible: false
+  alwaysVisible: false,
+  filterAlignment: 'left'
 };
 
 Column.displayName = ColumnDisplayName;
