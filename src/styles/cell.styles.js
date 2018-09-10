@@ -1,6 +1,8 @@
 export const defaultCellStyle = {
   zIndex: 0,
-  background: 'inherit'
+  background: 'inherit',
+  display: 'inline-flex',
+  outline: 0
 };
 
 export const stickyCellStyle = {

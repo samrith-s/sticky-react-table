@@ -40,7 +40,6 @@ export default class Cell extends PureComponent {
           'Sticky-React-Table--Row-Cell-Checkbox-Wrapper': isCheckbox
         })}
         style={getCellStyle(cellStyle, isSticky)}
-        tabIndex={0}
       >
         <div
           className={classNames(
@@ -51,6 +50,7 @@ export default class Cell extends PureComponent {
               'Sticky-React-Table--Row-Cell-Checkbox': isCheckbox
             }
           )}
+          tabIndex="0"
           style={{ width }}
         >
           {isCheckbox ? (
