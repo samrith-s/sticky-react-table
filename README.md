@@ -155,13 +155,14 @@ Sticky React Table supports a host of properties which allow you to completely c
 
 #### Properties:
 
-| Property      | Type                | Default     | Description                                                          |
-| ------------- | ------------------- | ----------- | -------------------------------------------------------------------- |
-| dataKey       | `String`            | `undefined` | The data key for the value to be rendered into the cell              |
-| title         | `String`            | `undefined` | The title to be displayed in the header if no renderer is specified. |
-| width         | `Number`            | `0`         | The absolute width of the column.                                    |
-| className     | `Array` or `String` | `undefined` | A custom class for the cell.                                         |
-| alwaysVisible | `Bool`              | `false`     | Defines whether the column should always be visible.                 |
+| Property        | Type                | Default     | Description                                                               |
+| --------------- | ------------------- | ----------- | ------------------------------------------------------------------------- |
+| dataKey         | `String`            | `undefined` | The data key for the value to be rendered into the cell                   |
+| title           | `String`            | `undefined` | The title to be displayed in the header if no renderer is specified.      |
+| width           | `Number`            | `0`         | The absolute width of the column.                                         |
+| className       | `Array` or `String` | `undefined` | A custom class for the cell.                                              |
+| alwaysVisible   | `Bool`              | `false`     | Defines whether the column should always be visible.                      |
+| filterAlignment | `String`            | `left`      | Whether the filter should be aligned to the left or right of header cell. |
 
 #### Callbacks:
 
