@@ -269,7 +269,10 @@ export default class Table extends PureComponent {
           'width: max-content;'
         );
 
-        maxWidth = Math.max(maxWidth, dummyElement.offsetWidth);
+        maxWidth = Math.max(
+          maxWidth,
+          dummyElement.getBoundingClientRect().width
+        );
         return maxWidth;
       },
       maxWidth
