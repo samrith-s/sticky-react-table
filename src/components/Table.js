@@ -266,7 +266,7 @@ export default class Table extends PureComponent {
         dummyElement.classList.add('my-class');
         mainElement.appendChild(dummyElement);
         dummyElement.innerHTML = cell.outerHTML.replace(
-          /width:\s*\d+px\s*;/,
+          /width:\s*\d+\.*\d*px\s*;/,
           'width: max-content;'
         );
 
