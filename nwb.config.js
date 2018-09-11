@@ -16,6 +16,6 @@ module.exports = {
     }
   },
   babel: {
-    cherryPick: ['lodash', 'react-spinners']
+    cherryPick: ['lodash', 'react-spinners', 'core-js', 'recompose']
   }
 };
