@@ -19,3 +19,7 @@ export const defaultInfiniteScrollCellStyle = {
 export const reorderableHeaderCellStyle = {
   cursor: 'move'
 };
+
+export const sortableHeaderCellStyle = {
+  cursor: 'pointer'
+};

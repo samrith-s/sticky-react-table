@@ -19,6 +19,7 @@ The package is still under development. We are working actively to get this pack
   - [Column](#column)
   - [Cell Props][cell-props]
   - [Row Props][row-props]
+- [Gotchas](#gotchas)
 - [Contributing](#contributing)
 - [Issues](#issues)
 - [Roadmap](#roadmap)
@@ -164,6 +165,8 @@ Sticky React Table supports a host of properties which allow you to completely c
 | alwaysVisible   | `Bool`              | `false`     | Defines whether the column should always be visible.                      |
 | filterAlignment | `String`            | `left`      | Whether the filter should be aligned to the left or right of header cell. |
 
+<a name="callbacks"></a>
+
 #### Callbacks:
 
 | Name           | Description                                                             | Parameters                   |
@@ -233,6 +236,12 @@ propTypes = {
 
 ---
 
+## Gotchas
+
+<a name="gotchas"></a>
+
+- While using `headerRenderer`, always render an inline element if you have either sorting or column filters in the cell. Otherwise the alignment will break.
+
 <a name="contributing"></a>
 
 ## Contributing
@@ -296,3 +305,4 @@ Copyright &copy; 2018.
 [license-link]: https://opensource.org/licenses/MIT
 [cell-props]: #cell-props
 [row-props]: #row-props
+[filter-props]: #filter-props

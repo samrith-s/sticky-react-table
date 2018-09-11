@@ -4,7 +4,8 @@ import { orderBy } from 'lodash';
 import {
   defaultCellStyle,
   stickyCellStyle,
-  reorderableHeaderCellStyle
+  reorderableHeaderCellStyle,
+  sortableHeaderCellStyle
 } from '../styles/cell.styles';
 
 export function dragHandlerSizing(ref) {
@@ -55,3 +56,11 @@ export const renderElement = (element, props, defaultRenderer) => {
 };
 
 export const stopPropagation = e => e.stopPropagation();
+
+export const getSortableCellStyle = isSortable => {
+  if (isSortable) {
+    return sortableHeaderCellStyle;
+  }
+
+  return {};
+};

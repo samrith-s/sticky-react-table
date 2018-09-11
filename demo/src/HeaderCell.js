@@ -10,9 +10,9 @@ export default class HeaderCell extends Component {
     const { title } = this.props;
 
     return (
-      <div>
+      <span>
         <strong>{title}</strong>
-      </div>
+      </span>
     );
   }
 }
