@@ -19,6 +19,7 @@ The package is still under development. We are working actively to get this pack
   - [Column](#column)
   - [Cell Props][cell-props]
   - [Row Props][row-props]
+- [Gotchas](#gotchas)
 - [Contributing](#contributing)
 - [Issues](#issues)
 - [Roadmap](#roadmap)
@@ -235,6 +236,12 @@ propTypes = {
 
 ---
 
+## Gotchas
+
+<a name="gotchas"></a>
+
+- While using `headerRenderer`, always render an inline element if you have either sorting or column filters in the cell. Otherwise the alignment will break.
+
 <a name="contributing"></a>
 
 ## Contributing
@@ -280,12 +287,6 @@ Features at no point will we build:
 
 - Row resizing or native subrow rendering (both of these can be achieved using a custom row renderer)
 
-## Gotchas
-
-<a name="gotchas"></a>
-
-- For [headerRenderer] in [callbacks], always render an inline element if you have either sorting or column filters in the cell. Otherwise the alignment will break.
-
 <a name="license"></a>
 
 ## License
@@ -304,5 +305,4 @@ Copyright &copy; 2018.
 [license-link]: https://opensource.org/licenses/MIT
 [cell-props]: #cell-props
 [row-props]: #row-props
-[callbacks]: #callbacks
 [filter-props]: #filter-props
