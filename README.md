@@ -282,7 +282,7 @@ Features at no point will we build:
 
 ## Gotchas
 
-<a name="gotachas"></a>
+<a name="gotchas"></a>
 
 - For [headerRenderer] in [callbacks], always render an inline element if you have either sorting or column filters in the cell. Otherwise the alignment will break.
 
