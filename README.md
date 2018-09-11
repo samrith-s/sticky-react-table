@@ -164,6 +164,8 @@ Sticky React Table supports a host of properties which allow you to completely c
 | alwaysVisible   | `Bool`              | `false`     | Defines whether the column should always be visible.                      |
 | filterAlignment | `String`            | `left`      | Whether the filter should be aligned to the left or right of header cell. |
 
+<a name="callbacks"></a>
+
 #### Callbacks:
 
 | Name           | Description                                                             | Parameters                   |
@@ -278,6 +280,12 @@ Features at no point will we build:
 
 - Row resizing or native subrow rendering (both of these can be achieved using a custom row renderer)
 
+## Gotchas
+
+<a name="gotachas"></a>
+
+- For [headerRenderer] in [callbacks], always render an inline element if you have either sorting or column filters in the cell. Otherwise the alignment will break.
+
 <a name="license"></a>
 
 ## License
@@ -296,3 +304,5 @@ Copyright &copy; 2018.
 [license-link]: https://opensource.org/licenses/MIT
 [cell-props]: #cell-props
 [row-props]: #row-props
+[callbacks]: #callbacks
+[filter-props]: #filter-props
