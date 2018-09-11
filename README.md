@@ -165,8 +165,6 @@ Sticky React Table supports a host of properties which allow you to completely c
 | alwaysVisible   | `Bool`              | `false`     | Defines whether the column should always be visible.                      |
 | filterAlignment | `String`            | `left`      | Whether the filter should be aligned to the left or right of header cell. |
 
-<a name="callbacks"></a>
-
 #### Callbacks:
 
 | Name           | Description                                                             | Parameters                   |
@@ -276,7 +274,12 @@ We started developing Sticky React Table due to a lot of issues we faced while i
 - ✅ Infinite Scrolling
 - ✅ Column resizing based on length of value (a la Excel)
 - ❌ Keyboard Navigation (as per Gmail)
-- ❌ More events (scroll, keyup, keydown, keypress, etc.)
+- ❌ More events:
+  - Key Up
+  - Key Down
+  - Focus
+  - Blur
+  - Scroll
 
 In the future, we plan on implementing the following:
 
