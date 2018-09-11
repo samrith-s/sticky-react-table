@@ -7,7 +7,12 @@ import CheckboxCell from '../../CheckboxCell';
 
 import { headerCellPropKeys, RendererType } from '../../../constants';
 
-import { getCellStyle, renderElement, stopPropagation } from '../../../util';
+import {
+  getCellStyle,
+  renderElement,
+  stopPropagation,
+  getSortableCellStyle
+} from '../../../util';
 import Filter from '../../Filter';
 
 export default class HeaderCell extends PureComponent {
@@ -91,9 +96,23 @@ export default class HeaderCell extends PureComponent {
             />
           ) : (
             <Fragment>
-              <span onClick={this.handleSort}>
+              <span
+                onClick={this.handleSort}
+                style={getSortableCellStyle(isSortable)}
+              >
                 {renderElement(renderer, this.getRequiredProps(), title)}
+                {isSortable &&
+                  isSorted && (
+                    <span className="Sticky-React-Table-Sort-Icon">
+                      {sortDir === 'ASC' ? (
+                        <Fragment>&uarr;</Fragment>
+                      ) : (
+                        <Fragment>&darr;</Fragment>
+                      )}
+                    </span>
+                  )}
               </span>
+
               {filterRenderer && (
                 <Filter
                   data={data}
@@ -110,17 +129,6 @@ export default class HeaderCell extends PureComponent {
                 ref={this.handleDragHandleRef}
                 onDoubleClick={this.onAutoResizeColumn}
               />
-
-              {isSortable &&
-                isSorted && (
-                  <div className="Sticky-React-Table-Sort-Icon">
-                    {sortDir === 'ASC' ? (
-                      <Fragment>&uarr;</Fragment>
-                    ) : (
-                      <Fragment>&darr;</Fragment>
-                    )}
-                  </div>
-                )}
             </Fragment>
           )}
         </div>
