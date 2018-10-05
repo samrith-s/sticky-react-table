@@ -47,7 +47,7 @@ yarn add sticky-react-table
 
 ## Basic Usage
 
-The `sticky-react-table` package exposes 2 major components: `Table` and `Column`.
+The `sticky-react-table` package exposes two major components: `Table` and `Column`.
 
 Consider a sample data set:
 
@@ -114,7 +114,7 @@ If you use SASS as a pre-processor, two default themes are provided: light and d
 
 ## Important Properties
 
-Sticky React Table supports a host of properties which allow you to completely customize the look and feel of the table. You can find the properties supported by the two primary components exposed by the package.
+Sticky React Table supports a host of properties which allow you to completely customize the look and feel of the table. You can find the properties supported by the two major components of the package.
 
 <a name="table"></a>
 
