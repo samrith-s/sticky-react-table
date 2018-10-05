@@ -426,11 +426,15 @@ export default class Table extends PureComponent {
   };
 
   validateChild = child => {
-    if (child.type.displayName === ColumnDisplayName) {
-      return child;
-    } else {
-      throw new Error(Errors.invalidChildren);
+    if (child) {
+      if (child.type.displayName === ColumnDisplayName) {
+        return child;
+      } else {
+        throw new Error(Errors.invalidChildren);
+      }
     }
+
+    return {};
   };
 
   handleDragEnd = columnIndex => e => {
