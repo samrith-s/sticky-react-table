@@ -112,9 +112,11 @@ export default class Table extends PureComponent {
     }
 
     React.Children.forEach(children, (child, index) => {
-      const { props } = this.validateChild(child);
+      const { props } = this.validateChild(child) || {};
 
-      columns.push({ ...props, index: index + 1, visible: true });
+      if (props) {
+        columns.push({ ...props, index: index + 1, visible: true });
+      }
     });
 
     return columns;
@@ -433,8 +435,6 @@ export default class Table extends PureComponent {
         throw new Error(Errors.invalidChildren);
       }
     }
-
-    return {};
   };
 
   handleDragEnd = columnIndex => e => {
