@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { times, last } from 'lodash';
+import { times, last, isEqual } from 'lodash';
 
 import { Row, HeaderRow } from './Rows';
 import ColumnSwitcher from './ColumnSwitcher';
@@ -9,7 +9,7 @@ import DefaultInfiniteScrollCellRenderer from './Rows/Cells/DefaultInfiniteScrol
 import { ColumnDisplayName, RendererType } from '../constants';
 import Errors from './Errors';
 
-import { sort } from '../util';
+import { gdspSortedState } from '../util';
 
 import {
   mainContainerStyle,
@@ -27,6 +27,44 @@ export default class Table extends PureComponent {
       );
     }
   }
+
+  static validateChild = child => {
+    if (child) {
+      if (child.type.displayName === ColumnDisplayName) {
+        return child;
+      } else {
+        throw new Error(Errors.invalidChildren);
+      }
+    }
+  };
+
+  static extractColumns = props => {
+    const columns = [];
+
+    const { rowSelection, checkboxRenderer, children } = props;
+
+    if (rowSelection) {
+      columns.push({
+        dataKey: 'checkbox',
+        width: 30,
+        title: '',
+        index: 0,
+        visible: true,
+        isCheckbox: true,
+        renderer: checkboxRenderer
+      });
+    }
+
+    React.Children.forEach(children, (child, index) => {
+      const { props } = Table.validateChild(child) || {};
+
+      if (props) {
+        columns.push({ ...props, index: index + 1, visible: true });
+      }
+    });
+
+    return columns;
+  };
 
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -64,7 +102,7 @@ export default class Table extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state.columns = this.extractColumns(props);
+    this.state.columns = Table.extractColumns(props);
 
     Table.validateProps(props);
   }
@@ -77,50 +115,21 @@ export default class Table extends PureComponent {
   };
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
-    if (nextProps.onSort || prevState.sortedColumn === null) {
-      return { data: nextProps.data };
-    } else {
-      return {
-        data: sort(
-          nextProps.data,
-          prevState.sortedColumn.dataKey,
-          prevState.sortedColumn.dir.toLowerCase()
-        )
+    const columns = Table.extractColumns(nextProps);
+    let derivedState = { ...gdspSortedState(nextProps, prevState) };
+    if (!isEqual(columns, prevState.columns)) {
+      derivedState = {
+        ...derivedState,
+        columns
       };
     }
+
+    return derivedState;
   };
 
   requestedPages = {};
   rowRefs = {};
   innerRef = {};
-
-  extractColumns = props => {
-    const columns = [];
-
-    const { rowSelection, checkboxRenderer, children } = props;
-
-    if (rowSelection) {
-      columns.push({
-        dataKey: 'checkbox',
-        width: 30,
-        title: '',
-        index: 0,
-        visible: true,
-        isCheckbox: true,
-        renderer: checkboxRenderer
-      });
-    }
-
-    React.Children.forEach(children, (child, index) => {
-      const { props } = this.validateChild(child) || {};
-
-      if (props) {
-        columns.push({ ...props, index: index + 1, visible: true });
-      }
-    });
-
-    return columns;
-  };
 
   getFixedCount = () => {
     const { fixed, rowSelection } = this.props;
@@ -425,16 +434,6 @@ export default class Table extends PureComponent {
     }
 
     return rows;
-  };
-
-  validateChild = child => {
-    if (child) {
-      if (child.type.displayName === ColumnDisplayName) {
-        return child;
-      } else {
-        throw new Error(Errors.invalidChildren);
-      }
-    }
   };
 
   handleDragEnd = columnIndex => e => {
