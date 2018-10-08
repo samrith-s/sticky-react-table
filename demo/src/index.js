@@ -12,6 +12,14 @@ import EmailCellRenderer from './EmailCellRenderer';
 import '../../src/themes/dark.scss';
 import './style.css';
 
+const dummyColumn = index => ({
+  title: `Random column ${index}`,
+  width: 200,
+  dataKey: `column-${index}`
+});
+
+const dummyColumnCount = 10;
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -21,8 +29,13 @@ export default class App extends Component {
 
   state = {
     rows: [],
-    selectedRows: []
+    selectedRows: [],
+    dummyColumns: false
   };
+
+  componentDidMount() {
+    this.renderDummyColumns();
+  }
 
   //eslint-disable-next-line
   handleSort = column => {};
@@ -45,8 +58,24 @@ export default class App extends Component {
     }, 1000);
   };
 
+  dummyColumnRenderer = () => {
+    const columns = [];
+    for (let i = 0; i < dummyColumnCount; i++) {
+      columns.push(<Column {...dummyColumn(i)} key={i} />);
+    }
+    return columns;
+  };
+
+  renderDummyColumns = () => {
+    setTimeout(() => {
+      this.setState({
+        dummyColumns: true
+      });
+    }, 3000);
+  };
+
   render() {
-    const { rows, selectedRows } = this.state;
+    const { rows, selectedRows, dummyColumns } = this.state;
 
     return (
       <div className="App">
@@ -97,6 +126,7 @@ export default class App extends Component {
           <Column title="Orientation" width={200} dataKey="orientation" />
           <Column title="Theism" width={200} dataKey="theism" />
           <Column title="Religion" width={200} dataKey="religion" />
+          {dummyColumns && this.dummyColumnRenderer()}
         </Table>
       </div>
     );
