@@ -64,3 +64,17 @@ export const getSortableCellStyle = isSortable => {
 
   return {};
 };
+
+export const gdspSortedState = (nextProps, prevState) => {
+  if (nextProps.onSort || prevState.sortedColumn === null) {
+    return { data: nextProps.data };
+  }
+
+  return {
+    data: sort(
+      nextProps.data,
+      prevState.sortedColumn.dataKey,
+      prevState.sortedColumn.dir.toLowerCase()
+    )
+  };
+};
