@@ -9,15 +9,15 @@ export default class ColumnSwitcherItem extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     dataKey: PropTypes.string.isRequired,
+    columnIndex: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     isChecked: PropTypes.bool.isRequired,
     checkboxRenderer: RendererType
   };
 
   handleChange = () => {
-    const { onChange, dataKey } = this.props;
-
-    onChange(dataKey);
+    const { onChange, dataKey, columnIndex } = this.props;
+    onChange(columnIndex, dataKey);
   };
 
   render() {

@@ -117,7 +117,7 @@ export default class Table extends PureComponent {
   static getDerivedStateFromProps = (nextProps, prevState) => {
     const columns = Table.extractColumns(nextProps);
     let derivedState = { ...gdspSortedState(nextProps, prevState) };
-    if (!isEqual(columns, prevState.columns)) {
+    if (!isEqual(columns.length, prevState.columns.length)) {
       derivedState = {
         ...derivedState,
         columns
@@ -221,19 +221,14 @@ export default class Table extends PureComponent {
     return this.props.data.length === this.getCheckedRows().length;
   };
 
-  handleColumnVisibilityChange = dataKey => {
-    this.setState(({ columns }) => ({
-      columns: columns.map(column => {
-        if (column.dataKey === dataKey) {
-          return {
-            ...column,
-            visible: !column.visible
-          };
-        }
-
-        return column;
-      })
-    }));
+  handleColumnVisibilityChange = columnIndex => {
+    if (typeof columnIndex === 'number') {
+      const columns = [...this.state.columns];
+      columns[columnIndex].visible = !columns[columnIndex].visible;
+      this.setState({
+        columns
+      });
+    }
   };
 
   checkIfFirstColumnIsCheckbox = () => {
@@ -262,11 +257,11 @@ export default class Table extends PureComponent {
     const columnCells = this.innerRef.getElementsByClassName(
       `Sticky-React-Table--Row-Cell-${cellIndex}`
     );
-
     const columns = [...this.state.columns];
+    const mainElement = document.createElement('div');
+
     let maxWidth = columns[cellIndex].width;
 
-    const mainElement = document.createElement('div');
     mainElement.classList.add('main-div');
     this.innerRef.appendChild(mainElement);
 

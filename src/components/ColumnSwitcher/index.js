@@ -59,19 +59,20 @@ class ColumnSwitcher extends Component {
   };
 
   getSwitchableColumns = memoize(columns =>
-    columns.filter(
-      column =>
-        !column.isCheckbox &&
-        !column.alwaysVisible &&
-        column.dataKey &&
-        column.title
-    )
+    columns
+      .map((column, seq) => ({ ...column, seq }))
+      .filter(this.isColumnSwitchable)
   );
 
-  render() {
-    let { onChange, checkboxRenderer, columns } = this.props;
+  isColumnSwitchable = column =>
+    !column.isCheckbox &&
+    !column.alwaysVisible &&
+    column.dataKey &&
+    column.title;
 
-    columns = this.getSwitchableColumns(columns);
+  render() {
+    const { onChange, checkboxRenderer, columns } = this.props;
+    const switchableColumns = this.getSwitchableColumns(columns);
 
     return (
       <div
@@ -91,18 +92,21 @@ class ColumnSwitcher extends Component {
             className="Sticky-React-Table--Header-Column-Switcher-Dropdown"
             ref={this.handleMenuRef}
           >
-            {columns.map(({ title, dataKey, visible: isChecked }) => (
-              <ColumnSwitcherItem
-                key={dataKey}
-                {...{
-                  isChecked,
-                  title,
-                  dataKey,
-                  onChange,
-                  checkboxRenderer
-                }}
-              />
-            ))}
+            {switchableColumns.map(
+              ({ title, dataKey, visible: isChecked, seq }) => (
+                <ColumnSwitcherItem
+                  key={dataKey}
+                  columnIndex={seq}
+                  {...{
+                    isChecked,
+                    title,
+                    dataKey,
+                    onChange,
+                    checkboxRenderer
+                  }}
+                />
+              )
+            )}
           </div>
         )}
       </div>
