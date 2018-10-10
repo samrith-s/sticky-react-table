@@ -1,5 +1,5 @@
 import React from 'react';
-import { orderBy } from 'lodash';
+import { orderBy, find } from 'lodash';
 
 import {
   defaultCellStyle,
@@ -77,4 +77,21 @@ export const gdspSortedState = (nextProps, prevState) => {
       prevState.sortedColumn.dir.toLowerCase()
     )
   };
+};
+
+export const gdspColumns = (propsColumns, stateColumns) => {
+  return propsColumns.map(column => {
+    const stateColumn = stateColumns.find(
+      ({ dataKey }) => dataKey === column.dataKey
+    );
+
+    if (stateColumn) {
+      return {
+        ...column,
+        ...stateColumn
+      };
+    }
+
+    return column;
+  });
 };

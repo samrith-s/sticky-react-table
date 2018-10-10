@@ -9,7 +9,7 @@ import DefaultInfiniteScrollCellRenderer from './Rows/Cells/DefaultInfiniteScrol
 import { ColumnDisplayName, RendererType } from '../constants';
 import Errors from './Errors';
 
-import { gdspSortedState } from '../util';
+import { gdspSortedState, gdspColumns } from '../util';
 
 import {
   mainContainerStyle,
@@ -115,12 +115,15 @@ export default class Table extends PureComponent {
   };
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
-    const columns = Table.extractColumns(nextProps);
+    const propsColumns = Table.extractColumns(nextProps);
+    const { columns: stateColumns } = prevState;
+
     let derivedState = { ...gdspSortedState(nextProps, prevState) };
-    if (!isEqual(columns.length, prevState.columns.length)) {
+
+    if (!isEqual(propsColumns.length, stateColumns.length)) {
       derivedState = {
         ...derivedState,
-        columns
+        columns: gdspColumns(propsColumns, stateColumns)
       };
     }
 
